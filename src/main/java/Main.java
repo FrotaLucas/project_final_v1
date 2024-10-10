@@ -1,5 +1,3 @@
-package org.example;
-
 // Required imports for JDBC
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
