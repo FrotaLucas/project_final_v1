@@ -1,4 +1,4 @@
-package smartUtilities.enums;
+package SmartUtilities.Enums;
 
 public enum Gender {
         D, // divers

@@ -2,10 +2,9 @@
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import smartUtilities.DataBase.Database;
+import SmartUtilities.DataBase.Database;
 public class Main {
     public static void main(String[] args) throws IOException {
 

@@ -1,4 +1,4 @@
-package smartUtilities.DataBase;
+package SmartUtilities.DataBase;
 
 // Database.java
 import java.io.BufferedReader;
@@ -36,7 +36,7 @@ public class Database {
     public static void executeSQLScript(Connection connection, String sql) throws SQLException {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Table created successfully!");
+            System.out.println("query executed successfully!");
         } catch (SQLException e) {
             System.out.println("Error while executing SQL script: " + e.getMessage());
         }
