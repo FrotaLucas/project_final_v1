@@ -32,7 +32,8 @@ public class Main {
             System.out.println("... Driver running");
             
         //read the SQL script from file and execute
-        String sqlFilePath = "D:/Java Projects/Vs Code/project_final_v1/src/main/java/smartUtilities/sql/createCustomerTable.sql"; // Path to the SQL file
+        //String sqlFilePath = "D:/Java Projects/Vs Code/project_final_v1/src/main/java/smartUtilities/sql/createCustomerTable.sql"; // Path to the SQL file
+        String sqlFilePath = "D:/Java Projects/Vs Code/project_final_v1/src/main/java/smartUtilities/sql/addNewCustomer.sql"; // Path to the SQL file
         String sqlScript = Database.readSQLFile(sqlFilePath); // Read SQL file content
         Database.executeSQLScript(con, sqlScript); // Execute the SQL script
 
