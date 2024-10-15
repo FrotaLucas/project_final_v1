@@ -13,6 +13,14 @@ public class Customer implements ICustomer {
 
     private Gender gender;
 
+    // Constructor
+    public Customer(String firstName, String lastName, String birthDate, String gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = LocalDate.parse(birthDate);
+        this.gender = Gender.valueOf(gender.toUpperCase()); // Assuming Gender is an enum
+    }
+//eu preciso desses metodos abaixo ? acho que nao pq o Construtor Customer substitui eles
     @Override
     public String getFirstName() {
         

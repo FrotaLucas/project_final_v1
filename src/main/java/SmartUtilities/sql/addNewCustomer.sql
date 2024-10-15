@@ -1,2 +1,2 @@
 INSERT INTO customers (firstName, lastName, birthDate, gender)
-VALUES ('John', 'Lennon', '1981-10-20', 'male');
+VALUES ('John', 'Andy', '1991-10-20', 'M');
