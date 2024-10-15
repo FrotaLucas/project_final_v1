@@ -18,7 +18,8 @@ public class Customer implements ICustomer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = LocalDate.parse(birthDate);
-        this.gender = Gender.valueOf(gender.toUpperCase()); // Assuming Gender is an enum
+        this.gender = Gender.valueOf(gender.toUpperCase()); // parametro gender eh uma string que vamos converter
+        //para um enum. Se for D eh 0 e M eh 1...
     }
 //eu preciso desses metodos abaixo ? acho que nao pq o Construtor Customer substitui eles
     @Override

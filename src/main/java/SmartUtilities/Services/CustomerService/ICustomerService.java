@@ -12,8 +12,8 @@ public interface ICustomerService {
 
     void deleteCustomer(int id);
 
-    Customer getCostumer(int id);
+    Customer getCustomer(int id);
 
-    List<Customer> getCustomer();
+    List<Customer> getCustomers();
 }
 
