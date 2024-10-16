@@ -1,7 +1,6 @@
 package SmartUtilities.Model.Customer;
 
 import java.time.LocalDate;
-
 import SmartUtilities.Enums.Gender;
 
 public interface ICustomer {

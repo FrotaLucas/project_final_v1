@@ -61,6 +61,5 @@ public class Customer implements ICustomer {
     @Override
     public void setGender(Gender gender) {
        this.gender = gender;
-        
     }
 }
