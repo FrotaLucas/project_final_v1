@@ -1,16 +1,11 @@
 // Required imports for JDBC
-import java.io.Console;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.List;
 
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Services.CustomerService.CustomerService;
-import SmartUtilities.Services.CustomerService.ICustomerService;
-import SmartUtilities.models.Customer.Customer;
-import org.checkerframework.checker.units.qual.C;
+import SmartUtilities.Model.Customer.Customer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -22,17 +17,18 @@ public class Main {
         CustomerService service = new CustomerService(database);
 
         //Create
-//        Customer newCustomer = new Customer("Maria", "Helena", "1987-09-10", "W");
+//        Customer newCustomer = new Customer("Lucas", "Dias", "1990-09-10", "W");
 //        service.addNewCustomer(newCustomer);
 
         //udpate
-        //Customer updatedCustomer = new Customer("Lucia", "Schultz", "1997-05-20", "W");
-        //service.updateCustomer(updatedCustomer, 2);
+//        Customer updatedCustomer = new Customer("Lucas", "Dias", "1990-05-20", "M");
+//        service.updateCustomer(updatedCustomer, 6);
 
         //delete
         //service.deleteCustomer(3);
 
 
+            //PQ aqui eu preciso usar getFirstName e nao posso usar direto customer.firstName
         //getCustomer id
 //        Customer customer = service.getCustomer(2);
 //            System.out.println("Customer: " + "\n" +

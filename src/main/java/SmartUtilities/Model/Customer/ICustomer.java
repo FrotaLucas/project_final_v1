@@ -1,4 +1,4 @@
-package SmartUtilities.models.Customer;
+package SmartUtilities.Model.Customer;
 
 import java.time.LocalDate;
 

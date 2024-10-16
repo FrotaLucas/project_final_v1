@@ -1,9 +1,8 @@
 package SmartUtilities.Services.CustomerService;
 
 import SmartUtilities.DataBase.Database;
-import SmartUtilities.models.Customer.Customer;
+import SmartUtilities.Model.Customer.Customer;
 
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,10 +65,9 @@ public class CustomerService implements ICustomerService{
         String sql = "SELECT * FROM customers WHERE id = '" + id + "'";  //nao precisa desse ultimo ' revisar !!!!
         Customer customer;
 
-
         try (ResultSet rs = this._database.executeQuery(sql)){
             if(rs.next())
-            {  //depois pensar em colocar um Id dentro de customer para receber to banco de dados !!!!!!!!!!
+            {  //depois pensar em colocar um Id dentro de customer para receber do banco de dados !!!!!!!!!!
                 return new Customer(rs.getString("firstName"),
                         rs.getString("lastName"),
                         rs.getString("birthDate"),

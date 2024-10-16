@@ -1,0 +1,10 @@
+
+
+uid na tabela implementar (nova interface)
+
+
+arquivo sprint 1
+arquivi config para usar ausuario e senha (System.getProperty("user.name")
+
+
+introduzir prepare statement para substituir as strings sql

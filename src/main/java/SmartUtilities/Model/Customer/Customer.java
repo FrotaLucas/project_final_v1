@@ -1,4 +1,4 @@
-package SmartUtilities.models.Customer;
+package SmartUtilities.Model.Customer;
 import java.time.LocalDate;
 
 import SmartUtilities.Enums.Gender;
@@ -24,7 +24,6 @@ public class Customer implements ICustomer {
 //eu preciso desses metodos abaixo ? acho que nao pq o Construtor Customer substitui eles
     @Override
     public String getFirstName() {
-        
         return firstName;
     }
     
@@ -58,7 +57,6 @@ public class Customer implements ICustomer {
     public void setBirthDate(LocalDate birtDate) {
        this.birthDate = birtDate;
     }
-
 
     @Override
     public void setGender(Gender gender) {

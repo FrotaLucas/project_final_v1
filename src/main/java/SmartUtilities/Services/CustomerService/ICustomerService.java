@@ -1,6 +1,6 @@
 package SmartUtilities.Services.CustomerService;
 
-import SmartUtilities.models.Customer.Customer;
+import SmartUtilities.Model.Customer.Customer;
 
 import java.util.List;
 
