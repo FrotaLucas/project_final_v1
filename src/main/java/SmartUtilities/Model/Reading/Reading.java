@@ -2,13 +2,16 @@ package SmartUtilities.Model.Reading;
 
 import SmartUtilities.Enums.KindOfMeter;
 import SmartUtilities.Model.Customer.Customer;
+import SmartUtilities.Shared.IID;
+
 import java.time.LocalDate;
+import java.util.UUID;
 
-public class Reading implements IReading {
+public class Reading implements IReading, IID {
 
-    //private Customer customer;
+    private Customer customer;
 
-    //private int customerId;
+    private int customerId;
 
     private KindOfMeter kindOfMeter;
 
@@ -22,18 +25,22 @@ public class Reading implements IReading {
 
     private LocalDate dateOfReading;
 
-    public Reading(KindOfMeter kindOfMeter, String comment, String meterId, Double meterCount, boolean substitute, LocalDate dateOfReading){
-        this.kindOfMeter = kindOfMeter;
+    private UUID uuid;
+
+    public Reading(String k, String comment, String meterId, Double meterCount, boolean substitute, int id){
+        this.kindOfMeter = KindOfMeter.valueOf(k);
         this.comment = comment;
         this.meterId = meterId;
         this.meterCount = meterCount;
         this.substitute = substitute;
-        this.dateOfReading = dateOfReading;
+        this.uuid = UUID.randomUUID();
+        this.dateOfReading = LocalDate.now();
+        this.customerId = id;
     }
 
     @Override
     public Customer getCustomer() {
-        return null;
+        return customer;
     }
 
     @Override
@@ -67,8 +74,18 @@ public class Reading implements IReading {
     }
 
     @Override
-    public void setCustomer(Customer customer) {
+    public int getCustomerId(){
+        return customerId;
+    }
 
+    @Override
+    public UUID getId() {
+        return uuid;
+    }
+
+    @Override
+    public void setCustomer(Customer customer) {
+            this.customer = customer;
     }
 
     @Override
@@ -99,6 +116,12 @@ public class Reading implements IReading {
     @Override
     public void setDateOfReading(LocalDate dateOfReading) {
             this.dateOfReading = dateOfReading;
+    }
+
+
+    @Override //NUNCA DEVERIA SER USADO
+    public void setId(UUID id) {
+            this.uuid = id;
     }
 
     @Override

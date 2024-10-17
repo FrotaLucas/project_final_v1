@@ -21,6 +21,8 @@ public interface IReading {
 
     LocalDate getDateOfReading();
 
+    int getCustomerId();
+
     void setCustomer(Customer customer);
 
     void setKindOfMeter(KindOfMeter kindOfMeter);
