@@ -8,3 +8,14 @@ arquivi config para usar ausuario e senha (System.getProperty("user.name")
 
 
 introduzir prepare statement para substituir as strings sql
+
+campo de user Id eh required. Nao pode inserir nada em Reading
+se nao tiver um userId
+
+se alguma leitura da tabela Reading for apagada, deve se apagar somente
+userId.
+
+file IReading.java
+
+devo retornar Icustomer ou Customer aqui ?
+ICustomer getCustomer();

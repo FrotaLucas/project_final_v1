@@ -23,6 +23,7 @@ public class Database {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
+    //read data from database
     public ResultSet executeQuery(String sql) throws SQLException {
         try {
             Statement stm = _connection.createStatement();

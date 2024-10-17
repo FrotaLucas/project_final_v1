@@ -17,25 +17,25 @@ public class Main {
         CustomerService service = new CustomerService(database);
 
         //Create
-//        Customer newCustomer = new Customer("Lucas", "Dias", "1990-09-10", "W");
-//        service.addNewCustomer(newCustomer);
+        //Customer newCustomer = new Customer("Lucas", "Dias", "1990-09-10", "W");
+        //service.addNewCustomer(newCustomer);
 
         //udpate
-//        Customer updatedCustomer = new Customer("Lucas", "Dias", "1990-05-20", "M");
-//        service.updateCustomer(updatedCustomer, 6);
+        // Customer updatedCustomer = new Customer("Lucas", "Dias", "1990-05-20", "M");
+        //service.updateCustomer(updatedCustomer, 6);
 
         //delete
         //service.deleteCustomer(3);
 
 
-            //PQ aqui eu preciso usar getFirstName e nao posso usar direto customer.firstName
+        //PQ aqui eu preciso usar getFirstName e nao posso usar direto customer.firstName
         //getCustomer id
-//        Customer customer = service.getCustomer(2);
-//            System.out.println("Customer: " + "\n" +
-//                    "First Name: " + customer.getFirstName() + "\n" +
-//                    "Last Name: " + customer.getLastName() + "\n" +
-//                    "Birthdate: " + customer.getBirthDate() + "\n" +
-//                    "Gender: " + customer.getGender());
+        //Customer customer = service.getCustomer(2);
+        //System.out.println("Customer: " + "\n" +
+        //"First Name: " + customer.getFirstName() + "\n" +
+        //"Last Name: " + customer.getLastName() + "\n" +
+        //"Birthdate: " + customer.getBirthDate() + "\n" +
+        //"Gender: " + customer.getGender());
 
         //getCustomers List
             List<Customer> customerList= service.getCustomers();
