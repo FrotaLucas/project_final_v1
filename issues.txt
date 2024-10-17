@@ -19,3 +19,14 @@ file IReading.java
 
 devo retornar Icustomer ou Customer aqui ?
 ICustomer getCustomer();
+
+
+classe Reading
+
+as propriedades abaixo sao importantes para interagir com
+tabela customers e mostrar dados no frontend. Fazer busca por nome
+do usuario ou pelo customerId. 
+
+//private Customer customer;
+
+//private int customerId;

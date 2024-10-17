@@ -18,7 +18,7 @@ public class CustomerService implements ICustomerService{
     }
     @Override
     public void addNewCustomer(Customer customer) {
-        String sql = "INSERT INTO customers (firstName, lastName, birthDate, gender, uui) VALUES ('" +
+        String sql = "INSERT INTO customers (first_name, last_name, birthdate, gender, uui_id) VALUES ('" +
                 customer.getFirstName() + "', '" +
                 customer.getLastName() + "', '" +
                 customer.getBirthDate() + "', '" +
@@ -53,9 +53,9 @@ public class CustomerService implements ICustomerService{
 
     @Override
     public void updateCustomer(Customer customer, int id) {
-        String sql = "UPDATE customers SET firstName = '" + customer.getFirstName() +
-                "', lastName = '" + customer.getLastName() +
-                "', birthDate = '" + customer.getBirthDate() +
+        String sql = "UPDATE customers SET first_name = '" + customer.getFirstName() +
+                "', last_name = '" + customer.getLastName() +
+                "', birthdate = '" + customer.getBirthDate() +
                 "', gender = '" + customer.getGender() +
                 "' WHERE id = " + id;
         try {
@@ -86,8 +86,8 @@ public class CustomerService implements ICustomerService{
         try (ResultSet rs = this._database.executeQuery(sql)){
             if(rs.next())
             {  //depois pensar em colocar um Id dentro de customer para receber do banco de dados !!!!!!!!!!
-                return new Customer(rs.getString("firstName"),
-                        rs.getString("lastName"),
+                return new Customer(rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("birthDate"),
                         rs.getString("gender"));
             }
@@ -107,8 +107,8 @@ public class CustomerService implements ICustomerService{
         try (ResultSet rs = this._database.executeQuery(sql);){
             while (rs.next())
             {
-                customers.add( new Customer(rs.getString("firstName"),
-                        rs.getString("lastName"),
+                customers.add( new Customer(rs.getString("first_name"),
+                        rs.getString("last_name"),
                         rs.getString("birthDate"),
                         rs.getString("gender"))
                 );

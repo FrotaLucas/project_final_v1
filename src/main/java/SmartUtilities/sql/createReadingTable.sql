@@ -1,9 +1,13 @@
 -- create_customer_table.sql
 CREATE TABLE IF NOT EXISTS reading (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    comment VARCHAR(50),
-    lastName VARCHAR(50),
-    birthDate DATE,
-    gender VARCHAR(10),
-    uui VARCHAR(255)
+    customer_id INT,
+    kind_of_meter VARCHAR(10),
+    comment VARCHAR(255),
+    meter_id INT,
+    meter_count DOUBLE,
+    substitute BOOLEAN,
+    date_of_reading DATE,
+    uui_id VARCHAR(255),
+    FOREIGN KEY (customer_id) REFERENCES customers(id),
 );

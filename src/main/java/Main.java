@@ -18,7 +18,7 @@ public class Main {
 
         //Create
 
-        Customer newCustomer = new Customer("Maria", "Vitoria", "2003-06-30", "W");
+        Customer newCustomer = new Customer("Fiona", "Prada", "2001-12-23", "W");
         service.addNewCustomer(newCustomer);
 
         //Customer newCustomer = new Customer("testN", "TestL", "2001-10-10", "W");
@@ -26,8 +26,8 @@ public class Main {
 
         //udpate
 
-        //Customer updatedCustomer = new Customer("Lucas", "Dias", "1990-05-20", "M");
-        //service.updateCustomer(updatedCustomer, 1);
+        //Customer updatedCustomer = new Customer("Hanne", "Schutz", "1990-05-20", "M");
+        //service.updateCustomer(updatedCustomer, 2);
 
         //delete
         //service.deleteCustomer(3);
