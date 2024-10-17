@@ -2,14 +2,14 @@ package SmartUtilities.Model.Reading;
 
 import java.time.LocalDate;
 import SmartUtilities.Enums.KindOfMeter;
-import SmartUtilities.Model.Customer.ICustomer;
+import SmartUtilities.Model.Customer.Customer;
 
 
 public interface IReading {
 
     String getComment();
 
-    ICustomer getCustomer();
+    Customer getCustomer();
 
     LocalDate getDateOfReading();
 
@@ -25,7 +25,7 @@ public interface IReading {
 
     void setComment(String comment);
 
-    void setCustomer(ICustomer customer);
+    void setCustomer(Customer customer);
 
     void setDateOfReading(LocalDate dateOfReading);
 

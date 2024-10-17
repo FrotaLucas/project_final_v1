@@ -1,7 +1,7 @@
 package SmartUtilities.Model.Reading;
 
 import SmartUtilities.Enums.KindOfMeter;
-import SmartUtilities.Model.Customer.ICustomer;
+import SmartUtilities.Model.Customer.Customer;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,7 @@ public class Reading implements IReading{
     }
 
     @Override
-    public ICustomer getCustomer() {
+    public Customer getCustomer() {
         return null;
     }
 
@@ -53,7 +53,7 @@ public class Reading implements IReading{
     }
 
     @Override
-    public void setCustomer(ICustomer customer) {
+    public void setCustomer(Customer customer) {
 
     }
 
