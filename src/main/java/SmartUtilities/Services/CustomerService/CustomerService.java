@@ -18,11 +18,29 @@ public class CustomerService implements ICustomerService{
     }
     @Override
     public void addNewCustomer(Customer customer) {
-        String sql = "INSERT INTO customers (firstName, lastName, birthDate, gender) VALUES ('" +
+        String sql = "INSERT INTO customers (firstName, lastName, birthDate, gender, uui) VALUES ('" +
                 customer.getFirstName() + "', '" +
                 customer.getLastName() + "', '" +
                 customer.getBirthDate() + "', '" +
-                customer.getGender() + "')";
+                customer.getGender() + "', '" +
+                customer.getId() + "')";
+        try {
+            this._database.executeUpdate(sql);
+        }
+        catch (SQLException e)
+        {
+            System.out.println("Error while adding new customer: " + e.getMessage());
+        }
+
+    }
+
+    public void addTestCustomer(Customer customer) {
+        String sql = "INSERT INTO test (fn, ln, bd, g, uui) VALUES ('" +
+                customer.getFirstName() + "', '" +
+                customer.getLastName() + "', '" +
+                customer.getBirthDate() + "', '" +
+                customer.getGender() + "', '" +
+                customer.getId() + "')";
         try {
             this._database.executeUpdate(sql);
         }
@@ -62,7 +80,7 @@ public class CustomerService implements ICustomerService{
 
     @Override
     public Customer getCustomer(int id) {
-        String sql = "SELECT * FROM customers WHERE id = '" + id + "'";  //nao precisa desse ultimo ' revisar !!!!
+        String sql = "SELECT * FROM customers WHERE id = '" + id + "'";  //nao precisa desse ultimo ' entender pq !!!!
         Customer customer;
 
         try (ResultSet rs = this._database.executeQuery(sql)){

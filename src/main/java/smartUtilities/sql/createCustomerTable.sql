@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS customers (
     firstName VARCHAR(50),
     lastName VARCHAR(50),
     birthDate DATE,
-    gender VARCHAR(10)
+    gender VARCHAR(10),
+    uui VARCHAR(255)
 );

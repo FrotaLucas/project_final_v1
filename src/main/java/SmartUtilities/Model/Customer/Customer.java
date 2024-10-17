@@ -1,9 +1,14 @@
 package SmartUtilities.Model.Customer;
+
 import java.time.LocalDate;
+import java.util.UUID;
 
 import SmartUtilities.Enums.Gender;
+import SmartUtilities.Shared.IID;
 
-public class Customer implements ICustomer {
+public class Customer implements ICustomer, IID {
+
+    private UUID uuid;
 
     private String firstName;
 
@@ -15,13 +20,20 @@ public class Customer implements ICustomer {
 
     // Constructor
     public Customer(String firstName, String lastName, String birthDate, String gender) {
+        this.uuid = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = LocalDate.parse(birthDate);
         this.gender = Gender.valueOf(gender.toUpperCase()); // parametro gender eh uma string que vamos converter
         //para um enum. Se for D eh 0 e M eh 1...
     }
-//eu preciso desses metodos abaixo ? acho que nao pq o Construtor Customer substitui eles
+
+    @Override
+    public UUID getId() {
+        return uuid;
+    }
+
+    //eu preciso de todos esses metodos abaixo ? acho que precisa nao pq o Construtor Customer substitui eles
     @Override
     public String getFirstName() {
         return firstName;
@@ -40,6 +52,11 @@ public class Customer implements ICustomer {
     @Override
     public Gender getGender() {
         return gender;
+    }
+
+    @Override
+    public void setId(UUID uuid) {
+        this.uuid = uuid;
     }
 
     @Override
