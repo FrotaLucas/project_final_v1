@@ -18,7 +18,7 @@ public class Main {
 
         //Create
 
-        Customer newCustomer = new Customer("Lucas", "Dias", "1990-09-10", "W");
+        Customer newCustomer = new Customer("Maria", "Vitoria", "2003-06-30", "W");
         service.addNewCustomer(newCustomer);
 
         //Customer newCustomer = new Customer("testN", "TestL", "2001-10-10", "W");

@@ -7,33 +7,33 @@ import SmartUtilities.Model.Customer.Customer;
 
 public interface IReading {
 
-    String getComment();
-
     Customer getCustomer();
-
-    LocalDate getDateOfReading();
 
     KindOfMeter getKindOfMeter();
 
-    Double getMeterCount();
+    String getComment();
 
     String getMeterId();
 
+    Double getMeterCount();
+
     Boolean getSubstitute();
 
-    String printDateOfReading();
-
-    void setComment(String comment);
+    LocalDate getDateOfReading();
 
     void setCustomer(Customer customer);
 
-    void setDateOfReading(LocalDate dateOfReading);
-
     void setKindOfMeter(KindOfMeter kindOfMeter);
 
-    void setMeterCount(Double meterCount);
+    void setComment(String comment);
 
     void setMeterId(String meterId);
 
+    void setMeterCount(Double meterCount);
+
     void setSubstitute(Boolean substitute);
+
+    void setDateOfReading(LocalDate dateOfReading);
+
+    String printDateOfReading();
 }
