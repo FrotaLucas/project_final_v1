@@ -1,7 +1,6 @@
 package SmartUtilities.Services.CustomerService;
 
 import SmartUtilities.Model.Customer.Customer;
-
 import java.util.List;
 
 public interface ICustomerService {

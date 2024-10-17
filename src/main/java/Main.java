@@ -18,16 +18,16 @@ public class Main {
 
         //Create
 
-        //Customer newCustomer = new Customer("Lucas", "Dias", "1990-09-10", "W");
-        //service.addNewCustomer(newCustomer);
+        Customer newCustomer = new Customer("Lucas", "Dias", "1990-09-10", "W");
+        service.addNewCustomer(newCustomer);
 
         //Customer newCustomer = new Customer("testN", "TestL", "2001-10-10", "W");
         //service.addTestCustomer(newCustomer);
 
         //udpate
 
-        Customer updatedCustomer = new Customer("Lucas", "Dias", "1990-05-20", "M");
-        service.updateCustomer(updatedCustomer, 1);
+        //Customer updatedCustomer = new Customer("Lucas", "Dias", "1990-05-20", "M");
+        //service.updateCustomer(updatedCustomer, 1);
 
         //delete
         //service.deleteCustomer(3);
