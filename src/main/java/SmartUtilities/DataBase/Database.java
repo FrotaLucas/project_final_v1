@@ -1,18 +1,38 @@
 package SmartUtilities.DataBase;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class Database {
-    
-    private static final String DB_URL = "jdbc:mariadb://localhost:3306/gm3?allowMultiQueries=true";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "frotalucas";
+
+    private static String DB_URL = System.getProperty("db.url");
+    private static String DB_USER = System.getProperty("db.user");
+    private static String DB_PASSWORD = System.getProperty("db.password");
 
     private Connection _connection;
+
+    static {
+        try {
+            Properties props = new Properties();
+            // Ajuste o caminho para o arquivo de propriedades
+            FileInputStream input = new FileInputStream("src/main/resources/db.properties");
+            props.load(input);
+
+            // Carregar diretamente nas variáveis
+            DB_URL = props.getProperty("db.url");
+            DB_USER = props.getProperty("db.user");
+            DB_PASSWORD = props.getProperty("db.password");
+        } catch (IOException e) {
+            System.err.println("Could not load database properties: " + e.getMessage());
+        }
+    }
+
 
     public Database() throws SQLException{
         this._connection = connect();

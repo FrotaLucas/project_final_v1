@@ -20,8 +20,8 @@ public class Main {
 
         //Create
 
-        Customer newCustomer = new Customer("Alpai", "Elmer", "2005-08-20", "M");
-        service.addNewCustomer(newCustomer);
+        //Customer newCustomer = new Customer("Alpai", "Elmer", "2005-08-20", "M");
+        //service.addNewCustomer(newCustomer);
 
         //Customer newCustomer = new Customer("testN", "TestL", "2001-10-10", "W");
         //service.addTestCustomer(newCustomer);
@@ -56,7 +56,7 @@ public class Main {
 
 
             //Create Reading
-            Reading reading = new Reading("STROM", "cheking eletricity", "A1000", 333.25, false, 20);
+            Reading reading = new Reading("HEIZUNG", "cheking gas", "B1000", 81.25, false, 2);
             ReadingService readingService = new ReadingService(database);
 
             readingService.addNewReading(reading);
