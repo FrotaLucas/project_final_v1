@@ -11,23 +11,27 @@ import java.util.Properties;
 
 public class Database {
 
-    private static String DB_URL = System.getProperty("db.url");
-    private static String DB_USER = System.getProperty("db.user");
-    private static String DB_PASSWORD = System.getProperty("db.password");
+    private static String DB_URL;
+    private static String DB_USER;
+    private static String DB_PASSWORD;
 
     private Connection _connection;
 
     static {
         try {
             Properties props = new Properties();
-            // Ajuste o caminho para o arquivo de propriedades
+            // Adjust the path to where your properties file is located
             FileInputStream input = new FileInputStream("src/main/resources/db.properties");
             props.load(input);
+            // Set system properties
+            System.setProperty("db.url", props.getProperty("db.url"));
+            System.setProperty("db.user", props.getProperty("db.user"));
+            System.setProperty("db.password", props.getProperty("db.password"));
 
-            // Carregar diretamente nas variáveis
-            DB_URL = props.getProperty("db.url");
-            DB_USER = props.getProperty("db.user");
-            DB_PASSWORD = props.getProperty("db.password");
+            DB_URL = System.getProperty("db.url");
+            DB_USER = System.getProperty("db.user");
+            DB_PASSWORD = System.getProperty("db.password");
+
         } catch (IOException e) {
             System.err.println("Could not load database properties: " + e.getMessage());
         }

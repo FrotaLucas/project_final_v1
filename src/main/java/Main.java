@@ -56,7 +56,7 @@ public class Main {
 
 
             //Create Reading
-            Reading reading = new Reading("HEIZUNG", "cheking gas", "B1000", 81.25, false, 2);
+            Reading reading = new Reading("HEIZUNG", "cheking gas", "B1000", 97281.25, false, 2);
             ReadingService readingService = new ReadingService(database);
 
             readingService.addNewReading(reading);
