@@ -1,6 +1,9 @@
 // Required imports for JDBC
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import SmartUtilities.DataBase.Database;
@@ -54,12 +57,20 @@ public class Main {
 //                        "Gender: " + c.getGender() + "\n");
 //            }
 
-
-            //Create Reading
-            Reading reading = new Reading("HEIZUNG", "cheking gas", "B1000", 97281.25, false, 2);
+            //Reading
             ReadingService readingService = new ReadingService(database);
 
-            readingService.addNewReading(reading);
+            //Create Reading
+            //Reading reading = new Reading("HEIZUNG", "cheking gas", "B1000", 97281.25, false, 2);
+            //readingService.addNewReading(reading);
+
+            //Update reading
+
+                Reading updatedReading = new Reading("HEIZUNG", "new checking gas", "B1100", 11111.0, true, "2024-10-18", 2);
+                readingService.updateNewReading(updatedReading);
+
+
+
 
         } catch (SQLException e) {
             System.out.println("Database connection error: " + e.getMessage());

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS data_reading (
     meter_id VARCHAR(20),
     meter_count DOUBLE,
     substitute BOOLEAN,
-    date_of_reading DATE,
+    date_of_reading VARCHAR(20),
     uui_id VARCHAR(255),
     FOREIGN KEY (customer_id) REFERENCES customers(id),
 );

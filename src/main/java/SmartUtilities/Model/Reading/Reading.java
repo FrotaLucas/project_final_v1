@@ -5,6 +5,7 @@ import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Shared.IID;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 public class Reading implements IReading, IID {
@@ -23,19 +24,19 @@ public class Reading implements IReading, IID {
 
     private boolean substitute;
 
-    private LocalDate dateOfReading;
+    private String dateOfReading;
 
     private UUID uuid;
 
-    public Reading(String k, String comment, String meterId, Double meterCount, boolean substitute, int id){
+    public Reading(String k, String comment, String meterId, Double meterCount, boolean substitute, String date, int customerId){
         this.kindOfMeter = KindOfMeter.valueOf(k);
         this.comment = comment;
         this.meterId = meterId;
         this.meterCount = meterCount;
         this.substitute = substitute;
         this.uuid = UUID.randomUUID();
-        this.dateOfReading = LocalDate.now();
-        this.customerId = id;
+        this.dateOfReading = date;
+        this.customerId = customerId;
     }
 
     @Override
@@ -69,13 +70,13 @@ public class Reading implements IReading, IID {
     }
 
     @Override
-    public LocalDate getDateOfReading() {
+    public String getDateOfReading() {
         return dateOfReading;
     }
 
     @Override
     public int getCustomerId(){
-        return customerId;
+        return this.customerId;
     }
 
     @Override
@@ -114,7 +115,7 @@ public class Reading implements IReading, IID {
     }
 
     @Override
-    public void setDateOfReading(LocalDate dateOfReading) {
+    public void setDateOfReading(Date dateOfReading) {
             this.dateOfReading = dateOfReading;
     }
 

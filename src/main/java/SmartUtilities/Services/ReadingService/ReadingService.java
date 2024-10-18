@@ -51,6 +51,27 @@ public class ReadingService implements IReadingService{
 
     @Override
     public void updateNewReading(Reading reading) {
+        String sqlCustomer = "SELECT * FROM customers WHERE id = '" + reading.getCustomerId() + "'";
+        String sqlReading = "UPDATE data_reading SET kind_of_meter = '" + reading.getKindOfMeter() + "', " +
+                "comment = '" + reading.getComment() + "', " +
+                "meter_id = '" + reading.getMeterId()  + "', " +
+              "meter_count = '" +  reading.getMeterCount() + "', " +
+               "substitute = '" + (reading.getSubstitute() ? "1" : "0") + "', " +
+                "date_of_reading = '" + reading.getDateOfReading() + "' " +
+                "WHERE customer_id = '" + reading.getCustomerId() + "'";
+
+        try (ResultSet rs = this._database.executeQuery(sqlCustomer)){
+
+        } catch (SQLException e) {
+            System.out.println("Customer does not exist." + e.getMessage());
+        }
+
+        try {
+            this._database.executeUpdate(sqlReading);
+        } catch (SQLException e)
+        {
+            System.out.println("Error while saving new data." + e.getMessage());
+        }
 
     }
 

@@ -1,6 +1,8 @@
 package SmartUtilities.Model.Reading;
 
 import java.time.LocalDate;
+import java.util.Date;
+
 import SmartUtilities.Enums.KindOfMeter;
 import SmartUtilities.Model.Customer.Customer;
 
@@ -19,7 +21,7 @@ public interface IReading {
 
     Boolean getSubstitute();
 
-    LocalDate getDateOfReading();
+    String getDateOfReading();
 
     int getCustomerId();
 
@@ -35,7 +37,7 @@ public interface IReading {
 
     void setSubstitute(Boolean substitute);
 
-    void setDateOfReading(LocalDate dateOfReading);
+    void setDateOfReading(String dateOfReading);
 
     String printDateOfReading();
 }
