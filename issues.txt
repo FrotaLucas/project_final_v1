@@ -17,10 +17,22 @@ eliminam tudo que for modificado no BD. COrreto ?
 4 apagar executeUpdate e usar somente executeQuery!!
 (torna o modulo Database mais simples)
 
+5 //depois tentar entender pq essa forma de injetar Database nos testes nao pode ser usada nos Services tbm 
+class DataBaseTest {
+  private DataBase _database;
+  private Connection _connection;
+
+  @BeforeEach
+  void setUp() throws SQLException
+  {
+    _database = new DataBase(); // AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+    _connection = DataBase.connect();
+  }
+}
+
+
+
 -----------------------
-
-uid na tabela implementar (nova interface)
-
 
 introduzir prepare statement para substituir as strings sql
 

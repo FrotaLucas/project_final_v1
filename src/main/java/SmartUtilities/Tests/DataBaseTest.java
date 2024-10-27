@@ -9,6 +9,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+// import org.junit.jupiter.api.AfterEach;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import static org.junit.jupiter.api.Assertions.*;
 
 class DataBaseTest {
   private DataBase _database;
@@ -41,4 +45,21 @@ class DataBaseTest {
       }
   }
  
+  @Test
+  void testExecuteQuery(){
+     String sql = "SELECT 1"; //basic query to test
+
+     try(ResultSet rs = _database.executeQuery(sql)){
+      assertNotNull(rs,"Result should not be null.");
+      assertTrue(rs.next(), "Result with at least 1 line.");
+      assertEquals(1, rs.getInt(1), "Returned value is 1");
+     }
+      catch (SQLException e) {
+            fail("Error while executing query: " + e.getMessage());
+      }
+  }
+
+ //nao vamos precisar pq teremos apenas executeQuery
+  @Test
+  void testExecuteUpdateQuery{}
 }
