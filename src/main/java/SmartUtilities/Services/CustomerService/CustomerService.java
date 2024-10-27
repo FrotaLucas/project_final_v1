@@ -50,7 +50,7 @@ public class CustomerService implements ICustomerService{
         }
 
     }
-//LUCIAAAA LUCIAAAAAAAAAAAAAA
+
     @Override
     public void updateCustomer(Customer customer, int id) {
         String sql = "UPDATE customers SET first_name = '" + customer.getFirstName() +

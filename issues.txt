@@ -1,10 +1,25 @@
+1 tentar colocar todos os try catch nesse formato aqui
+        // try {
+            //executequery
+        //} catch (SQLException e) {
+            //System.out.println("Customer does not exist." + e.getMessage());
+        //}
 
+        
+2 Para os casos que precisa verificar se existe usuario antes. Pensar
+como sair fazer return; e nem precisar de try catch extra. 
+    
+
+3 Os testes Unitarios introduzem novos Costumers. As tags @BeforeEach e @AfterEach 
+eliminam tudo que for modificado no BD. COrreto ?
+
+
+4 apagar executeUpdate e usar somente executeQuery!!
+(torna o modulo Database mais simples)
+
+-----------------------
 
 uid na tabela implementar (nova interface)
-
-
-arquivo sprint 1
-arquivi config para usar ausuario e senha (System.getProperty("user.name")
 
 
 introduzir prepare statement para substituir as strings sql

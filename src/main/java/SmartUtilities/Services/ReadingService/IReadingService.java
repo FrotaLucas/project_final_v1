@@ -13,5 +13,5 @@ public interface IReadingService {
 
     Reading getReading(int customerId);
 
-    List<Reading> gerReadings();
+    List<Reading> getReadings();
 }
