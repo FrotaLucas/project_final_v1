@@ -42,7 +42,7 @@ public class Database {
         this._connection = connect();
     }
 
-    // Method to establish a connection with the database
+    // Static Method can also be called from class Database
     public static Connection connect() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }

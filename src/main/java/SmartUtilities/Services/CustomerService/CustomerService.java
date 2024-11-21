@@ -125,7 +125,8 @@ public class CustomerService implements ICustomerService{
 
     @Override
     public Customer getCustomerByUuid(String id_uui) {
-        String sql = "SELECT * FROM customers WHERE id = '" + id_uui + "'";  //nao precisa desse ultimo ' entender pq !!!!
+        //nao precisa desse ultimo ' entender pq !!!!
+        String sql = "SELECT * FROM customers WHERE id_uui = '" + id_uui + "'";  
         Customer customer;
 
         try (ResultSet rs = this._database.executeQuery(sql)){

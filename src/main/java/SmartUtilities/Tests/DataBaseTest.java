@@ -22,7 +22,7 @@ class DataBaseTest {
   void setUp() throws SQLException //start connection
   {
     _database = new DataBase(); //forma de usar _database porem sem injetar no construtor DataBaseTest
-    _connection = DataBase.connect(); //connect eh um metodo static e so pode ser chamado pela classe original
+    _connection = DataBase.connect(); //connect eh um metodo static0 e so pode ser chamado pela classe original
   }
 
   @AfterEach //close connection

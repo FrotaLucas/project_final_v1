@@ -31,7 +31,7 @@ class DataBaseTest {
 }
 
 
-
+6 nao preciso colocar await nos metodos service que interagem com o BD???
 -----------------------
 
 introduzir prepare statement para substituir as strings sql
