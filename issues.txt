@@ -32,6 +32,11 @@ class DataBaseTest {
 
 
 6 nao preciso colocar await nos metodos service que interagem com o BD???
+
+7 susbstituir setCustomer por setCustomerId para fazer os testes de ReadingServiceTest
+
+
+ 
 -----------------------
 
 introduzir prepare statement para substituir as strings sql

@@ -18,8 +18,7 @@ import java.util.List;
 class CustomerServiceTest {
   private CustomerService _costumerService;
 
-   //usando framework mockito para simular uma interacao com o banco de dados
-  //UserRepository userRepositoryMock = Mockito.mock(UserRepository.class);
+   //usar framework mockito para simular uma interacao com o banco de dados
   //DataBase dataBaseMock = Mockito.mock(DataBase.class);
 
   @BeforeEach
@@ -32,7 +31,8 @@ class CustomerServiceTest {
   public void testAddNewCustomer()
   {  
     Customer newCustumer = new Customer("John", "Doe", "2000-01-01","M");
-    UUID Uuid = newCustomer.getId();
+    //mudar getId 
+    //criar getId depois de ter alterado o getId atual para getUUid;
 
     _costumerService.addNewCustomer(newCustumer);
 
@@ -61,11 +61,13 @@ class CustomerServiceTest {
     dbCustomer.setGender(Gender.valueOf("W"));
 
     _costumerService.updateCustomer(dbCustomer);
-
-    assertTrue(dbCustomer.isPresent());
-    assertEquals("Mary", dbCustomer.getFirstName());
-    assertEquals("Jane", dbCustomer.getLastName());
-    assertEquals(gender.valueOf("W"), dbCustomer.getGender());
+ 
+    Optional<Customer> retrievedCustomer = _costumerService.getCustomerByUuid(uuid);
+    
+    assertTrue(retrievedCustomer.isPresent());
+    assertEquals("Mary", retrievedCustomer.getFirstName());
+    assertEquals("Jane", retrievedCustomer.getLastName());
+    assertEquals(gender.valueOf("W"), retrievedCustomer.getGender());
   }
 
   @Test
