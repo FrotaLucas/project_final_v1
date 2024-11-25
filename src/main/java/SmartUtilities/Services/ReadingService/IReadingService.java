@@ -9,9 +9,9 @@ public interface IReadingService {
 
     void updateNewReading(Reading reading);
 
-    void deleteReading(int customerId);
+    //void deleteReading(int customerId);
 
-    Reading getReading(int customerId);
+    //Reading getReading(int customerId);
 
-    List<Reading> getReadings();
+    //List<Reading> getReadings();
 }

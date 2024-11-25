@@ -123,25 +123,25 @@ public class CustomerService implements ICustomerService{
         return null;
     }
 
-    @Override
-    public Customer getCustomerByUuid(String id_uui) {
-        //nao precisa desse ultimo ' entender pq !!!!
-        String sql = "SELECT * FROM customers WHERE id_uui = '" + id_uui + "'";  
-        Customer customer;
-
-        try (ResultSet rs = this._database.executeQuery(sql)){
-            if(rs.next())
-            {  //depois pensar em colocar um Id dentro de customer para receber do banco de dados !!!!!!!!!!
-                return new Customer(rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("birthDate"),
-                        rs.getString("gender"));
-            }
-        }
-        catch (SQLException e){
-            System.out.println("Error while retrieving customer: " + e.getMessage());
-        }
-
-        return null;
-    }
+//    @Override
+//    public Customer getCustomerByUuid(String id_uui) {
+//        //nao precisa desse ultimo ' entender pq !!!!
+//        String sql = "SELECT * FROM customers WHERE id_uui = '" + id_uui + "'";
+//        Customer customer;
+//
+//        try (ResultSet rs = this._database.executeQuery(sql)){
+//            if(rs.next())
+//            {  //depois pensar em colocar um Id dentro de customer para receber do banco de dados !!!!!!!!!!
+//                return new Customer(rs.getString("first_name"),
+//                        rs.getString("last_name"),
+//                        rs.getString("birthDate"),
+//                        rs.getString("gender"));
+//            }
+//        }
+//        catch (SQLException e){
+//            System.out.println("Error while retrieving customer: " + e.getMessage());
+//        }
+//
+//        return null;
+//    }
 }

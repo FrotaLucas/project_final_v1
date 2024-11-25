@@ -115,7 +115,7 @@ public class Reading implements IReading, IID {
     }
 
     @Override
-    public void setDateOfReading(Date dateOfReading) {
+    public void setDateOfReading(String dateOfReading) {
             this.dateOfReading = dateOfReading;
     }
 
