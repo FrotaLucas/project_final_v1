@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CustomerService implements ICustomerService{
 
@@ -23,7 +24,7 @@ public class CustomerService implements ICustomerService{
                 customer.getLastName() + "', '" +
                 customer.getBirthDate() + "', '" +
                 customer.getGender() + "', '" +
-                customer.getId() + "')";
+                customer.getUuid() + "')";
         try {
             this._database.executeUpdate(sql);
         }
@@ -40,7 +41,7 @@ public class CustomerService implements ICustomerService{
                 customer.getLastName() + "', '" +
                 customer.getBirthDate() + "', '" +
                 customer.getGender() + "', '" +
-                customer.getId() + "')";
+                customer.getUuid() + "')";
         try {
             this._database.executeUpdate(sql);
         }
@@ -85,11 +86,16 @@ public class CustomerService implements ICustomerService{
 
         try (ResultSet rs = this._database.executeQuery(sql)){
             if(rs.next())
-            {  //depois pensar em colocar um Id dentro de customer para receber do banco de dados !!!!!!!!!!
-                return new Customer(rs.getString("first_name"),
+            {
+                //depois pensar em colocar um Id dentro de customer para receber do banco de dados. Id precisa ser opcional !!!!!!!
+                Customer dbCustomer = new Customer(null, rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("birthDate"),
                         rs.getString("gender"));
+
+                dbCustomer.setUuid(UUID.fromString(rs.getString("uui_id")));
+
+                return  dbCustomer;
             }
         }
         catch (SQLException e){
@@ -107,11 +113,13 @@ public class CustomerService implements ICustomerService{
         try (ResultSet rs = this._database.executeQuery(sql);){
             while (rs.next())
             {
-                customers.add( new Customer(rs.getString("first_name"),
+                Customer dbCustomer = new Customer(null, rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("birthDate"),
-                        rs.getString("gender"))
-                );
+                        rs.getString("gender"));
+
+                dbCustomer.setUuid(UUID.fromString(rs.getString("uui_id")));
+                customers.add(dbCustomer);
             }
             return customers;
         }

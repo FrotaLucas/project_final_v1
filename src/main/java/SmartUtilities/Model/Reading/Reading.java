@@ -34,9 +34,9 @@ public class Reading implements IReading, IID {
         this.meterId = meterId;
         this.meterCount = meterCount;
         this.substitute = substitute;
-        this.uuid = UUID.randomUUID();
         this.dateOfReading = date;
         this.customerId = customerId;
+        this.uuid = UUID.randomUUID();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Reading implements IReading, IID {
     }
 
     @Override
-    public UUID getId() {
+    public UUID getUuid() {
         return uuid;
     }
 
@@ -121,7 +121,7 @@ public class Reading implements IReading, IID {
 
 
     @Override //NUNCA DEVERIA SER USADO
-    public void setId(UUID id) {
+    public void setUuid(UUID id) {
             this.uuid = id;
     }
 

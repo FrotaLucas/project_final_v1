@@ -3,7 +3,7 @@ import java.util.UUID;
 
 public interface IID {
 
-    UUID getId();
+    UUID getUuid();
 
-    void setId(UUID id);
+    void setUuid(UUID id);
 }

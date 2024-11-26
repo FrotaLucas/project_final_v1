@@ -35,7 +35,8 @@ class DataBaseTest {
 
 7 susbstituir setCustomer por setCustomerId para fazer os testes de ReadingServiceTest
 
-
+8 getReading(id) e getCustomer(id) quando executados estao criando novo uuid
+para o objeto que nao corresponde ao que esta salvo no banco de dados. 
  
 -----------------------
 
