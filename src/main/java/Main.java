@@ -26,8 +26,8 @@ public class Main {
 
         //udpate
 
-        Customer updatedCustomer = new Customer(null,"Lena", "Maia", "1990-05-20", "W");
-        service.updateCustomer(updatedCustomer, 11);
+        Customer updatedCustomer = new Customer(11,"Maria", "Maia", "1990-05-20", "W");
+        service.updateCustomer(updatedCustomer);
 
         //delete
         //service.deleteCustomer(12);

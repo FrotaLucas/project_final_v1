@@ -3,10 +3,12 @@ package SmartUtilities.Services.CustomerService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 
+import java.io.Console;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class CustomerService implements ICustomerService{
@@ -53,7 +55,13 @@ public class CustomerService implements ICustomerService{
     }
 
     @Override
-    public void updateCustomer(Customer customer, int id) {
+    public void updateCustomer(Customer customer) {
+        Optional<Integer> idOptional = customer.getId();
+
+        // Check if the id is present and retrieve the value, or handle if not present
+        String id = idOptional.map(String::valueOf).orElse("NULL"); // Converts id to String, or "NULL" if not present
+
+        System.out.println("value of id: " + id);
         String sql = "UPDATE customers SET first_name = '" + customer.getFirstName() +
                 "', last_name = '" + customer.getLastName() +
                 "', birthdate = '" + customer.getBirthDate() +

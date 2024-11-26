@@ -121,8 +121,8 @@ public class Reading implements IReading, IID {
 
 
     @Override //NUNCA DEVERIA SER USADO
-    public void setUuid(UUID id) {
-            this.uuid = id;
+    public void setUuid(UUID uuid) {
+            this.uuid = uuid;
     }
 
     @Override

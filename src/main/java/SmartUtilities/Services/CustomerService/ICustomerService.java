@@ -7,7 +7,7 @@ public interface ICustomerService {
 
     void addNewCustomer(Customer customer);
 
-    void updateCustomer(Customer customer, int id);
+    void updateCustomer(Customer customer);
 
     void deleteCustomer(int id);
 
