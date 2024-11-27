@@ -1,4 +1,6 @@
-//package SmartUtilities.Services.CustomerServiceTest;
+package SmartUtilities.Tests;
+
+
 //
 //import SmartUtilities.DataBase.Database;
 //import SmartUtilities.Model.Customer.Customer;
@@ -8,12 +10,15 @@
 //import java.sql.SQLException;
 //import java.util.ArrayList;
 //import java.util.List;
-//
+
+
 ////adicionar
-////import org.junit.jupiter.api.AfterEach;
-////import org.junit.jupiter.api.BeforeEach;
-////import org.junit.jupiter.api.Test;
-////import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api.AfterEach;   // For running code after each test method
+//import org.junit.jupiter.api.BeforeEach;  // For running code before each test method
+//import org.junit.jupiter.api.Test;       // For marking a method as a test
+//import static org.junit.jupiter.api.Assertions.*; // For static assertions like assertEquals(), assertTrue(), etc.
+
+
 //
 //class CustomerServiceTest {
 //  private CustomerService _costumerService;

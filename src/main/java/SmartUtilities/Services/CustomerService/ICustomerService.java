@@ -14,5 +14,7 @@ public interface ICustomerService {
     Customer getCustomer(int id);
 
     List<Customer> getCustomers();
+
+    Customer getCustomerByUuid(String Uuid);
 }
 

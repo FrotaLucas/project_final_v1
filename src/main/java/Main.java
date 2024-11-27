@@ -26,22 +26,30 @@ public class Main {
 
         //udpate
 
-        Customer updatedCustomer = new Customer(11,"Maria", "Maia", "1990-05-20", "W");
-        service.updateCustomer(updatedCustomer);
+        //Customer updatedCustomer = new Customer(11,"Fernanda", "Maia", "1990-05-20", "W");
+        //service.updateCustomer(updatedCustomer);
 
         //delete
-        //service.deleteCustomer(12);
+        service.deleteCustomer(30);
 
+        //getCustomerByUuid
+        Customer customerByUuid = service.getCustomerByUuid("499e4cb1-4f0f-4376-b0b7-b5d6a1879134");
+        System.out.println("Customer: " + "\n" +
+                    "First Name: " + customerByUuid.getFirstName() + "\n" +
+                    "Last Name: " + customerByUuid.getLastName() + "\n" +
+                    "Birthdate: " + customerByUuid.getBirthDate() + "\n" +
+                    "Gender: " + customerByUuid.getGender() + "\n" +
+                    "Uuid: " + customerByUuid.getUuid());
 
         //PQ aqui eu preciso usar getFirstName e nao posso usar direto customer.firstName
         //getCustomer id
-        Customer customer = service.getCustomer(11);
-        System.out.println("Customer: " + "\n" +
-        "First Name: " + customer.getFirstName() + "\n" +
-        "Last Name: " + customer.getLastName() + "\n" +
-        "Birthdate: " + customer.getBirthDate() + "\n" +
-        "Gender: " + customer.getGender() + "\n" +
-        "Uuid: " + customer.getUuid());
+//        Customer customer = service.getCustomer(11);
+//        System.out.println("Customer: " + "\n" +
+//        "First Name: " + customer.getFirstName() + "\n" +
+//        "Last Name: " + customer.getLastName() + "\n" +
+//        "Birthdate: " + customer.getBirthDate() + "\n" +
+//        "Gender: " + customer.getGender() + "\n" +
+//        "Uuid: " + customer.getUuid());
 
         //getCustomers List
 //            List<Customer> customerList= service.getCustomers();
@@ -67,7 +75,7 @@ public class Main {
             //readingService.updateNewReading(updatedReading);
 
             //delete reading
-            //readingService.deleteReading(1, "2024-10-15");
+            //readingService.deleteReading(24, "1990-01-12");
 
             //getReading
 //            List<Reading> readingList = readingService.getReading(2);

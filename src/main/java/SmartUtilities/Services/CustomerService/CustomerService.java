@@ -37,23 +37,6 @@ public class CustomerService implements ICustomerService{
 
     }
 
-    public void addTestCustomer(Customer customer) {
-        String sql = "INSERT INTO test (fn, ln, bd, g, uui) VALUES ('" +
-                customer.getFirstName() + "', '" +
-                customer.getLastName() + "', '" +
-                customer.getBirthDate() + "', '" +
-                customer.getGender() + "', '" +
-                customer.getUuid() + "')";
-        try {
-            this._database.executeUpdate(sql);
-        }
-        catch (SQLException e)
-        {
-            System.out.println("Error while adding new customer: " + e.getMessage());
-        }
-
-    }
-
     @Override
     public void updateCustomer(Customer customer) {
         Optional<Integer> idOptional = customer.getId();
@@ -61,7 +44,6 @@ public class CustomerService implements ICustomerService{
         // Check if the id is present and retrieve the value, or handle if not present
         String id = idOptional.map(String::valueOf).orElse("NULL"); // Converts id to String, or "NULL" if not present
 
-        System.out.println("value of id: " + id);
         String sql = "UPDATE customers SET first_name = '" + customer.getFirstName() +
                 "', last_name = '" + customer.getLastName() +
                 "', birthdate = '" + customer.getBirthDate() +
@@ -139,25 +121,26 @@ public class CustomerService implements ICustomerService{
         return null;
     }
 
-//    @Override
-//    public Customer getCustomerByUuid(String id_uui) {
-//        //nao precisa desse ultimo ' entender pq !!!!
-//        String sql = "SELECT * FROM customers WHERE id_uui = '" + id_uui + "'";
-//        Customer customer;
-//
-//        try (ResultSet rs = this._database.executeQuery(sql)){
-//            if(rs.next())
-//            {  //depois pensar em colocar um Id dentro de customer para receber do banco de dados !!!!!!!!!!
-//                return new Customer(rs.getString("first_name"),
-//                        rs.getString("last_name"),
-//                        rs.getString("birthDate"),
-//                        rs.getString("gender"));
-//            }
-//        }
-//        catch (SQLException e){
-//            System.out.println("Error while retrieving customer: " + e.getMessage());
-//        }
-//
-//        return null;
-//    }
+    @Override
+    public Customer getCustomerByUuid(String id_uui) {
+        String sql = "SELECT * FROM customers WHERE uui_id = '" + id_uui + "'";
+        Customer customer;
+
+        try (ResultSet rs = this._database.executeQuery(sql)){
+            if(rs.next())
+            {  //depois pensar em colocar um Id dentro de customer para receber do banco de dados !!!!!!!!!!
+                customer = new Customer(rs.getInt("id") ,rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("birthDate"),
+                        rs.getString("gender"));
+                customer.setUuid(UUID.fromString(rs.getString("uui_id")));
+                return customer;
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Error while retrieving customer: " + e.getMessage());
+        }
+
+        return null;
+    }
 }
