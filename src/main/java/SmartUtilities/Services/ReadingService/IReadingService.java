@@ -2,6 +2,7 @@ package SmartUtilities.Services.ReadingService;
 
 import SmartUtilities.Model.Reading.Reading;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public interface IReadingService {
 
@@ -9,9 +10,14 @@ public interface IReadingService {
 
     void updateNewReading(Reading reading);
 
-    void deleteReading(int customerId, String data);
+    void deleteReading(int customerId, String date);
+
+    Reading getReadingOfCustomer(int customerId, String date);
+
+    List<Reading> getReadings();
 
     List<Reading> getReading(int customerId);
 
-    List<Reading> getReadings();
+    Reading getReadingByUuid(String uuid);
+
 }

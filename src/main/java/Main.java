@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import SmartUtilities.DataBase.Database;
+import SmartUtilities.Model.Reading.Reading;
 import SmartUtilities.Services.CustomerService.CustomerService;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Services.ReadingService.ReadingService;
@@ -21,6 +22,9 @@ public class Main {
 //        Customer newCustomer = new Customer(null, "Marius", "Lehel", "1995-03-20", "M");
 //        service.addNewCustomer(newCustomer);
 
+//          Customer newCustomer = new Customer(null,"John", "Doe", "2000-10-01","M");
+//          service.addNewCustomer(newCustomer);
+
         //Customer newCustomer = new Customer(null,"test", "Maia", "2001-10-10", "W");
         //service.addTestCustomer(newCustomer);
 
@@ -30,7 +34,7 @@ public class Main {
         //service.updateCustomer(updatedCustomer);
 
         //delete
-        service.deleteCustomer(30);
+        //service.deleteCustomer(30);
 
         //getCustomerByUuid
         Customer customerByUuid = service.getCustomerByUuid("499e4cb1-4f0f-4376-b0b7-b5d6a1879134");
@@ -68,6 +72,9 @@ public class Main {
             //Create Reading
             //Reading reading = new Reading("STROM", "cheking eletricity", "E1000", 81.25, false, "2024-10-15", 1);
             //readingService.addNewReading(reading);
+
+//            Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 35);
+//            readingService.addNewReading(newReading);
 
             //Update reading
 
