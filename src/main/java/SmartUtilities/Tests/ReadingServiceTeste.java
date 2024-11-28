@@ -1,121 +1,136 @@
-//package SmartUtilities.Services.ReadinServiceTest;
-//
 //import SmartUtilities.DataBase.Database;
 //import SmartUtilities.Model.Customer.Customer;
-//import SmartUtilities.Enums.Gender;
+//import SmartUtilities.Model.Reading.Reading;
+//import SmartUtilities.Enums.KindOfMeter;
+//import SmartUtilities.Services.CustomerService.CustomerService;
+//import SmartUtilities.Services.ReadingService.ReadingService;
 //
-//import java.sql.ResultSet;
+//import java.sql.Connection;
 //import java.sql.SQLException;
-//import java.util.ArrayList;
+//import java.time.LocalDate;
 //import java.util.List;
+//import java.util.UUID;
+//
+//import org.junit.jupiter.api.AfterEach;   // For running code after each test method
+//import org.junit.jupiter.api.BeforeEach;  // For running code before each test method
+//import org.junit.jupiter.api.Test;
+//
+//import static org.junit.jupiter.api.Assertions.*; // For static assertions like assertEquals(), assertTrue(), etc.
 //
 //
-//class ReadinServiceTest
-//{
+//public class ReadingServiceTest {
+//
 //    private ReadingService _readingService;
+//    private Database _database;
+//    private Connection _connection;
 //
-//
-//    @Test
 //    @BeforeEach
-//    public void setUp() {
-//      DataBase dataBaseMock = new Mockito.mock(DataBase.class);
-//      _readingService = new ReadingService(dataBaseMock);
+//    void setUp() throws SQLException //start connection
+//    {
+//        _database = new Database();
+//        _connection = Database.connect();
+//        _readingService = new ReadingService(_database);
 //    }
 //
 //    @Test
-//    private void testAddNewReading()
-//    {
-//        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 2);
-//        //newReading.setId(1);
-//        _readingService.addNewReading(newReading);
-//        Optional<Customer> dbReading = _readingService.getReading(1);
+//    public void testAddNewReading() {
+//        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 35);
+//        String uuid = newReading.getUuid().toString();
 //
-//        assertTrue(dbReading.isPresent());
-//        assertEquals("HEIZUNG", dbReading.getKindOfMeter());
+//        _readingService.addNewReading(newReading);
+//        Reading dbReading = _readingService.getReadingByUuid(uuid);
+//
+//        assertNotNull(dbReading);
+//        assertEquals("HEIZUNG", dbReading.getKindOfMeter().toString());
 //        assertEquals("new checking gas", dbReading.getComment());
 //        assertEquals("X1100", dbReading.getMeterId());
 //        assertEquals(11111.0, dbReading.getMeterCount());
 //        assertEquals("2000-01-01", dbReading.getDateOfReading());
-//        assertEquals(2, dbReading.getCustomerId());
+//        assertEquals(35, dbReading.getCustomerId());
+//
+//        _readingService.deleteReading(35, "2000-01-01");
 //    }
 //
 //    @Test
-//    private void testUpdateReading()
-//    {
-//      Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 2);
-//      _readingService.addNewReading(newReading);
-//      //newReading.setId(1);
-//      Optional<Reading> dbReading = _readingService.getReading(1);
-//      dbReading.setKindOfMeter("STROM");
-//      dbReading.setComment("new checking eletricity");
-//      dbReading.setMeterId("Y2200");
-//      dbReading.setMeterCount(222222.0);
-//      dbReading.setSubstitute(false);
-//      dbReading.setDateOfReading("1990-01-01");
-//      // susbstituir setCustomer por setCustomerId para fazer os testes de ReadingServiceTest
-//      //dbReading.setCustomerId(4);
-//      _readingService.updatedReading(dbReading);
+//    public void testUpdateReading() {
+//        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 35);
+//        String uuid = newReading.getUuid().toString();
 //
-//      Optional<Reading> retrievedReading = _readingService.getReading(1);
+//        _readingService.addNewReading(newReading);
+//        Reading dbReading = _readingService.getReadingByUuid(uuid);
 //
-//      assertTrue(retrievedReading.isPresent());
-//      assertEquals("STROM", retrievedReading.getKindOfMeter());
-//      assertEquals("new checking eletricity", retrievedReading.getComment());
-//      assertEquals("Y2200", retrievedReading.getMeterId());
-//      assertEquals(222222.0, retrievedCustomer.getMeterCount();)
-//      assertEquals(false, retrievedCustomer.getSubstitute());
-//      assertEquals("1990-01-01", retrievedCustomer.getDateOfReading());
+//        dbReading.setKindOfMeter(KindOfMeter.valueOf("STROM"));
+//        dbReading.setComment("new checking eletricity");
+//        dbReading.setMeterId("Y2200");
+//        dbReading.setMeterCount(222222.0);
+//        dbReading.setSubstitute(false);
+//        dbReading.setDateOfReading("1990-01-01");
+//
+//        _readingService.updateNewReading(dbReading);
+//
+//        Reading retrievedReading = _readingService.getReadingByUuid(uuid);
+//
+//        assertNotNull(retrievedReading);
+//        assertEquals("STROM", retrievedReading.getKindOfMeter().toString());
+//        assertEquals("new checking eletricity", retrievedReading.getComment());
+//        assertEquals("Y2200", retrievedReading.getMeterId());
+//        assertEquals(222222.0, retrievedReading.getMeterCount());
+//        assertEquals(false, retrievedReading.getSubstitute());
+//        assertEquals("1990-01-01", retrievedReading.getDateOfReading());
+//
+//        _readingService.deleteReading(35, "1990-01-01");
 //
 //    }
 //
 //    @Test
-//    private void testDeleteReading()
-//    {
-//      Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 2);
-//      _readingService.addNewReading(newReading);
-//      //newReading.setId(1);
+//    public void testDeleteReading() {
+//        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 35);
+//        String uuid = newReading.getUuid().toString();
 //
-//      _readingService.deleteReading(1);
+//        _readingService.addNewReading(newReading);
+//        Reading dbReading = _readingService.getReadingByUuid(uuid);
 //
-//      Optional<Reading> dbReading = _readingService.getReading(1);
-//      assertFalse(dbReading.isPresent());
+//        _readingService.deleteReading(35, "2000-01-01");
+//
+//        Reading retrievedReading = _readingService.getReadingOfCustomer(35, "2000-01-01");
+//        assertNull(retrievedReading);
 //    }
 //
 //    @Test
-//    private void testGetReading()
-//    {
-//      Reading newReading1 = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 1);
-//      _readingService.addNewReading(newReading);
-//      //newReading.setId(0); //talvez nao precise desse setId
+//    public void testGetReading() {
+//        Reading newReading1 = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 35);
+//        Reading newReading2 = new Reading("STROM", "new checking eletricity", "Y2200", 22222.0, true, "1990-01-01", 35);
 //
-//       Reading newReading2 = new Reading("STROM", "new checking eletricity", "Y2200", 22222.0, true, "1990-01-01", 1);
-//      _readingService.addNewReading(newReading);
-//      //newReading.setId(1);
-//      //aqui vai ser  getReadingOfCustomer(1)
-//      //List<Reading> readingCustomer = _readingService.getReadingOfCustomer(1);
-//      assertTrue(2, readingCustomer.size());
-//      //pegar o primeiro salvo no bd. Metodo get da lib java.util.List
-//      Optional<Reading> retrievedReading1 = readingCustomer.get(0);//
-//      Optional<Reading> retrievedReading2 = readingCustomer.get(2);
+//        String uuid = newReading1.getUuid().toString();
 //
-//        assertEquals("HEIZUNG", retrievedReading1.getKindOfMeter());
+//        _readingService.addNewReading(newReading1);
+//        _readingService.addNewReading(newReading2);
+//        List<Reading> readingCustomer = _readingService.getReading(35);
+//
+//        assertEquals(2, readingCustomer.size());
+//        Reading retrievedReading1 = readingCustomer.get(0);//
+//        Reading retrievedReading2 = readingCustomer.get(1);
+//
+//        assertEquals("HEIZUNG", retrievedReading1.getKindOfMeter().toString());
 //        assertEquals("new checking gas", retrievedReading1.getComment());
 //        assertEquals("X1100", retrievedReading1.getMeterId());
 //        assertEquals(11111.0, retrievedReading1.getMeterCount());
 //        assertEquals(true, retrievedReading1.getSubstitute());
 //        assertEquals("2000-01-01", retrievedReading1.getDateOfReading());
-//        assertEquals(1, retrievedReading1.getCustomerId());
+//        assertEquals(35, retrievedReading1.getCustomerId());
 //
-//        assertEquals("STROM", retrievedReading.getKindOfMeter());
-//        assertEquals("new checking eletricity", retrievedReading.getComment());
-//        assertEquals("Y2200", retrievedReading.getMeterId());
-//        assertEquals(22222.0, retrievedCustomer.getMeterCount();)
-//        assertEquals(true, retrievedCustomer.getSubstitute());
-//        assertEquals("1990-01-01", retrievedCustomer.getDateOfReading());
-//        assertEquals(1, retrievedReading1.getCustomerId());
+//        assertEquals("STROM", retrievedReading2.getKindOfMeter().toString());
+//        assertEquals("new checking eletricity", retrievedReading2.getComment());
+//        assertEquals("Y2200", retrievedReading2.getMeterId());
+//        assertEquals(22222.0, retrievedReading2.getMeterCount());
+//        assertEquals(true, retrievedReading2.getSubstitute());
+//        assertEquals("1990-01-01", retrievedReading2.getDateOfReading());
+//        assertEquals(35, retrievedReading1.getCustomerId());
 //
-//
+//        _readingService.deleteReading(35, "2000-01-01");
+//        _readingService.deleteReading(35, "1990-01-01");
 //
 //
 //    }
+//
 //}

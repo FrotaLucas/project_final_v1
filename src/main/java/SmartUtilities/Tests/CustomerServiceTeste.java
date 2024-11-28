@@ -1,138 +1,126 @@
-package SmartUtilities.Tests;
-
-
 //
 //import SmartUtilities.DataBase.Database;
 //import SmartUtilities.Model.Customer.Customer;
 //import SmartUtilities.Enums.Gender;
+//import SmartUtilities.Services.CustomerService.CustomerService;
 //
-//import java.sql.ResultSet;
+//import java.sql.Connection;
 //import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.util.List;
-
-
-////adicionar
+//import java.time.LocalDate;
+//import java.util.UUID;
+//
 //import org.junit.jupiter.api.AfterEach;   // For running code after each test method
 //import org.junit.jupiter.api.BeforeEach;  // For running code before each test method
 //import org.junit.jupiter.api.Test;       // For marking a method as a test
+//import org.mockito.Mockito;
+//import static org.mockito.Mockito.when;
+//import static org.mockito.ArgumentMatchers.anyString;
+//
 //import static org.junit.jupiter.api.Assertions.*; // For static assertions like assertEquals(), assertTrue(), etc.
-
-
 //
-//class CustomerServiceTest {
-//  private CustomerService _costumerService;
+//public class CustomerServiceTest {
+//    //private Database dataBaseMock;
 //
-//   //usar framework mockito para simular uma interacao com o banco de dados
-//  //DataBase dataBaseMock = Mockito.mock(DataBase.class);
+//    private CustomerService _costumerService;
+//    private Database _database;
+//    private Connection _connection;
 //
-//  @BeforeEach
-//  public void setUp(){
-//    _costumerService = new CustomerService();
-//    //_costumerService = new CustomerService(dataBaseMock);
-//  }
+//    @BeforeEach
+//    void setUp() throws SQLException //start connection
+//    {
+//        _database = new Database(); //forma de usar _database porem sem injetar no construtor DataBaseTest
+//        _connection = Database.connect(); //connect eh um metodo static e so pode ser chamado pela classe original
+//        _costumerService = new CustomerService(_database);
+//    }
 //
-//  @Test
-//  public void testAddNewCustomer()
-//  {
-//    Customer newCustumer = new Customer("John", "Doe", "2000-01-01","M");
-//    //mudar getId
-//    //criar getId depois de ter alterado o getId atual para getUUid;
+//    @Test
+//    public void testAddNewCustomer()
+//    {
+//        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+//        UUID uuid = newCustumer.getUuid();
+//        _costumerService.addNewCustomer(newCustumer);
 //
-//    _costumerService.addNewCustomer(newCustumer);
+//        Customer dbCustomer;
+//        dbCustomer = _costumerService.getCustomerByUuid(uuid.toString());
 //
-//    Optional<Customer> dbCustomer = _costumerService.getCustomerByUuid(Uuid.ToString());
-//    assertTrue(dbCustomer.isPresent());
-//    assertEquals("John",dbCustomer.getFirstName());
-//    assertEquals("Doe", dbCustomer.getLastName());
-//    assertEquals("2000-01-01", dbCustomer.getBirthDate());
-//    //dbCustomer vem do banco de dados, salva gender como string;
-//    assertEquals("M", dbCustomer.getGender());
-//    //assertEquals(newCustomer.getGender(),Gender.valueOf(dbCustomer.getGender())); //getGender mesmso sendo do DB, getGender nao deveria retornar tipo Gender por causa do metodo ?
-//  }
+//        assertNotNull(dbCustomer);
+//        assertEquals("John",dbCustomer.getFirstName());
+//        assertEquals("Doe", dbCustomer.getLastName());
+//        assertEquals(LocalDate.parse("2000-01-01"), dbCustomer.getBirthDate());
+//        //dbCustomer vem do banco de dados, salva gender como string;
+//        assertEquals(Gender.valueOf("M"), dbCustomer.getGender());
 //
-//  @Test
-//  public void testUpdateCustomer()
-//  {
-//    Customer newCustomer = new Customer("Jhon", "Doe", "2000-01-01","M");
-//    UUID uuid = newCustomer.getId();
-//    _costumerService.addNewCustomer(newCustomer);
-//    Optional<Customer> dbCustomer = _costumerService.getCustomerByUuid(uuid);
+//        int id = dbCustomer.getId().orElse(0);  // Default value is 0 if the Optional is empty
+//        _costumerService.deleteCustomer(id);
+//    }
 //
-//    dbCustomer.setFirstName("Mary");
-//    dbCustomer.setLastName("Jane");
-//    dbCustomer.setBirthDate("1900-01-12");
-//    //ja converte direto para tipo Gender!!
-//    dbCustomer.setGender(Gender.valueOf("W"));
+//    @Test
+//    public void testUpdateCustomer()
+//    {
+//        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+//        UUID uuid = newCustumer.getUuid();
+//        _costumerService.addNewCustomer(newCustumer);
 //
-//    _costumerService.updateCustomer(dbCustomer);
+//        Customer dbCustomer;
+//        dbCustomer = _costumerService.getCustomerByUuid(uuid.toString());
 //
-//    Optional<Customer> retrievedCustomer = _costumerService.getCustomerByUuid(uuid);
+//        dbCustomer.setFirstName("Mary");
+//        dbCustomer.setLastName("Jane");
+//        dbCustomer.setBirthDate(LocalDate.parse("1900-01-12"));
+//        dbCustomer.setGender(Gender.valueOf("W"));
 //
-//    assertTrue(retrievedCustomer.isPresent());
-//    assertEquals("Mary", retrievedCustomer.getFirstName());
-//    assertEquals("Jane", retrievedCustomer.getLastName());
-//    assertEquals(gender.valueOf("W"), retrievedCustomer.getGender());
-//  }
+//        _costumerService.updateCustomer(dbCustomer);
 //
-//  @Test
-//  public void testDeleteCustomer()
-//  {
-//    Customer newCustomer = new Customer("Jhon", "Doe", "2000-01-01","M");
-//    UUID uuid = newCustomer.getId();
-//    _costumerService.addNewCustomer(newCustomer);
-//    Optional<Customer> dbCustomer = _costumerService.getCustomerByUuid(uuid)
-//    //Customer dbCustomer = _costumerService.getCustomerByUuid(uuid);
+//        Customer retrievedCustomer = _costumerService.getCustomerByUuid(uuid.toString());
 //
-//    //int id = dbCustomer.getId();
-//    //getId() != getUuid(); 1 trocar nome getId  2 adicionar getUuid ao codigo
-//    _costumerService.deleteCustomer(100);
+//        assertNotNull(retrievedCustomer);
+//        assertEquals("Mary", retrievedCustomer.getFirstName());
+//        assertEquals("Jane", retrievedCustomer.getLastName());
+//        assertEquals(Gender.valueOf("W"), retrievedCustomer.getGender());
 //
-//    Customer retrievedCustomer = _costumerService.getCustomerByUuid(uuid);  //1
-//    //Optional<Customer> retrievedCustomer = _costumerService.getCustomerByUuid(uuid);  //2
-//    assertFalse(retrievedCustomer.isPresent());
-//  }
+//        int Id = retrievedCustomer.getId().orElse(0);
+//        _costumerService.deleteCustomer(Id);
+//    }
 //
-//  @Test
-//  public void testGetCustomer()
-//  {
-//      //adcionar metodo setId() na class Customer
-//      Customer newCustomer = new Customer("John", "Doe", "2000-10-01","M");
-//      //criar setId depois de ter alterado o setId atual para setUUid;
-//      //newCustomer.setId(1);
-//      Optional<Customer> dbCustomer = _costumerService.getCustomer(1);
-//      assertEquals(1, newCustomer.getId());
-//      assertTrue(dbCustomer.isPresent());
-//  }
+//    @Test
+//    public void testDeleteCustomer()
+//    {
+//        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+//        UUID uuid = newCustumer.getUuid();
+//        _costumerService.addNewCustomer(newCustumer);
 //
-//  @Test
-//  public void testGetCustomers()
-//  {      Customer newCustomer1 = new Customer("John", "Doe", "2000-10-01","M");
-//         Customer newCustomer2 = new Customer("John", "Doe", "2000-10-01","M");
+//        Customer dbCustomer;
+//        dbCustomer = _costumerService.getCustomerByUuid(uuid.toString());
+//        int id = dbCustomer.getId().orElse(0);
 //
-//          _costumerService.addNewCustomer(newCustomer1);
-//          _costumerService.addNewCustomer(newCustomer2);
+//        _costumerService.deleteCustomer(id);
 //
-//          List<Customer> customers = _costumerService.getCustomers();
-//          assertEquals(2, customers.size());
-//          assertTrue(customers.contains(newCustomer1));
-//          assertTrue(customers.contains(newCustomer2));
-//  }
+//        Customer retrievedCustomer = _costumerService.getCustomerByUuid(uuid.toString());  //1
+//        //Optional<Customer> retrievedCustomer = _costumerService.getCustomerByUuid(uuid);  //2
+//        assertNull(retrievedCustomer);
+//    }
 //
-//  @Test
-//  public void testGetCustomerByUuid()
-//  {
-//      Customer newCustomer = new Customer("John", "Doe", "2000-10-01","M");
-//      UUID uuid = newCustomer.getId();
-//      _costumerService.addNewCustomer(newCustomer);
-//      //Optional<Customer> retrievedCustomer = _costumerService.getCustomerByUuid(uuid);
-//      Customer retrievedCustomer = _costumerService.getCustomerByUuid(uuid);
-//      assertTrue(retrievedCustomer.isPresent());
-//  }
+//    @Test
+//    public void testGetCustomer()
+//    {
+//        //adcionar metodo setId() na class Customer
+//        Customer newCustomer = new Customer(null,"John", "Doe", "2000-10-01","M");
+//        UUID uuid = newCustomer.getUuid();
 //
+//        _costumerService.addNewCustomer(newCustomer);
+//        Customer dbCustomer = _costumerService.getCustomerByUuid(uuid.toString());
 //
+//        int id = dbCustomer.getId().orElse(0);
+//        dbCustomer = _costumerService.getCustomer(id);
 //
+//        assertNotNull(dbCustomer);
+//        _costumerService.deleteCustomer(id);
+//    }
 //
-//
-//
+//    @AfterEach //close connection
+//    void tearDown() throws SQLException
+//    {
+//        if(_connection != null && !_connection.isClosed())
+//            _connection.close();
+//    }
 //}

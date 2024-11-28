@@ -1,4 +1,5 @@
-//package SmartUtilities.Tests
+//
+//import SmartUtilities.DataBase.Database;
 //
 //import java.io.FileInputStream;
 //import java.io.IOException;
@@ -9,57 +10,54 @@
 //import java.sql.Statement;
 //import java.util.Properties;
 //
-//// import org.junit.jupiter.api.AfterEach;
-//// import org.junit.jupiter.api.BeforeEach;
-//// import org.junit.jupiter.api.Test;
-//// import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api.AfterEach;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import static org.junit.jupiter.api.Assertions.*;
 //
 //class DataBaseTest {
-//  private DataBase _database;
-//  private Connection _connection;
+//    private Database _database;
+//    private Connection _connection;
 //
-//  @BeforeEach
-//  void setUp() throws SQLException //start connection
-//  {
-//    _database = new DataBase(); //forma de usar _database porem sem injetar no construtor DataBaseTest
-//    _connection = DataBase.connect(); //connect eh um metodo static0 e so pode ser chamado pela classe original
-//  }
+//    @BeforeEach
+//    void setUp() throws SQLException //start connection
+//    {
+//        _database = new Database(); //forma de usar _database porem sem injetar no construtor DataBaseTest
+//        _connection = Database.connect();
+//    }
 //
-//  @AfterEach //close connection
-//  void tearDown() throws SQLException
-//  {
-//      if(_connection != null && !_connection.isClosed())
-//        _connection.close();
-//  }
+//    @AfterEach //close connection
+//    void tearDown() throws SQLException
+//    {
+//        if(_connection != null && !_connection.isClosed())
+//            _connection.close();
+//    }
 //
-//  @Test
-//  void testConnectionIsValid()
-//  {
-//      try{
-//        assertNotNull(_connection, "Connection can not be null.");
-//        //check connectionfor 2 sec
-//        assertTrue(_connection.isValid(2));
-//      }
-//      catch (SQLException e){
-//        fail("Error while retrieving connection: " + e.getMessage());
-//      }
-//  }
+//    @Test
+//    void testConnectionIsValid()
+//    {
+//        try{
+//            assertNotNull(_connection, "Connection can not be null.");
+//            //check connectionfor 2 sec
+//            assertTrue(_connection.isValid(2));
+//        }
+//        catch (SQLException e){
+//            fail("Error while retrieving connection: " + e.getMessage());
+//        }
+//    }
 //
-//  @Test
-//  void testExecuteQuery(){
-//     String sql = "SELECT 1"; //basic query to test
+//    @Test
+//    void testExecuteQuery(){
+//        String sql = "SELECT 1"; //basic query to test
 //
-//     try(ResultSet rs = _database.executeQuery(sql)){
-//      assertNotNull(rs,"Result should not be null.");
-//      assertTrue(rs.next(), "Result with at least 1 line.");
-//      assertEquals(1, rs.getInt(1), "Returned value is 1");
-//     }
-//      catch (SQLException e) {
+//        try(ResultSet rs = _database.executeQuery(sql)){
+//            assertNotNull(rs,"Result should not be null.");
+//            assertTrue(rs.next(), "Result with at least 1 line.");
+//            assertEquals(1, rs.getInt(1), "Returned value is 1");
+//        }
+//        catch (SQLException e) {
 //            fail("Error while executing query: " + e.getMessage());
-//      }
-//  }
+//        }
+//    }
 //
-// //nao vamos precisar pq teremos apenas executeQuery
-//  @Test
-//  void testExecuteUpdateQuery{}
 //}
