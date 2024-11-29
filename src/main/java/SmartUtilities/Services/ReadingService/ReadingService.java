@@ -5,7 +5,9 @@ import SmartUtilities.Model.Reading.Reading;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ReadingService implements IReadingService{
 
@@ -31,8 +33,7 @@ public class ReadingService implements IReadingService{
                 reading.getMeterCount() + "', '" +
                 (reading.getSubstitute() ? "1" : "0") + "', '" +
                 reading.getDateOfReading() + "', '" +
-                reading.getId() + "' )";
-
+                reading.getUuid() + "' )";
 
         try (ResultSet rs = this._database.executeQuery(sqlCustomer)){
 
@@ -61,32 +62,163 @@ public class ReadingService implements IReadingService{
                 "WHERE customer_id = '" + reading.getCustomerId() + "'";
 
         try (ResultSet rs = this._database.executeQuery(sqlCustomer)){
-
         } catch (SQLException e) {
             System.out.println("Customer does not exist." + e.getMessage());
         }
-
         try {
             this._database.executeUpdate(sqlReading);
         } catch (SQLException e)
         {
             System.out.println("Error while saving new data." + e.getMessage());
         }
+    }
+
+  @Override
+    public void deleteReading(int userId, String date) {
+        String sqlCustomer = "SELECT * FROM customers WHERE id = '" + userId + "'";
+        String sqlReading = "DELETE FROM data_reading WHERE customer_id = '" +
+        userId + "' AND date_of_reading = '" + date + "'";
+
+        try (ResultSet rs = this._database.executeQuery(sqlCustomer)){
+        } catch (SQLException e) {
+            System.out.println("Customer does not exist." + e.getMessage());
+        }
+
+        try {
+            this._database.executeUpdate(sqlReading);
+        } catch  (SQLException e) {
+            System.out.println("Error while deleting data." + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Reading> getReading(int customerId)
+    {
+        String sqlCustomer = "SELECT * FROM customers WHERE id = '" + customerId + "'";
+        String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId + "'";
+        List<Reading> readingsOfCustomer = new ArrayList<>();
+
+        try (ResultSet rs = this._database.executeQuery(sqlCustomer)){
+        } catch (SQLException e) {
+            System.out.println("Customer does not exist." + e.getMessage());
+        }
+
+        try (ResultSet rs = this._database.executeQuery(sqlReading)) {
+            while (rs.next())
+            {
+                Reading dbReading = new Reading(
+                        rs.getString("kind_of_meter"),
+                        rs.getString("comment"),
+                        rs.getString("meter_id"),
+                        rs.getDouble("meter_count"),
+                        rs.getBoolean("substitute"),
+                        rs.getString("date_of_reading"),
+                        rs.getInt("customer_id")
+                );
+
+                dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
+                readingsOfCustomer.add(dbReading);
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Error while retrieving data." + e.getMessage());
+        }
+        return readingsOfCustomer;
 
     }
 
     @Override
-    public void deleteReading(int customerId) {
+    public Reading getReadingOfCustomer(int customerId, String date) {
 
-    }
+        String sqlCustomer = "SELECT * FROM customers WHERE id = '" + customerId + "'";
+        String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId + "'"
+                + "AND date_of_reading = '" + date + "'";
 
-    @Override
-    public Reading getReading(int customerId) {
+        try (ResultSet rs = this._database.executeQuery(sqlCustomer)){
+        } catch (SQLException e) {
+            System.out.println("Customer does not exist." + e.getMessage());
+        }
+
+        try (ResultSet rs = this._database.executeQuery(sqlReading)) {
+            while (rs.next())
+            {
+                Reading dbReading = new Reading(
+                        rs.getString("kind_of_meter"),
+                        rs.getString("comment"),
+                        rs.getString("meter_id"),
+                        rs.getDouble("meter_count"),
+                        rs.getBoolean("substitute"),
+                        rs.getString("date_of_reading"),
+                        rs.getInt("customer_id")
+                );
+
+                dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
+                return dbReading;
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Error while retrieving data." + e.getMessage());
+        }
         return null;
+
     }
 
     @Override
-    public List<Reading> gerReadings() {
-        return List.of();
+    public Reading getReadingByUuid(String uuid)
+    {
+        String sqlReading = "SELECT * FROM data_reading WHERE uui_id = '" + uuid + "'";
+
+        try (ResultSet rs = this._database.executeQuery(sqlReading)) {
+            while (rs.next())
+            {
+                Reading dbReading = new Reading(
+                        rs.getString("kind_of_meter"),
+                        rs.getString("comment"),
+                        rs.getString("meter_id"),
+                        rs.getDouble("meter_count"),
+                        rs.getBoolean("substitute"),
+                        rs.getString("date_of_reading"),
+                        rs.getInt("customer_id")
+                );
+
+                dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
+                return dbReading;
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Error while retrieving data." + e.getMessage());
+        }
+        return null;
+
+    }
+
+
+    @Override
+    public List<Reading> getReadings() {
+         String sqlReading = "SELECT * FROM data_reading";
+         List<Reading> readings = new ArrayList<>();
+
+         try(ResultSet rs = this._database.executeQuery(sqlReading); ){
+             while (rs.next())
+             {
+                 Reading dbReading = new Reading(
+                         rs.getString("kind_of_meter"),
+                         rs.getString("comment"),
+                         rs.getString("meter_id"),
+                         rs.getDouble("meter_count"),
+                         rs.getBoolean("substitute"),
+                         rs.getString("date_of_reading"),
+                         rs.getInt("customer_id")
+                 );
+
+                 dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
+                 readings.add(dbReading);
+             }
+         }
+            catch (SQLException e){
+            System.out.println("Error while retrieving data." + e.getMessage());
+        }
+        return readings;
+
     }
 }
