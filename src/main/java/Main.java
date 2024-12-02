@@ -25,8 +25,8 @@ public class Main {
 //          Customer newCustomer = new Customer(null,"John", "Doe", "2000-10-01","M");
 //          service.addNewCustomer(newCustomer);
 
-        //Customer newCustomer = new Customer(null,"test", "Maia", "2001-10-10", "W");
-        //service.addTestCustomer(newCustomer);
+//        Customer newCustomer = new Customer(null,"test", "Maia", "2001-10-10", "W");
+//        service.addNewCustomer(newCustomer);
 
         //udpate
 
@@ -34,16 +34,16 @@ public class Main {
         //service.updateCustomer(updatedCustomer);
 
         //delete
-        //service.deleteCustomer(30);
+        service.deleteCustomer(75);
 
         //getCustomerByUuid
-        Customer customerByUuid = service.getCustomerByUuid("499e4cb1-4f0f-4376-b0b7-b5d6a1879134");
-        System.out.println("Customer: " + "\n" +
-                    "First Name: " + customerByUuid.getFirstName() + "\n" +
-                    "Last Name: " + customerByUuid.getLastName() + "\n" +
-                    "Birthdate: " + customerByUuid.getBirthDate() + "\n" +
-                    "Gender: " + customerByUuid.getGender() + "\n" +
-                    "Uuid: " + customerByUuid.getUuid());
+//        Customer customerByUuid = service.getCustomerByUuid("499e4cb1-4f0f-4376-b0b7-b5d6a1879134");
+//        System.out.println("Customer: " + "\n" +
+//                    "First Name: " + customerByUuid.getFirstName() + "\n" +
+//                    "Last Name: " + customerByUuid.getLastName() + "\n" +
+//                    "Birthdate: " + customerByUuid.getBirthDate() + "\n" +
+//                    "Gender: " + customerByUuid.getGender() + "\n" +
+//                    "Uuid: " + customerByUuid.getUuid());
 
         //PQ aqui eu preciso usar getFirstName e nao posso usar direto customer.firstName
         //getCustomer id
@@ -70,10 +70,10 @@ public class Main {
             ReadingService readingService = new ReadingService(database);
 
             //Create Reading
-            //Reading reading = new Reading("STROM", "cheking eletricity", "E1000", 81.25, false, "2024-10-15", 1);
-            //readingService.addNewReading(reading);
+//            Reading reading = new Reading("STROM", "cheking eletricity", "E1000", 81.25, false, "2024-10-15", 75);
+//            readingService.addNewReading(reading);
 
-//            Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 35);
+//            Reading newReading = new Reading("HEIZUNG", "new checking gas", "T1100", 311.0, true, "2000-01-01", 74);
 //            readingService.addNewReading(newReading);
 
             //Update reading
@@ -82,7 +82,7 @@ public class Main {
             //readingService.updateNewReading(updatedReading);
 
             //delete reading
-            //readingService.deleteReading(24, "1990-01-12");
+            //readingService.deleteReading(73, "2001-01-01");
 
             //getReading
 //            List<Reading> readingList = readingService.getReading(2);

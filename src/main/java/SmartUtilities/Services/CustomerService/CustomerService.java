@@ -61,11 +61,19 @@ public class CustomerService implements ICustomerService{
     @Override
     public void deleteCustomer(int id) {
         String sql = "DELETE from customers WHERE id = '" + id + "'";
+        String sqlReading = "UPDATE data_reading SET customer_id = NULL WHERE customer_id = '" + id + "'";
+
+        //first execute sqlReading because data_reading depends on customers
+        try {
+            this._database.executeUpdate(sqlReading);
+        } catch (SQLException e) {
+            System.out.println("Error while deleting customer: " + e.getMessage());
+        }
 
         try {
             this._database.executeUpdate(sql);
         } catch (SQLException e) {
-            System.out.println("Error while deleting customer: " + e.getMessage());
+            System.out.println("Error while deleting reading: " + e.getMessage());
         }
     }
 
