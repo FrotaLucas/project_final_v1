@@ -40,7 +40,13 @@ public class CustomerController {
 
     }
 
-
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCustomers()
+    {
+        List<Customer> customers = customerService.getCustomers();
+        return Response.ok(customers).build();
+    }
 
 
 
