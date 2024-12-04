@@ -41,13 +41,44 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Mockito Dependency -->
+        <!-- Mockito Dependency DONT NEED THAT-->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>5.11.0</version> <!-- Use the latest version available -->
             <scope>test</scope>
         </dependency>
+
+        <!-- Jersey Dependency-->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-jdk-http</artifactId>
+            <version>3.1.7</version>
+        </dependency>
+        <!-- Maybe i dont need this dependecy -->
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>3.1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>3.1.7</version>
+        </dependency>
+        <!-- jersey-server enable server to handle all routes and HTTP Methods-->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>3.1.7</version>
+        </dependency>
+        <!-- Jakarta dependency enable the notations @Path, @Get-->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <!-- plug in to  run mvn exec:java -->
