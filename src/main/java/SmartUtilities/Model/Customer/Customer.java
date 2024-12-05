@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import SmartUtilities.Enums.Gender;
 import SmartUtilities.Shared.IID;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Optional;
 
@@ -23,7 +25,10 @@ public class Customer implements ICustomer, IID {
     private Gender gender;
 
     // Constructor
-    public Customer(Integer Id, String firstName, String lastName, String birthDate, String gender) {
+    @JsonCreator
+    public Customer(Integer Id, @JsonProperty("firstName") String firstName,
+                    @JsonProperty("lastName") String lastName, @JsonProperty("birthDate") String birthDate,
+                    @JsonProperty("gender") String gender) {
         this.Id = Optional.ofNullable(Id);
         this.uuid = UUID.randomUUID();
         this.firstName = firstName;

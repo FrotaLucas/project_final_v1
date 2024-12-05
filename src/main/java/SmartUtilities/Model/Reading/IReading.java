@@ -39,5 +39,7 @@ public interface IReading {
 
     void setDateOfReading(String dateOfReading);
 
+    void setCustomerId(int Id);
+
     String printDateOfReading();
 }

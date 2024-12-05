@@ -1,5 +1,7 @@
 package SmartUtilities.DataBase;
 
+import jakarta.inject.Singleton;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+@Singleton
 public class Database {
 
     private static String DB_URL;
@@ -37,9 +40,13 @@ public class Database {
         }
     }
 
-
-    public Database() throws SQLException{
-        this._connection = connect();
+    //Constructor
+    public Database(){
+        try {
+            this._connection = connect();
+        }catch (SQLException e){
+            System.out.println("Database connection error: " + e.getMessage());
+        }
     }
 
     // Static Method can also be called from class Database

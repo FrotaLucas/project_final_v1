@@ -2,8 +2,8 @@ package SmartUtilities.Services.CustomerService;
 
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
+import jakarta.inject.Singleton;
 
-import java.io.Console;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Singleton
 public class CustomerService implements ICustomerService{
 
     private Database _database;
@@ -34,7 +35,6 @@ public class CustomerService implements ICustomerService{
         {
             System.out.println("Error while adding new customer: " + e.getMessage());
         }
-
     }
 
     @Override

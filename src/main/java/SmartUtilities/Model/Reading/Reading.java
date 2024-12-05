@@ -126,6 +126,9 @@ public class Reading implements IReading, IID {
     }
 
     @Override
+    public void setCustomerId(int id) {this.customerId = id;}
+
+    @Override
     public String printDateOfReading() {
         return "";
     }

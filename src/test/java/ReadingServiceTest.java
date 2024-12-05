@@ -3,6 +3,7 @@ import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;
 import SmartUtilities.Enums.KindOfMeter;
 import SmartUtilities.Services.CustomerService.CustomerService;
+import SmartUtilities.Services.CustomerService.ICustomerService;
 import SmartUtilities.Services.ReadingService.ReadingService;
 
 import java.sql.Connection;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*; // For static assertions like 
 public class ReadingServiceTest {
 
     private ReadingService _readingService;
+    private ICustomerService _customerService;
     private Database _database;
     private Connection _connection;
 
@@ -29,7 +31,7 @@ public class ReadingServiceTest {
     {
         _database = new Database();
         _connection = Database.connect();
-        _readingService = new ReadingService(_database);
+        _readingService = new ReadingService(_database, _customerService);
     }
 
     @Test
