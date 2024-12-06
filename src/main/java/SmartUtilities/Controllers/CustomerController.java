@@ -25,12 +25,12 @@ import java.util.List;
 @Path("customers")
 public class CustomerController {
 
-    //opcao 1
+    //option 1
     private Database database = new Database();
     private CustomerService customerService = new CustomerService(database);
 
 
-    //opcao 2
+    //option 2
 //    private final ICustomerService customerService;
 //
 //    @Inject

@@ -1,16 +1,11 @@
 
 import SmartUtilities.DataBase.Database;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
 
- import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterEach;
  import org.junit.jupiter.api.BeforeEach;
  import org.junit.jupiter.api.Test;
  import static org.junit.jupiter.api.Assertions.*;
@@ -50,7 +45,7 @@ class DataBaseTest {
   void testExecuteQuery(){
      String sql = "SELECT 1"; //basic query to test
 
-     try(ResultSet rs = _database.executeQuery(sql)){
+     try(ResultSet rs = _database.queryWithReturn(sql)){
       assertNotNull(rs,"Result should not be null.");
       assertTrue(rs.next(), "Result with at least 1 line.");
       assertEquals(1, rs.getInt(1), "Returned value is 1");

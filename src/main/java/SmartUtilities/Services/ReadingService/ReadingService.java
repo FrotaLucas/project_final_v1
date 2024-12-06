@@ -7,7 +7,6 @@ import SmartUtilities.Services.CustomerService.ICustomerService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class ReadingService implements IReadingService {
         //String sqlCustomer = "SELECT * FROM customers WHERE id = '" + reading.getCustomerId() + "'";
         int customerId = reading.getCustomerId();
 
-        if (customerId == 0 ) {
+        if (customerId == 0) {
             System.out.println("value of customerId:" + customerId);
             Customer newCustomer = new Customer(null, "x", "x", "1900-01-01", "M");
             //Customer newCustomer = new Customer(null, "Marius", "Lehel", "1995-03-20", "M");
@@ -52,11 +51,7 @@ public class ReadingService implements IReadingService {
                 reading.getDateOfReading() + "', '" +
                 reading.getUuid() + "' )";
 
-        try {
-            this._database.executeUpdate(sqlReading);
-        } catch (SQLException e) {
-            System.out.println("Error while saving new data." + e.getMessage());
-        }
+        this._database.queryWithoutReturn(sqlReading);
 
     }
 
@@ -71,15 +66,10 @@ public class ReadingService implements IReadingService {
                 "date_of_reading = '" + reading.getDateOfReading() + "' " +
                 "WHERE customer_id = '" + reading.getCustomerId() + "'";
 
-        try (ResultSet rs = this._database.executeQuery(sqlCustomer)) {
-        } catch (SQLException e) {
-            System.out.println("Customer does not exist." + e.getMessage());
-        }
-        try {
-            this._database.executeUpdate(sqlReading);
-        } catch (SQLException e) {
-            System.out.println("Error while saving new data." + e.getMessage());
-        }
+        //testar se exister customer
+        ResultSet rs = this._database.queryWithReturn(sqlCustomer);
+        this._database.queryWithoutReturn(sqlReading);
+
     }
 
     @Override
@@ -88,16 +78,12 @@ public class ReadingService implements IReadingService {
         String sqlReading = "DELETE FROM data_reading WHERE customer_id = '" +
                 userId + "' AND date_of_reading = '" + date + "'";
 
-        try (ResultSet rs = this._database.executeQuery(sqlCustomer)) {
+        try (ResultSet rs = this._database.queryWithReturn(sqlCustomer)) {
         } catch (SQLException e) {
             System.out.println("Customer does not exist." + e.getMessage());
         }
+        this._database.queryWithoutReturn(sqlReading);
 
-        try {
-            this._database.executeUpdate(sqlReading);
-        } catch (SQLException e) {
-            System.out.println("Error while deleting data." + e.getMessage());
-        }
     }
 
     @Override
@@ -106,12 +92,12 @@ public class ReadingService implements IReadingService {
         String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId + "'";
         List<Reading> readingsOfCustomer = new ArrayList<>();
 
-        try (ResultSet rs = this._database.executeQuery(sqlCustomer)) {
+        try (ResultSet rs = this._database.queryWithReturn(sqlCustomer)) {
         } catch (SQLException e) {
             System.out.println("Customer does not exist." + e.getMessage());
         }
 
-        try (ResultSet rs = this._database.executeQuery(sqlReading)) {
+        try (ResultSet rs = this._database.queryWithReturn(sqlReading)) {
             while (rs.next()) {
                 Reading dbReading = new Reading(
                         rs.getString("kind_of_meter"),
@@ -140,12 +126,12 @@ public class ReadingService implements IReadingService {
         String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId + "'"
                 + "AND date_of_reading = '" + date + "'";
 
-        try (ResultSet rs = this._database.executeQuery(sqlCustomer)) {
+        try (ResultSet rs = this._database.queryWithReturn(sqlCustomer)) {
         } catch (SQLException e) {
             System.out.println("Customer does not exist." + e.getMessage());
         }
 
-        try (ResultSet rs = this._database.executeQuery(sqlReading)) {
+        try (ResultSet rs = this._database.queryWithReturn(sqlReading)) {
             while (rs.next()) {
                 Reading dbReading = new Reading(
                         rs.getString("kind_of_meter"),
@@ -171,7 +157,7 @@ public class ReadingService implements IReadingService {
     public Reading getReadingByUuid(String uuid) {
         String sqlReading = "SELECT * FROM data_reading WHERE uui_id = '" + uuid + "'";
 
-        try (ResultSet rs = this._database.executeQuery(sqlReading)) {
+        try (ResultSet rs = this._database.queryWithReturn(sqlReading)) {
             while (rs.next()) {
                 Reading dbReading = new Reading(
                         rs.getString("kind_of_meter"),
@@ -199,7 +185,7 @@ public class ReadingService implements IReadingService {
         String sqlReading = "SELECT * FROM data_reading";
         List<Reading> readings = new ArrayList<>();
 
-        try (ResultSet rs = this._database.executeQuery(sqlReading);) {
+        try (ResultSet rs = this._database.queryWithReturn(sqlReading);) {
             while (rs.next()) {
                 Reading dbReading = new Reading(
                         rs.getString("kind_of_meter"),
