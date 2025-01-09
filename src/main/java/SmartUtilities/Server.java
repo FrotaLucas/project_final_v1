@@ -8,7 +8,7 @@ import org.glassfish.jersey.server.wadl.WadlFeature;
 
 import java.net.URI;
 
-//@ApplicationPath("/api")
+// @ApplicationPath("/api")
 public class Server {
 
     private static HttpServer server;

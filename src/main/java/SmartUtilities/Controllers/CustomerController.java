@@ -22,7 +22,7 @@ import java.util.List;
 //import javax.ws.rs.core.MediaType;
 //import javax.ws.rs.core.Response;
 
-@Path("customers")
+@Path("api/customers")
 public class CustomerController {
 
     //option 1
@@ -46,21 +46,76 @@ public class CustomerController {
         //corrigir metod customerService para boleano
         //if(customer == null || !customerService.addNewCustomer(customer))
         if(customer == null)
-            return Response.status(Response.Status.BAD_REQUEST).entity(customer).build();
+            {return Response.status(Response.Status.BAD_REQUEST)
+                .entity("No customer to add.")
+                .build();
+            }
+        
         customerService.addNewCustomer(customer);
         return Response.status(Response.Status.CREATED).entity(customer).build();
 
     }
 
-    //@Path("api")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomers()
     {
         List<Customer> customers = customerService.getCustomers();
-        return Response.ok(customers).build();
+        if(customers != null)
+        {
+            return Response.ok(customers).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND)
+        .entity("Customers not found")
+        .build();
+
     }
 
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCustomer(@PathParam("id") String id)
+    {
+        if (id == null)
+        {
+            return Response.status(Response.Status.NOT_FOUND)
+            .entity("customer with id null.")
+            .build();
+        }
+
+        Customer dbCustomer = customerService.getCustomerByUuid(id);
+        if ( dbCustomer != null)
+        {
+            return Response.ok(dbCustomer).build();
+
+        }
+
+        return Response.status(Response.Status.NOT_FOUND)
+            .entity("customer with id" + id + " not found.")
+            .build();
+    }
+
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteCustomer(@PathParam("id") String id)
+    {
+        if (id == null)
+         {
+            return Response.status(Response.Status.BAD_REQUEST)
+                .entity("Id cannont be null")
+                .build(); }
+            
+        boolean isDeleted = customerService.deleteCustomering(id);
+        if( !isDeleted)
+        {
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("Customer with Id" + id + "not found")
+                .build();
+             
+        }
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
 
 
 }

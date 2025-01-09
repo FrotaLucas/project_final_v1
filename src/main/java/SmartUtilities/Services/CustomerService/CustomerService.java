@@ -4,6 +4,7 @@ import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import jakarta.inject.Singleton;
 
+import java.io.Console;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,26 @@ public class CustomerService implements ICustomerService {
 
         this._database.queryWithoutReturn(sqlReading);
         this._database.queryWithoutReturn(sql);
+    }
+
+   
+    public boolean deleteCustomering(String Uuid) {
+
+        Customer dbCustomer = getCustomerByUuid(Uuid);
+        //Optional<Integer> id = customer.getId();
+        int id = dbCustomer.getId().orElse(0);
+        System.out.println(id);
+        
+        if(id != 0)
+        {
+            String sqlReading = "UPDATE data_reading SET customer_id = NULL WHERE customer_id = '" + id + "'";
+            String sql = "DELETE from customers WHERE id = '" + id + "'";
+        
+            this._database.queryWithoutReturn(sqlReading);
+            this._database.queryWithoutReturn(sql);
+            return true;
+        }
+        return false;
     }
 
     @Override
