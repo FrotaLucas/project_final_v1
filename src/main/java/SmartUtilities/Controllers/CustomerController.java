@@ -1,6 +1,7 @@
 package SmartUtilities.Controllers;
 
 import SmartUtilities.Services.CustomerService.ICustomerService;
+import SmartUtilities.Shared.ServiceResponse;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -74,25 +75,29 @@ public class CustomerController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCustomer(@PathParam("id") String id)
-    {
-        if (id == null)
-        {
+    public Response getCustomer(@PathParam("id") String id) {
+        if (id == null) {
             return Response.status(Response.Status.NOT_FOUND)
-            .entity("customer with id null.")
-            .build();
+                    .entity("Customer with id null.")
+                    .build();
         }
-
+    
         Customer dbCustomer = customerService.getCustomerByUuid(id);
-        if ( dbCustomer != null)
-        {
-            return Response.ok(dbCustomer).build();
-
+    
+        if (dbCustomer != null) {
+            // Instanciando a classe ServiceResponse com Customer como tipo genérico
+            ServiceResponse<Customer> serviceResponse = new ServiceResponse<> (
+                    "Customer",
+                    dbCustomer.getClass().getName(),
+                    dbCustomer
+            );
+    
+            return Response.ok(serviceResponse).build();
         }
-
+    
         return Response.status(Response.Status.NOT_FOUND)
-            .entity("customer with id" + id + " not found.")
-            .build();
+                .entity("Customer with id " + id + " not found.")
+                .build();
     }
 
 
