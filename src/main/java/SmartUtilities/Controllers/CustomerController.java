@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 //import javax.ws.rs.*;
 //import javax.ws.rs.core.MediaType;
@@ -85,11 +87,24 @@ public class CustomerController {
         Customer dbCustomer = customerService.getCustomerByUuid(id);
     
         if (dbCustomer != null) {
-            // Instanciando a classe ServiceResponse com Customer como tipo genérico
+            Map<String, Object> dbCustomerProperties = new LinkedHashMap<>();
+            dbCustomerProperties.put("id", dbCustomer.getId());
+            dbCustomerProperties.put("firstName", dbCustomer.getFirstName());
+            dbCustomerProperties.put("lastName", dbCustomer.getLastName());
+            dbCustomerProperties.put("birthDay", dbCustomer.getBirthDate());
+            dbCustomerProperties.put("gender", dbCustomer.getGender());
+
+            Map<String, Object> serviceResponseProperties = Map
+            .of("customer", Map
+                .of("type", "object",
+                "required", List.of("firstName","lastName","gender"),
+                "properties",dbCustomerProperties));
+
             ServiceResponse<Customer> serviceResponse = new ServiceResponse<> (
-                    "Customer",
-                    dbCustomer.getClass().getName(),
-                    dbCustomer
+                    "Customer-JSON-Schema",
+                    "object",
+                    "customer",
+                    serviceResponseProperties
             );
     
             return Response.ok(serviceResponse).build();
