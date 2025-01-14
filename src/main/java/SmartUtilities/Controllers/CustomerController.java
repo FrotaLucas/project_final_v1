@@ -44,7 +44,7 @@ public class CustomerController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON) //INVESTIGAR SE POST METHOD PRECISA DEVOLVER JSON DE CUSTOMER
     public Response addCustomer(Customer customer) {
         // corrigir metod customerService para boleano
         // if(customer == null || !customerService.addNewCustomer(customer))
@@ -53,9 +53,27 @@ public class CustomerController {
                     .entity("No customer to add.")
                     .build();
         }
+        Map<String, Object> customerProperties = new LinkedHashMap<>();
+        customerProperties.put("id", customer.getId());
+        customerProperties.put("firstName", customer.getFirstName());
+        customerProperties.put("lastName", customer.getLastName());
+        customerProperties.put("birthDay", customer.getBirthDate());
+        customerProperties.put("gender", customer.getGender());
+
+        Map<String, Object> serviceResponseProperties = Map
+                .of("customer", Map
+                        .of("type", "object",
+                                "required", List.of("firstName", "lastName", "gender"),
+                                "properties", customerProperties));
+
+        ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
+                "Customer-JSON-Schema",
+                "object",
+                "customer",
+                serviceResponseProperties);
 
         customerService.addNewCustomer(customer);
-        return Response.status(Response.Status.CREATED).entity(customer).build();
+        return Response.status(Response.Status.CREATED).entity(serviceResponse).build();
 
     }
 
@@ -88,6 +106,7 @@ public class CustomerController {
              Map<String, Object> serviceResponseProperties = Map
                 .of("customers", customerItems);
 
+            //nao deveria retornar Map<String, Object> ??
             ServiceResponse<List<Customer>> serviceResponse = new ServiceResponse<>(
                 "Customers-JSON-Schema",
                 "object",
@@ -111,21 +130,21 @@ public class CustomerController {
                     .build();
         }
 
-        Customer dbCustomer = customerService.getCustomerByUuid(id);
+        Customer customer = customerService.getCustomerByUuid(id);
 
-        if (dbCustomer != null) {
-            Map<String, Object> dbCustomerProperties = new LinkedHashMap<>();
-            dbCustomerProperties.put("id", dbCustomer.getId());
-            dbCustomerProperties.put("firstName", dbCustomer.getFirstName());
-            dbCustomerProperties.put("lastName", dbCustomer.getLastName());
-            dbCustomerProperties.put("birthDay", dbCustomer.getBirthDate());
-            dbCustomerProperties.put("gender", dbCustomer.getGender());
+        if (customer != null) {
+            Map<String, Object> customerProperties = new LinkedHashMap<>();
+            customerProperties.put("id", customer.getId());
+            customerProperties.put("firstName", customer.getFirstName());
+            customerProperties.put("lastName", customer.getLastName());
+            customerProperties.put("birthDay", customer.getBirthDate());
+            customerProperties.put("gender", customer.getGender());
 
             Map<String, Object> serviceResponseProperties = Map
                     .of("customer", Map
                             .of("type", "object",
                                     "required", List.of("firstName", "lastName", "gender"),
-                                    "properties", dbCustomerProperties));
+                                    "properties", customerProperties));
 
             ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                     "Customer-JSON-Schema",

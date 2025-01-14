@@ -1,22 +1,24 @@
 package SmartUtilities.Shared;
 
+import java.util.List;
+import java.util.Map;
+
 public class ServiceResponse<T> {
     
     private String title;
 
     private String type;
 
-    private T required;
+    private String required; //PRECISA SER UM ARRAY DE STRING!! OLHAR JSON modelo
 
-    
-    public ServiceResponse() {
-    }
+    private Map<String, Object> properties;
 
-    public ServiceResponse(String title, String type, T required)
+    public ServiceResponse(String title, String type, String required, Map<String, Object> properties)
     {
         this.title = title;
         this.type = type;
         this.required = required;
+        this.properties = properties;
     }
 
     public String getTitle()
@@ -29,9 +31,14 @@ public class ServiceResponse<T> {
         return this.type;
     }
 
-    public T getRequired()
+    public String getRequired()
     {
         return this.required;
+    }
+
+    public Map<String, Object> getProperties()
+    {
+        return this.properties;
     }
 
     public void setTitle( String title)
@@ -44,8 +51,13 @@ public class ServiceResponse<T> {
         this.type = type;
     }
 
-    public void setRequired(T required)
+    public void setRequired(String required)
     {
         this.required = required;
+    }
+
+    public void setProperties(Map<String, Object> properties)
+    {
+        this.properties = properties;
     }
 }
