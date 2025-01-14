@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.ObjectName;
+
 //import javax.ws.rs.*;
 //import javax.ws.rs.core.MediaType;
 //import javax.ws.rs.core.Response;
@@ -60,14 +62,43 @@ public class CustomerController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomers() {
-        List<Customer> customers = customerService.getCustomers();
-        if (customers != null) {
-            return Response.ok(customers).build();
+        List<Customer> dbCustomers = customerService.getCustomers();
+        if (dbCustomers != null) {
+
+            List<Map<String, Object>> dbCustomerListProperties = new ArrayList<>();
+
+            for (Customer customer : dbCustomers) {
+                Map<String, Object> customerProperties = new LinkedHashMap<>();
+
+                    customerProperties.put("id", customer.getId());
+                    customerProperties.put("firstName", customer.getFirstName());
+                    customerProperties.put("lastName",customer.getLastName());
+                    customerProperties.put("birthDate", customer.getBirthDate());
+                    customerProperties.put("gender", customer.getGender());
+
+                dbCustomerListProperties.add(customerProperties);
+            }
+
+             Map<String, Object> customerItems = new LinkedHashMap<>();
+             customerItems.put("type","array");
+             customerItems.put("items", Map.of("type","object",
+                                                    "required",List.of("id","firstName","lastName","gender"),
+                                                    "properties",dbCustomerListProperties));
+
+             Map<String, Object> serviceResponseProperties = Map
+                .of("customers", customerItems);
+
+            ServiceResponse<List<Customer>> serviceResponse = new ServiceResponse<>(
+                "Customers-JSON-Schema",
+                "object",
+                "customers", 
+                serviceResponseProperties);
+
+            return Response.ok(serviceResponse).build();
         }
         return Response.status(Response.Status.NOT_FOUND)
                 .entity("Customers not found")
                 .build();
-
     }
 
     @GET
