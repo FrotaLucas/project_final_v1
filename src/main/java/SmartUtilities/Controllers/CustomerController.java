@@ -1,37 +1,24 @@
 package SmartUtilities.Controllers;
 
-import SmartUtilities.Services.CustomerService.ICustomerService;
 import SmartUtilities.Shared.ServiceResponse;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Services.CustomerService.CustomerService;
-import org.glassfish.jersey.internal.inject.Custom;
 
-import java.io.IOException;
-
-import java.io.Reader;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.ObjectName;
-
-//import javax.ws.rs.*;
-//import javax.ws.rs.core.MediaType;
-//import javax.ws.rs.core.Response;
-
 @Path("api/customers")
 public class CustomerController {
 
     // option 1
-    private Database database = new Database();
-    private CustomerService customerService = new CustomerService(database);
+    private Database _database = new Database();
+    private CustomerService _customerService = new CustomerService(_database);
 
     // option 2
     // private final ICustomerService customerService;
@@ -72,22 +59,22 @@ public class CustomerController {
                 "customer",
                 serviceResponseProperties);
 
-        customerService.addNewCustomer(customer);
+                _customerService.addNewCustomer(customer);
         return Response.status(Response.Status.CREATED).entity(serviceResponse).build();
 
     }
 
-    @GET
+    @GET //PQ id do customer esta vindo sempre nulo ?
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomers() {
-        List<Customer> dbCustomers = customerService.getCustomers();
+        List<Customer> dbCustomers = _customerService.getCustomers();
         if (dbCustomers != null) {
 
             List<Map<String, Object>> dbCustomerListProperties = new ArrayList<>();
 
             for (Customer customer : dbCustomers) {
                 Map<String, Object> customerProperties = new LinkedHashMap<>();
-
+                    
                     customerProperties.put("id", customer.getId());
                     customerProperties.put("firstName", customer.getFirstName());
                     customerProperties.put("lastName",customer.getLastName());
@@ -120,17 +107,17 @@ public class CustomerController {
                 .build();
     }
 
-    @GET
-    @Path("/{id}")
+    @GET //PQ id do customer esta vindo sempre nulo ?
+    @Path("/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCustomer(@PathParam("id") String id) {
-        if (id == null) {
+    public Response getCustomer(@PathParam("uuid") String uuid) {
+        if (uuid == null) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Customer with id null.")
                     .build();
         }
 
-        Customer customer = customerService.getCustomerByUuid(id);
+        Customer customer = _customerService.getCustomerByUuid(uuid);
 
         if (customer != null) {
             Map<String, Object> customerProperties = new LinkedHashMap<>();
@@ -156,27 +143,32 @@ public class CustomerController {
         }
 
         return Response.status(Response.Status.NOT_FOUND)
-                .entity("Customer with id " + id + " not found.")
+                .entity("Customer with id " + uuid + " not found.")
                 .build();
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response deleteCustomer(@PathParam("id") String id) {
-        if (id == null) {
+    @Path("/{uuid}")
+    public Response deleteCustomer(@PathParam("uuid") String uuid) {
+        if (uuid == null) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Id cannont be null")
                     .build();
         }
 
-        boolean isDeleted = customerService.deleteCustomering(id);
+        boolean isDeleted = _customerService.deleteCustomering(uuid);
         if (!isDeleted) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Customer with Id" + id + "not found")
+                    .entity("Customer with Id" + uuid + "not found")
                     .build();
 
         }
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
+    @PUT
+    public Response updateCustomer(Customer customer)
+    {
+        return null;
+    }
 }
