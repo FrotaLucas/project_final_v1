@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Reading implements IReading, IID {
 
     private Customer customer;
@@ -28,7 +31,11 @@ public class Reading implements IReading, IID {
 
     private UUID uuid;
 
-    public Reading(String k, String comment, String meterId, Double meterCount, boolean substitute, String date, int customerId){
+    @JsonCreator // APAGAR JSonProperty customerId pq ele nao deve ser retornado!!!
+    public Reading(@JsonProperty("kindOfMeter") String k, @JsonProperty("comment") String comment, 
+    @JsonProperty("meterId") String meterId, @JsonProperty("meterCount") Double meterCount,
+    @JsonProperty("substitute") boolean substitute,@JsonProperty("date") String date, 
+    int customerId) {
         this.kindOfMeter = KindOfMeter.valueOf(k);
         this.comment = comment;
         this.meterId = meterId;
