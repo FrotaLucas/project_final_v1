@@ -26,14 +26,15 @@ public class ReadingService implements IReadingService {
         //String sqlCustomer = "SELECT * FROM customers WHERE id = '" + reading.getCustomerId() + "'";
         int customerId = reading.getCustomerId();
 
+        //Completar metodo com O ou null
         if (customerId == 0) {
             System.out.println("value of customerId:" + customerId);
             Customer newCustomer = new Customer(null, "x", "x", "1900-01-01", "M");
             //Customer newCustomer = new Customer(null, "Marius", "Lehel", "1995-03-20", "M");
             UUID uuid = newCustomer.getUuid();
             customerService.addNewCustomer(newCustomer);
-            Customer dbCustomer = customerService.getCustomerByUuid(uuid.toString());
-            customerId = dbCustomer.getId().orElse(0);
+            Customer retrievedCustomer = customerService.getCustomerByUuid(uuid.toString());
+            customerId = retrievedCustomer.getId().orElse(0);
             reading.setCustomerId(customerId);
         }
 
