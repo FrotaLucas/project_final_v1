@@ -45,6 +45,7 @@ public class CustomerService implements ICustomerService {
         this._database.queryWithoutReturn(sql);
     }
 
+    //substituir deleCustomer por deleteCustomering
     @Override
     public void deleteCustomer(int id) {
         String sqlReading = "UPDATE data_reading SET customer_id = NULL WHERE customer_id = '" + id + "'";
@@ -99,7 +100,8 @@ public class CustomerService implements ICustomerService {
 
         try (ResultSet rs = this._database.queryWithReturn(sql)) {
             while (rs.next()) {
-                Customer dbCustomer = new Customer(null, rs.getString("first_name"),
+
+                Customer dbCustomer = new Customer(rs.getInt("Id"), rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("birthDate"),
                         rs.getString("gender"));
