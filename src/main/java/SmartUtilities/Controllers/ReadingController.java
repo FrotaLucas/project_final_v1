@@ -18,7 +18,7 @@ import SmartUtilities.Shared.ServiceResponse;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -37,13 +37,14 @@ public class ReadingController {
     public Response addReading(Reading reading)
     {
         if (reading == null)
-            return Response.status(Status.Response.BAD_REQUEST)
-                .entity("No customer data provided to save ");
+            return Response.status(Response.Status.BAD_REQUEST)
+                .entity("No customer data provided to save ")
+                .build();
 
-        boolean successAdd = _readingService.addReading(reading);
+        boolean successAdd = _readingService.addNewReading(reading);
         if(successAdd)
         {
-            Customer customer = _customerService.getCustomer(reading.getId());
+            Customer customer = _customerService.getCustomer(reading.getCustomerId());
             Map<String, Object> customerProperties = new LinkedHashMap<>();
             customerProperties.put("uuid", customer.getUuid());
             customerProperties.put("firstName", customer.getFirstName());
@@ -85,7 +86,7 @@ public class ReadingController {
         }
         
          return Response.status(Response.Status.BAD_REQUEST)
-            .entity("Error while saving customer on database").buid();   
+            .entity("Error while saving customer on database").build();   
       
     }
 
@@ -191,14 +192,14 @@ public class ReadingController {
     public Response deleteReadingByUuid(@PathParam("uuid") String uuid)
     {
         if(uuid == null || uuid == " ")
-            return Response.status(Response.NOT_FOUND)
+            return Response.status(Response.Status.NOT_FOUND)
                 .entity("ID Reading not found.")
-                .buid();
+                .build();
 
         Reading reading = _readingService.getReadingByUuid(uuid);
         int idCustomer = reading.getCustomerId();
         if(idCustomer == 0)
-            return Response.status(Response.NOT_FOUND)
+            return Response.status(Response.Status.NOT_FOUND)
                 .entity("ID Customer not found.")
                 .build();
         
@@ -271,9 +272,9 @@ public class ReadingController {
         boolean updateSuccess = _readingService.updateNewReading(reading);
         if ( updateSuccess)
         {
-            return Response.status(Response.Status.Ok)
+            return Response.status(Response.Status.OK)
                 .entity("Successfull update")
-                .buid();
+                .build();
         }
         else
             return Response.status(Response.Status.BAD_REQUEST)

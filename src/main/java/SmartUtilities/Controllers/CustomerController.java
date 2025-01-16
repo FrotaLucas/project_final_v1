@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Path("api/customers")
 public class CustomerController {
@@ -60,12 +61,12 @@ public class CustomerController {
                 serviceResponseProperties);
 
         boolean addSuccess = _customerService.addNewCustomer(customer);
-        if (addCustomer)
+        if (addSuccess)
             return Response.status(Response.Status.CREATED)
                 .entity(serviceResponse).build();
 
-        return Response.status(Response.BAD_REQUEST)
-            .entity("Error while saving customer on database").buid();
+        return Response.status(Response.Status.BAD_REQUEST)
+            .entity("Error while saving customer on database").build();
 
     }
 
@@ -179,19 +180,22 @@ public class CustomerController {
     public Response updateCustomer(Customer customer)
     {
         if( customer == null)
-             return Response.status(Status.BAD_REQUEST)
-                .entity("No customer provided to update").buid();
+             return Response.status(Response.Status.BAD_REQUEST)
+                .entity("No customer provided to update").build();
 
-        if (customer.getId() == null || customer.getId() == 0)
-            return.Response.status(Status.NOT_FOUND)
-                .entity("Customer with ID not found.").buid();
+        //se getId() for zero, entra nesse caso tbm ?
+        if (!customer.getId().isPresent()  || customer.getId().orElse(0) == 0)
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("Customer with ID not found.")
+                .build();
 
         boolean updateSuccess = _customerService.updateCustomer(customer);
             if( updateSuccess)
-                return Response.status(Response.Status.Ok)
-                    .entity("Successfull update").buid();
+                return Response.status(Response.Status.OK)
+                        .entity("Successfull update")
+                        .build();
             else
-                return return.Response.status(Response.Status.BAD_REQUEST)
+                return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Bad Request").build();
             
     }
