@@ -30,7 +30,9 @@ public class ReadingController {
     private ReadingService _readingService = new ReadingService(database, _customerservice);
     private CustomerService _customerService = new CustomerService(database);
 
-    @GET  // 4. Liste von Ablesungs-Objekten: PERGUNTAR PROFESSOR. se eh uma lista de Ablesungen nao tem que mostrar nada do customer
+    // 4. Liste von Ablesungs-Objekten: PERGUNTAR PROFESSOR. Acredito que  nao tem que mostrar nada do customer pq eh a lista completa de Ablesungen
+    //estou colocando os alesung dentro de properties com Array[]
+    @GET  
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReadings()
     {

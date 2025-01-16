@@ -22,69 +22,100 @@ public class ReadingService implements IReadingService {
     }
 
     @Override
-    public void addNewReading(Reading reading) {
-        //String sqlCustomer = "SELECT * FROM customers WHERE id = '" + reading.getCustomerId() + "'";
-        int customerId = reading.getCustomerId();
+    public boolean addNewReading(Reading reading) {
+        if( reading != null)
+        {
 
-        //Completar metodo com O ou null
-        if (customerId == 0) {
-            System.out.println("value of customerId:" + customerId);
-            Customer newCustomer = new Customer(null, "x", "x", "1900-01-01", "M");
-            //Customer newCustomer = new Customer(null, "Marius", "Lehel", "1995-03-20", "M");
-            UUID uuid = newCustomer.getUuid();
-            customerService.addNewCustomer(newCustomer);
-            Customer retrievedCustomer = customerService.getCustomerByUuid(uuid.toString());
-            customerId = retrievedCustomer.getId().orElse(0);
-            reading.setCustomerId(customerId);
+            int customerId = reading.getCustomerId();
+    
+            //se getCustomerId() for vazio ou nulo, ele eh automaticamente zero!!
+            if (customerId == 0) {
+                Customer newCustomer = new Customer(null, "x", "x", "1900-01-01", "M");
+                //In case customer does not exist
+                UUID uuid = newCustomer.getUuid();
+                customerService.addNewCustomer(newCustomer);
+                Customer retrievedCustomer = customerService.getCustomerByUuid(uuid.toString());
+                customerId = retrievedCustomer.getId().orElse(0);
+                reading.setCustomerId(customerId);
+            }
+    
+            String sqlReading = "INSERT INTO data_reading (customer_id, kind_of_meter, " +
+                    "comment, meter_id," +
+                    "meter_count, substitute," +
+                    " date_of_reading, uui_id) " +
+                    "VALUES (' " +
+                    customerId + "', '" +
+                    reading.getKindOfMeter() + "', '" +
+                    reading.getComment() + "', '" +
+                    reading.getMeterId() + "', '" +
+                    reading.getMeterCount() + "', '" +
+                    (reading.getSubstitute() ? "1" : "0") + "', '" +
+                    reading.getDateOfReading() + "', '" +
+                    reading.getUuid() + "' )";
+    
+            this._database.queryWithoutReturn(sqlReading);
+            return true;
         }
-
-        String sqlReading = "INSERT INTO data_reading (customer_id, kind_of_meter, " +
-                "comment, meter_id," +
-                "meter_count, substitute," +
-                " date_of_reading, uui_id) " +
-                "VALUES (' " +
-                customerId + "', '" +
-                reading.getKindOfMeter() + "', '" +
-                reading.getComment() + "', '" +
-                reading.getMeterId() + "', '" +
-                reading.getMeterCount() + "', '" +
-                (reading.getSubstitute() ? "1" : "0") + "', '" +
-                reading.getDateOfReading() + "', '" +
-                reading.getUuid() + "' )";
-
-        this._database.queryWithoutReturn(sqlReading);
-
+        return false;
     }
 
     @Override
-    public void updateNewReading(Reading reading) {
-        String sqlCustomer = "SELECT * FROM customers WHERE id = '" + reading.getCustomerId() + "'";
-        String sqlReading = "UPDATE data_reading SET kind_of_meter = '" + reading.getKindOfMeter() + "', " +
-                "comment = '" + reading.getComment() + "', " +
-                "meter_id = '" + reading.getMeterId() + "', " +
-                "meter_count = '" + reading.getMeterCount() + "', " +
-                "substitute = '" + (reading.getSubstitute() ? "1" : "0") + "', " +
-                "date_of_reading = '" + reading.getDateOfReading() + "' " +
-                "WHERE customer_id = '" + reading.getCustomerId() + "'";
-
-        //testar se exister customer
-        ResultSet rs = this._database.queryWithReturn(sqlCustomer);
-        this._database.queryWithoutReturn(sqlReading);
-
+    public boolean updateNewReading(Reading reading) {
+        if( reading != null  && reading.getCustomerId() != 0)
+        {
+            String sqlCustomer = "SELECT * FROM customers WHERE id = '" + reading.getCustomerId() + "'";
+            String sqlReading = "UPDATE data_reading SET kind_of_meter = '" + reading.getKindOfMeter() + "', " +
+                    "comment = '" + reading.getComment() + "', " +
+                    "meter_id = '" + reading.getMeterId() + "', " +
+                    "meter_count = '" + reading.getMeterCount() + "', " +
+                    "substitute = '" + (reading.getSubstitute() ? "1" : "0") + "', " +
+                    "date_of_reading = '" + reading.getDateOfReading() + "' " +
+                    "WHERE customer_id = '" + reading.getCustomerId() + "'";
+    
+            //testar se exister customer
+            ResultSet rs = this._database.queryWithReturn(sqlCustomer);
+            this._database.queryWithoutReturn(sqlReading);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void deleteReading(int userId, String date) {
-        String sqlCustomer = "SELECT * FROM customers WHERE id = '" + userId + "'";
-        String sqlReading = "DELETE FROM data_reading WHERE customer_id = '" +
-                userId + "' AND date_of_reading = '" + date + "'";
-
-        try (ResultSet rs = this._database.queryWithReturn(sqlCustomer)) {
-        } catch (SQLException e) {
-            System.out.println("Customer does not exist." + e.getMessage());
+    public boolean deleteReading(int userId, String date) {
+        if(userId != 0 && date != null)
+        {
+            String sqlCustomer = "SELECT * FROM customers WHERE id = '" + userId + "'";
+            String sqlReading = "DELETE FROM data_reading WHERE customer_id = '" +
+                    userId + "' AND date_of_reading = '" + date + "'";
+    
+            try (ResultSet rs = this._database.queryWithReturn(sqlCustomer)) {
+            } catch (SQLException e) {
+                System.out.println("Customer does not exist." + e.getMessage());
+                return false;
+            }
+            this._database.queryWithoutReturn(sqlReading);
+            return true;
         }
-        this._database.queryWithoutReturn(sqlReading);
+        return false;
+    }
 
+    @Override
+    public boolean deleteReadingByUuid(String uuid)
+    {
+        if(uuid != null)
+        {
+            String sqlReading = "DELETE FROM data_reading WHERE uui_id = '" +
+                    uuid + "'";
+    
+            try (ResultSet rs = this._database.queryWithReturn(sqlReading)) {
+            } catch (SQLException e) {
+                System.out.println("Customer does not exist." + e.getMessage());
+                return false;
+            }
+            this._database.queryWithoutReturn(sqlReading);  
+            return true; 
+        }
+        return false;
     }
 
     @Override
@@ -96,6 +127,7 @@ public class ReadingService implements IReadingService {
         try (ResultSet rs = this._database.queryWithReturn(sqlCustomer)) {
         } catch (SQLException e) {
             System.out.println("Customer does not exist." + e.getMessage());
+            return null;
         }
 
         try (ResultSet rs = this._database.queryWithReturn(sqlReading)) {
@@ -115,6 +147,7 @@ public class ReadingService implements IReadingService {
             }
         } catch (SQLException e) {
             System.out.println("Error while retrieving data." + e.getMessage());
+            return null;
         }
         return readingsOfCustomer;
 
@@ -203,6 +236,7 @@ public class ReadingService implements IReadingService {
             }
         } catch (SQLException e) {
             System.out.println("Error while retrieving data." + e.getMessage());
+            return null;
         }
         return readings;
 

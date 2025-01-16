@@ -6,11 +6,13 @@ import java.util.StringTokenizer;
 
 public interface IReadingService {
 
-    void addNewReading(Reading reading);
+    boolean addNewReading(Reading reading);
 
-    void updateNewReading(Reading reading);
+    boolean updateNewReading(Reading reading);
 
-    void deleteReading(int customerId, String date);
+    boolean deleteReading(int customerId, String date);
+
+    boolean deleteReadingByUuid(String uuid);
 
     Reading getReadingOfCustomer(int customerId, String date);
 
