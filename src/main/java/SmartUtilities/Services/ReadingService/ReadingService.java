@@ -25,7 +25,6 @@ public class ReadingService implements IReadingService {
     public boolean addNewReading(Reading reading) {
         if( reading != null)
         {
-
             int customerId = reading.getCustomerId();
     
             //se getCustomerId() for vazio ou nulo, ele eh automaticamente zero!!
