@@ -41,16 +41,12 @@ public class CustomerService implements ICustomerService {
     @Override
     public boolean updateCustomer(Customer customer) {
 
-        if( customer != null && customer.getId() != null)
+        if( customer != null && customer.getId().isPresent())
         {
             Optional<Integer> idOptional = customer.getId();
-            if (idOptional.isEmpty())
-            {
-                return false;
-            }
             //String id = idOptional.map(String::valueOf).orElse("NULL");
-    
             int id = idOptional.get();
+            
             String sql = "UPDATE customers SET first_name = '" + customer.getFirstName() +
                     "', last_name = '" + customer.getLastName() +
                     "', birthdate = '" + customer.getBirthDate() +
