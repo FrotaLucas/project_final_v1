@@ -37,7 +37,7 @@ public class CustomerController {
         // if(customer == null || !customerService.addNewCustomer(customer))
         if (customer == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("No customer to add.")
+                    .entity("No provided customer to save.")
                     .build();
         }
         Map<String, Object> customerProperties = new LinkedHashMap<>();
@@ -59,8 +59,13 @@ public class CustomerController {
                 "customer",
                 serviceResponseProperties);
 
-                _customerService.addNewCustomer(customer);
-        return Response.status(Response.Status.CREATED).entity(serviceResponse).build();
+        boolean addSuccess = _customerService.addNewCustomer(customer);
+        if (addCustomer)
+            return Response.status(Response.Status.CREATED)
+                .entity(serviceResponse).build();
+
+        return Response.status(Response.BAD_REQUEST)
+            .entity("Error while saving customer on database").buid();
 
     }
 
@@ -147,12 +152,13 @@ public class CustomerController {
                 .build();
     }
 
+    //FAZER PRODUCES AQUI TBM 
     @DELETE
     @Path("/{uuid}")
     public Response deleteCustomer(@PathParam("uuid") String uuid) {
         if (uuid == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Id cannont be null")
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Customer with Id" + uuid + "not found")
                     .build();
         }
 
@@ -161,14 +167,32 @@ public class CustomerController {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Customer with Id" + uuid + "not found")
                     .build();
-
         }
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.BAD_REQUEST)
+            .entity("Error while deleting customer.")
+            .build();
     }
 
+    //TT
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateCustomer(Customer customer)
     {
-        return null;
+        if( customer == null)
+             return Response.status(Status.BAD_REQUEST)
+                .entity("No customer provided to update").buid();
+
+        if (customer.getId() == null || customer.getId() == 0)
+            return.Response.status(Status.NOT_FOUND)
+                .entity("Customer with ID not found.").buid();
+
+        boolean updateSuccess = _customerService.updateCustomer(customer);
+            if( updateSuccess)
+                return Response.status(Response.Status.Ok)
+                    .entity("Successfull update").buid();
+            else
+                return return.Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Bad Request").build();
+            
     }
 }
