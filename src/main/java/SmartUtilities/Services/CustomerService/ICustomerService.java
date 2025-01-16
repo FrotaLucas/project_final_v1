@@ -8,9 +8,9 @@ import java.util.List;
 @Singleton
 public interface ICustomerService {
 
-    void addNewCustomer(Customer customer);
+    boolean addNewCustomer(Customer customer);
 
-    void updateCustomer(Customer customer);
+    boolean updateCustomer(Customer customer);
 
     boolean deleteCustomer(String uuid);
 
