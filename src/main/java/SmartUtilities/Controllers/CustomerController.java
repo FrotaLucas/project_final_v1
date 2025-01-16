@@ -156,7 +156,7 @@ public class CustomerController {
                     .build();
         }
 
-        boolean isDeleted = _customerService.deleteCustomering(uuid);
+        boolean isDeleted = _customerService.deleteCustomer(uuid);
         if (!isDeleted) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Customer with Id" + uuid + "not found")
