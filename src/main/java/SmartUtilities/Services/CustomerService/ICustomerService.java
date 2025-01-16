@@ -12,7 +12,7 @@ public interface ICustomerService {
 
     void updateCustomer(Customer customer);
 
-    void deleteCustomer(int id);
+    boolean deleteCustomer(String uuid);
 
     Customer getCustomer(int id);
 

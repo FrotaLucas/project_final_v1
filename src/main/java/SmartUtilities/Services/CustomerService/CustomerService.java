@@ -47,16 +47,7 @@ public class CustomerService implements ICustomerService {
 
     //substituir deleCustomer por deleteCustomering
     @Override
-    public void deleteCustomer(int id) {
-        String sqlReading = "UPDATE data_reading SET customer_id = NULL WHERE customer_id = '" + id + "'";
-        String sql = "DELETE from customers WHERE id = '" + id + "'";
-
-        this._database.queryWithoutReturn(sqlReading);
-        this._database.queryWithoutReturn(sql);
-    }
-
-   
-    public boolean deleteCustomering(String Uuid) {
+    public boolean deleteCustomer(String Uuid) {
 
         Customer dbCustomer = getCustomerByUuid(Uuid);
         //Optional<Integer> id = customer.getId();
