@@ -69,7 +69,8 @@ public class ReadingService implements IReadingService {
                     "meter_count = '" + reading.getMeterCount() + "', " +
                     "substitute = '" + (reading.getSubstitute() ? "1" : "0") + "', " +
                     "date_of_reading = '" + reading.getDateOfReading() + "' " +
-                    "WHERE customer_id = '" + reading.getCustomerId() + "'";
+                    "WHERE customer_id = '" + reading.getCustomerId() + "'" +
+                    "AND uui_id = '" + reading.getUuid().toString() + "'";
     
             //testar se exister customer
             ResultSet rs = this._database.queryWithReturn(sqlCustomer);
