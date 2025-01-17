@@ -1,11 +1,8 @@
 package SmartUtilities.Controllers;
 
-import java.io.ObjectInputFilter.Status;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
@@ -252,7 +249,6 @@ public class ReadingController {
             .build();
     }
 
-    //TT
     // mudar nome de _readingService.updateNewReading() para _readingService.updateReading();
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
@@ -263,12 +259,20 @@ public class ReadingController {
                 .entity("No reading data providede to save.")
                 .build();
 
+        //customerId null or empty field
         int customerId = reading.getCustomerId();
         if( customerId == 0)
             return Response.status(Response.Status.NOT_FOUND)
                 .entity("No customer Id data provided.")
                 .build();
-        
+
+        //empty uuid field or wrong uuid
+        Reading verifiedReading = _readingService.getReadingByUuid(reading.getUuid().toString());
+        if( verifiedReading == null)
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("No reading Id data provided.")
+                .build();
+
         boolean updateSuccess = _readingService.updateNewReading(reading);
         if ( updateSuccess)
         {

@@ -31,11 +31,11 @@ public class Reading implements IReading, IID {
 
     private UUID uuid;
 
-    @JsonCreator // APAGAR JSonProperty customerId pq ele nao deve ser retornado!!!
+    @JsonCreator
     public Reading(@JsonProperty("kindOfMeter") String k, @JsonProperty("comment") String comment, 
     @JsonProperty("meterId") String meterId, @JsonProperty("meterCount") Double meterCount,
-    @JsonProperty("substitute") boolean substitute,@JsonProperty("date") String date, 
-    int customerId) {
+    @JsonProperty("substitute") boolean substitute, @JsonProperty("dateOfReading") String date, 
+    @JsonProperty("customerId") int customerId) {
         this.kindOfMeter = KindOfMeter.valueOf(k);
         this.comment = comment;
         this.meterId = meterId;
