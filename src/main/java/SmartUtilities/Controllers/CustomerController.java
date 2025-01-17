@@ -34,7 +34,6 @@ public class CustomerController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON) //INVESTIGAR SE POST METHOD PRECISA DEVOLVER JSON DE CUSTOMER
     public Response addCustomer(Customer customer) {
-        // corrigir metod customerService para boleano
         // if(customer == null || !customerService.addNewCustomer(customer))
         if (customer == null) {
             return Response.status(Response.Status.BAD_REQUEST)
@@ -153,28 +152,50 @@ public class CustomerController {
                 .build();
     }
 
-    //FAZER PRODUCES AQUI TBM 
     @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{uuid}")
     public Response deleteCustomer(@PathParam("uuid") String uuid) {
-        if (uuid == null) {
+
+        Customer verifiedCustomer = _customerService.getCustomerByUuid(uuid);
+        if (uuid == null || verifiedCustomer == null) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Customer with Id" + uuid + "not found")
+                    .entity("Customer with Id " + uuid + " not found")
                     .build();
         }
 
         boolean isDeleted = _customerService.deleteCustomer(uuid);
         if (!isDeleted) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .entity("Customer with Id" + uuid + "not found")
-                    .build();
-        }
-        return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.BAD_REQUEST)
             .entity("Error while deleting customer.")
             .build();
+        }
+
+        Map<String, Object> customerProperties = new LinkedHashMap<>();
+        //customerProperties.put("id", customer.getId());
+        customerProperties.put("firstName", verifiedCustomer.getFirstName());
+        customerProperties.put("lastName", verifiedCustomer.getLastName());
+        customerProperties.put("birthDay", verifiedCustomer.getBirthDate());
+        customerProperties.put("gender", verifiedCustomer.getGender());
+
+        Map<String, Object> serviceResponseProperties = Map
+                .of("customer", Map
+                        .of("type", "object",
+                                "required", List.of("firstName", "lastName", "gender"),
+                                "properties", customerProperties));
+
+        ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
+                "Customer-JSON-Schema",
+                "object",
+                "customer",
+                serviceResponseProperties);
+
+        return Response.status(Response.Status.OK)
+                    .entity(serviceResponse)
+                    .build();     
+       
     }
 
-    //TT
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateCustomer(Customer customer)
@@ -199,7 +220,8 @@ public class CustomerController {
                         .build();
             else
                 return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("Bad Request").build();
+                    .entity("Bad Request")
+                    .build();
             
     }
 }
