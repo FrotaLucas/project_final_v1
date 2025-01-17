@@ -38,11 +38,11 @@ public class CustomerController {
         // if(customer == null || !customerService.addNewCustomer(customer))
         if (customer == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity("No provided customer to save.")
+                    .entity("No provided customer to send.")
                     .build();
         }
         Map<String, Object> customerProperties = new LinkedHashMap<>();
-        customerProperties.put("id", customer.getId());
+        //customerProperties.put("id", customer.getId());
         customerProperties.put("firstName", customer.getFirstName());
         customerProperties.put("lastName", customer.getLastName());
         customerProperties.put("birthDay", customer.getBirthDate());
@@ -113,7 +113,7 @@ public class CustomerController {
                 .build();
     }
 
-    @GET //PQ id do customer esta vindo sempre nulo ?
+    @GET
     @Path("/{uuid}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomer(@PathParam("uuid") String uuid) {
@@ -183,8 +183,11 @@ public class CustomerController {
              return Response.status(Response.Status.BAD_REQUEST)
                 .entity("No customer provided to update").build();
 
-        //se getId() for zero, entra nesse caso tbm ?
-        if (!customer.getId().isPresent()  || customer.getId().orElse(0) == 0)
+        //if (!customer.getId().isPresent()  || customer.getId().orElse(0) == 0)
+        Customer verifiedCustomer = _customerService.getCustomerByUuid(customer.getUuid().toString());
+                
+        //null values or empty uuid_id
+        if( customer.getUuid() == null || verifiedCustomer == null)
             return Response.status(Response.Status.NOT_FOUND)
                 .entity("Customer with ID not found.")
                 .build();

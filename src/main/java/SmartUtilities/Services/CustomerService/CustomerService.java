@@ -41,17 +41,17 @@ public class CustomerService implements ICustomerService {
     @Override
     public boolean updateCustomer(Customer customer) {
 
-        if( customer != null && customer.getId().isPresent())
+        if( customer != null && customer.getUuid() != null)
         {
-            Optional<Integer> idOptional = customer.getId();
+            //Optional<Integer> idOptional = customer.getId();
             //String id = idOptional.map(String::valueOf).orElse("NULL");
-            int id = idOptional.get();
-            
+            //int id = idOptional.get();
+            System.out.println(customer.getUuid().toString());
             String sql = "UPDATE customers SET first_name = '" + customer.getFirstName() +
                     "', last_name = '" + customer.getLastName() +
                     "', birthdate = '" + customer.getBirthDate() +
                     "', gender = '" + customer.getGender() +
-                    "' WHERE id = " + id;
+                    "' WHERE uui_id = '" + customer.getUuid().toString() + "'";
     
             this._database.queryWithoutReturn(sql);
             return true;
