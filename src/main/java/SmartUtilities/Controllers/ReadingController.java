@@ -27,7 +27,7 @@ public class ReadingController {
     private ReadingService _readingService = new ReadingService(database, _customerservice);
     private CustomerService _customerService = new CustomerService(database);
 
-    //TT
+    //TT ok
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -182,7 +182,7 @@ public class ReadingController {
     
     }
 
-    //TT
+    //TT ok
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{uuid}")
