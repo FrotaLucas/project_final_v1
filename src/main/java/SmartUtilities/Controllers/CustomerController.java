@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Path("api/customers")
 public class CustomerController {
@@ -207,7 +206,7 @@ public class CustomerController {
         //if (!customer.getId().isPresent()  || customer.getId().orElse(0) == 0)
         Customer verifiedCustomer = _customerService.getCustomerByUuid(customer.getUuid().toString());
                 
-        //null values or empty uuid_id
+        //null uuiid_id or empty uuid_id
         if( customer.getUuid() == null || verifiedCustomer == null)
             return Response.status(Response.Status.NOT_FOUND)
                 .entity("Customer with ID not found.")
