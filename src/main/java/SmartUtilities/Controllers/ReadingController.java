@@ -188,16 +188,21 @@ public class ReadingController {
     @Path("/{uuid}")
     public Response deleteReadingByUuid(@PathParam("uuid") String uuid)
     {
-        if(uuid == null || uuid == " ")
+        if(uuid == null)
             return Response.status(Response.Status.NOT_FOUND)
                 .entity("ID Reading not found.")
                 .build();
 
         Reading reading = _readingService.getReadingByUuid(uuid);
+        if( reading == null)
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("ID reading data not found.")
+                .build(); 
+
         int idCustomer = reading.getCustomerId();
         if(idCustomer == 0)
             return Response.status(Response.Status.NOT_FOUND)
-                .entity("ID Customer not found.")
+                .entity("ID customer not found.")
                 .build();
         
         boolean successDelete = _readingService.deleteReadingByUuid(uuid);
