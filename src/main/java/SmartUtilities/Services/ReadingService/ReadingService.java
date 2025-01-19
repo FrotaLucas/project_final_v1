@@ -245,9 +245,9 @@ public class ReadingService implements IReadingService {
     @Override
     public List<Reading> getReadingsByDateRange(String customerId, String start, String end)
     {   
-        String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId +
-        "' AND date_of_reading > ' " + start + "' date_of_reading < '" + end + "'"; 
-      
+        String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
+        "' AND date_of_reading >= '" + start + "' AND date_of_reading <= '" + end + "'"; 
+    
         
         List<Reading> readings = new ArrayList<>();
 
