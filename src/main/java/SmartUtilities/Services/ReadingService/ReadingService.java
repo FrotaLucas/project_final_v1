@@ -241,4 +241,36 @@ public class ReadingService implements IReadingService {
         return readings;
 
     }
+
+    @Override
+    public List<Reading> getReadingsByDateRange(String customerId, String start, String end)
+    {   
+        String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId +
+        "' AND date_of_reading > ' " + start + "' date_of_reading < '" + end + "'"; 
+      
+        
+        List<Reading> readings = new ArrayList<>();
+
+        try (ResultSet rs = this._database.queryWithReturn(sqlReading);) {
+            while (rs.next()) {
+                Reading dbReading = new Reading(
+                        rs.getString("kind_of_meter"),
+                        rs.getString("comment"),
+                        rs.getString("meter_id"),
+                        rs.getDouble("meter_count"),
+                        rs.getBoolean("substitute"),
+                        rs.getString("date_of_reading"),
+                        rs.getInt("customer_id")
+                );
+
+                dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
+                readings.add(dbReading);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while retrieving data." + e.getMessage());
+            return null;
+        }
+        return readings;
+
+    }
 }

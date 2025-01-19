@@ -15,6 +15,7 @@ import SmartUtilities.Shared.ServiceResponse;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -120,6 +121,40 @@ public class ReadingController {
         }
           // Error 404
           return Response.status(Response.Status.BAD_REQUEST).entity("No data found on database.").build();
+    }
+
+//TT
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getReadingsByDateRange(@QueryParam("customer") String customerId, @QueryParam("start") String start, @QueryParam("end") String end)
+    {
+          if( customerId == null)
+            return Response.status(Response.Status.NOT_FOUND)
+                .entity("No customer Id found on database.")
+                .build();
+
+          List<Reading> readings = _readingService.getReadingsByDateRange(customerId, start, end);
+          
+          Map<String, Object> readingData = new LinkedHashMap<>();
+            readingData.put("type","array");
+            readingData.put("items", Map
+                                        .of("type", "object",
+                                            "required", List.of("id","customer","dateOfReading","meterId","substitute","meterCount","kindOfMeter"),
+                                            "properties", readings));
+
+            Map<String, Object> serviceResponseProperties = Map
+                .of("readings", readingData);
+
+
+             ServiceResponse<Reading> serviceResponse = new ServiceResponse<>(
+                "Customer-JSON-Schema",
+                "object",
+                "readings",
+                serviceResponseProperties);
+
+
+            return Response.ok(serviceResponse).build();
+
     }
 
     @GET
