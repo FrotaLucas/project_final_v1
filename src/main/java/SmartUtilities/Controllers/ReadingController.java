@@ -92,9 +92,13 @@ public class ReadingController {
     //estou colocando os alesung dentro de properties com Array[]
     @GET  
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReadings()
+    public Response getReadings(@QueryParam("customer") String customerId, @QueryParam("start") String start, @QueryParam("end") String end)
     {
-        List<Reading> readings = _readingService.getReadings();
+        List<Reading> readings;
+        if( customerId != null && end != null)
+            readings = _readingService.getReadingsByDateRange(customerId, start, end);
+        else
+             readings = _readingService.getReadings();
 
         if(readings != null)
         {
@@ -121,40 +125,6 @@ public class ReadingController {
         }
           // Error 404
           return Response.status(Response.Status.BAD_REQUEST).entity("No data found on database.").build();
-    }
-
-//TT
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getReadingsByDateRange(@QueryParam("customer") String customerId, @QueryParam("start") String start, @QueryParam("end") String end)
-    {
-          if( customerId == null)
-            return Response.status(Response.Status.NOT_FOUND)
-                .entity("No customer Id found on database.")
-                .build();
-
-          List<Reading> readings = _readingService.getReadingsByDateRange(customerId, start, end);
-          
-          Map<String, Object> readingData = new LinkedHashMap<>();
-            readingData.put("type","array");
-            readingData.put("items", Map
-                                        .of("type", "object",
-                                            "required", List.of("id","customer","dateOfReading","meterId","substitute","meterCount","kindOfMeter"),
-                                            "properties", readings));
-
-            Map<String, Object> serviceResponseProperties = Map
-                .of("readings", readingData);
-
-
-             ServiceResponse<Reading> serviceResponse = new ServiceResponse<>(
-                "Customer-JSON-Schema",
-                "object",
-                "readings",
-                serviceResponseProperties);
-
-
-            return Response.ok(serviceResponse).build();
-
     }
 
     @GET
