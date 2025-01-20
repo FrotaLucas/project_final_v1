@@ -7,6 +7,7 @@ import SmartUtilities.Services.CustomerService.ICustomerService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -252,9 +253,10 @@ public class ReadingService implements IReadingService {
                 end = formatedDate;
             }
 
-        String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
+        String sqlReading = (start == null) ? "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
+        "' AND date_of_reading <= '" + end + "'" :  
+        "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
         "' AND date_of_reading >= '" + start + "' AND date_of_reading <= '" + end + "'"; 
-    
         
         List<Reading> readings = new ArrayList<>();
 

@@ -95,12 +95,12 @@ public class ReadingController {
     public Response getReadings(@QueryParam("customer") String customerId, @QueryParam("start") String start, @QueryParam("end") String end)
     {
         List<Reading> readings;
-        if( customerId != null && end != null)
+        if( customerId != null)
             readings = _readingService.getReadingsByDateRange(customerId, start, end);
         else
              readings = _readingService.getReadings();
 
-        if(readings != null)
+        if(readings.size() != 0)
         {
             Map<String, Object> readingData = new LinkedHashMap<>();
             readingData.put("type","array");
