@@ -49,9 +49,8 @@ public class CustomerServiceTest {
     assertEquals(LocalDate.parse("2000-01-01"), dbCustomer.getBirthDate());
     //dbCustomer vem do banco de dados, salva gender como string;
     assertEquals(Gender.valueOf("M"), dbCustomer.getGender());
-
-    int id = dbCustomer.getId().orElse(0);  // Default value is 0 if the Optional is empty
-    _costumerService.deleteCustomer(id);
+    boolean response = _costumerService.deleteCustomer(uuid.toString());
+    assertTrue(response);
   }
 
   @Test
@@ -78,8 +77,8 @@ public class CustomerServiceTest {
     assertEquals("Jane", retrievedCustomer.getLastName());
     assertEquals(Gender.valueOf("W"), retrievedCustomer.getGender());
 
-    int Id = retrievedCustomer.getId().orElse(0);
-    _costumerService.deleteCustomer(Id);
+    boolean response = _costumerService.deleteCustomer(uuid.toString());
+    assertTrue(response);
   }
 
   @Test
@@ -89,11 +88,8 @@ public class CustomerServiceTest {
     UUID uuid = newCustumer.getUuid();
     _costumerService.addNewCustomer(newCustumer);
 
-    Customer dbCustomer;
-    dbCustomer = _costumerService.getCustomerByUuid(uuid.toString());
-    int id = dbCustomer.getId().orElse(0);
-
-    _costumerService.deleteCustomer(id);
+    boolean response = _costumerService.deleteCustomer(uuid.toString());
+    assertTrue(response);
 
     Customer retrievedCustomer = _costumerService.getCustomerByUuid(uuid.toString());  //1
     //Optional<Customer> retrievedCustomer = _costumerService.getCustomerByUuid(uuid);  //2
@@ -114,7 +110,9 @@ public class CustomerServiceTest {
       dbCustomer = _costumerService.getCustomer(id);
 
       assertNotNull(dbCustomer);
-      _costumerService.deleteCustomer(id);
+      boolean response = _costumerService.deleteCustomer(uuid.toString());
+      assertTrue(response);
+  
   }
 
   @AfterEach //close connection

@@ -1,15 +1,18 @@
 package SmartUtilities.Services.CustomerService;
 
 import SmartUtilities.Model.Customer.Customer;
+import jakarta.inject.Singleton;
+
 import java.util.List;
 
+@Singleton
 public interface ICustomerService {
 
-    void addNewCustomer(Customer customer);
+    boolean addNewCustomer(Customer customer);
 
-    void updateCustomer(Customer customer);
+    boolean updateCustomer(Customer customer);
 
-    void deleteCustomer(int id);
+    boolean deleteCustomer(String uuid);
 
     Customer getCustomer(int id);
 

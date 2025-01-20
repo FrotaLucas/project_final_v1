@@ -1,5 +1,8 @@
 package SmartUtilities.DataBase;
 
+//import SmartUtilities.Exceptions.DatabaseException;
+import jakarta.inject.Singleton;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+@Singleton
 public class Database {
 
     private static String DB_URL;
@@ -20,10 +24,9 @@ public class Database {
     static {
         try {
             Properties props = new Properties();
-            // Adjust the path to where your properties file is located
             FileInputStream input = new FileInputStream("src/main/resources/db.properties");
             props.load(input);
-            // Set system properties
+
             System.setProperty("db.url", props.getProperty("db.url"));
             System.setProperty("db.user", props.getProperty("db.user"));
             System.setProperty("db.password", props.getProperty("db.password"));
@@ -33,39 +36,38 @@ public class Database {
             DB_PASSWORD = System.getProperty("db.password");
 
         } catch (IOException e) {
-            System.err.println("Could not load database properties: " + e.getMessage());
+            throw new RuntimeException("Could not load database properties: " + e.getMessage(), e);
         }
     }
 
-
-    public Database() throws SQLException{
-        this._connection = connect();
+    //constructor
+    public Database() {
+        try {
+            this._connection = connect();
+        } catch (SQLException e) {
+            throw new DatabaseException("Database connection error", e);
+        }
     }
 
-    // Static Method can also be called from class Database
     public static Connection connect() throws SQLException {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
-    //read data from database
-    public ResultSet executeQuery(String sql) throws SQLException {
+    public ResultSet queryWithReturn(String sql) {
         try {
             Statement stm = _connection.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            return rs;
+            return stm.executeQuery(sql);
         } catch (SQLException e) {
-            System.out.println("Error while executing SQL script: " + e.getMessage());
-            return null;
+            throw new DatabaseException("Error while executing query: " + sql, e);
         }
     }
 
-    //Update Database
-    public void executeUpdate(String sql) throws SQLException {
+    public void queryWithoutReturn(String sql) {
         try (Statement stmt = _connection.createStatement()) {
             stmt.execute(sql);
-            System.out.println("query executed successfully!");
+            System.out.println("Query executed successfully!");
         } catch (SQLException e) {
-            System.out.println("Error while executing SQL script: " + e.getMessage());
+            throw new DatabaseException("Error while executing update: " + sql, e);
         }
     }
 }
