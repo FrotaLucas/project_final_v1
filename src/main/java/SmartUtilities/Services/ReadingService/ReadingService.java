@@ -245,6 +245,13 @@ public class ReadingService implements IReadingService {
     @Override
     public List<Reading> getReadingsByDateRange(String customerId, String start, String end)
     {   
+        if(end == null)
+            {
+                LocalDate currenteDate = LocalDate.now();
+                String formatedDate = currenteDate.toString();
+                end = formatedDate;
+            }
+
         String sqlReading = "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
         "' AND date_of_reading >= '" + start + "' AND date_of_reading <= '" + end + "'"; 
     
