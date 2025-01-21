@@ -120,6 +120,14 @@
             <version>2.17.2</version> <!-- Use a versão compatível com sua versão do Jackson -->
         </dependency>
 
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+
 
     </dependencies>
 
