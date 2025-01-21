@@ -20,7 +20,7 @@ public class Main {
 //            CustomerService service = new CustomerService(database);
 //            ReadingService readingService = new ReadingService(database, service);
             
-            String url = "http://localhost:8080/";
+            String url = "http://localhost:4080/";
             Server.startServer(url);
 
         } catch (Exception e) {
