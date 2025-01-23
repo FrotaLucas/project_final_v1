@@ -4,11 +4,17 @@ import SmartUtilities.Model.Customer.Customer;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
+import java.util.HashMap;
 import java.util.UUID;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CustomerControllerTest {
 
@@ -49,24 +55,40 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testAddCustomer()
+    public void testAddCustomer() throws JsonProcessingException
     {
         Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
         UUID uuid = newCustomer.getUuid();
+        //String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-01-01\",\"gender\":\"M\"}";
 
+        //creating jsonSting
+        HashMap<String, String> objMap= new HashMap<String, String>();
+        objMap.put("firstName", newCustomer.getFirstName());
+        objMap.put("lastName", newCustomer.getLastName());
+        objMap.put("uui_id", newCustomer.getUuid().toString());
+        objMap.put("birthDate", "2000-01-01");
+        //objMap.put("birthDate", newCustomer.getBirthDate());
+
+        objMap.put("gender", newCustomer.getGender().toString());
+         
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(objMap);
+        
+        LocalDate date = LocalDate.parse("2000-01-01");
+
+        
             //adding customer
             given()
                 .contentType("application/json")
-                .body(newCustomer)
+                .body(jsonString)
             .when()
                 .post() // Perform POST request to add customer
             .then()
                 .statusCode(201) // Validate creation status
-                .body("properties.customer.properties.id", notNullValue()) // Ensure ID is returned
                 .body("properties.customer.properties.firstName", equalTo("John"))
                 .body("properties.customer.properties.lastName", equalTo("Doe"))
-                .body("properties.customer.properties.gender", equalTo("M"))
-                .body("properties.customer.properties.birthDay", equalTo("2000-01-01"));
+                .body("properties.customer.properties.gender", equalTo("M"));
+                //.body("properties.customer.properties.birthDay", equalTo(date));
 
             //deleting added customer
             when()

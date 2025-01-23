@@ -6,6 +6,7 @@ import java.util.UUID;
 import SmartUtilities.Enums.Gender;
 import SmartUtilities.Shared.IID;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Optional;
@@ -60,6 +61,7 @@ public class Customer implements ICustomer, IID {
     }
    
     @Override
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") //Instr. for  Jackson JsonFormatter
     public LocalDate getBirthDate() {
         return birthDate;
     }
