@@ -49,8 +49,8 @@ public class CustomerController {
         Map<String, Object> serviceResponseProperties = Map
                 .of("customer", Map
                         .of("type", "object",
-                                "required", List.of("firstName", "lastName", "gender"),
-                                "properties", customerProperties));
+                            "required", List.of("firstName", "lastName", "gender"),
+                            "properties", customerProperties));
 
         ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                 "Customer-JSON-Schema",
@@ -91,8 +91,8 @@ public class CustomerController {
              Map<String, Object> customerItems = new LinkedHashMap<>();
              customerItems.put("type","array");
              customerItems.put("items", Map.of("type","object",
-                                                    "required",List.of("id","firstName","lastName","gender"),
-                                                    "properties",dbCustomerListProperties));
+                                                "required",List.of("id","firstName","lastName","gender"),
+                                                "properties",dbCustomerListProperties));
 
              Map<String, Object> serviceResponseProperties = Map
                 .of("customers", customerItems);
@@ -134,8 +134,8 @@ public class CustomerController {
             Map<String, Object> serviceResponseProperties = Map
                     .of("customer", Map
                             .of("type", "object",
-                                    "required", List.of("firstName", "lastName", "gender"),
-                                    "properties", customerProperties));
+                                "required", List.of("firstName", "lastName", "gender"),
+                                "properties", customerProperties));
 
             ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                     "Customer-JSON-Schema",
@@ -180,8 +180,8 @@ public class CustomerController {
         Map<String, Object> serviceResponseProperties = Map
                 .of("customer", Map
                         .of("type", "object",
-                                "required", List.of("firstName", "lastName", "gender"),
-                                "properties", customerProperties));
+                            "required", List.of("firstName", "lastName", "gender"),
+                            "properties", customerProperties));
 
         ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                 "Customer-JSON-Schema",
