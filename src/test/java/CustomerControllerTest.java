@@ -1,9 +1,12 @@
+import SmartUtilities.Model.Customer.Customer;
+
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
+import java.util.UUID;
 public class CustomerControllerTest {
 
     private static final String BASE_URI = "http://localhost:8080/api/customers";
@@ -39,8 +42,24 @@ public class CustomerControllerTest {
                 .body("properties.customer.properties.lastName", notNullValue()) // Validate that lastName is not null
                 .body("properties.customer.properties.gender", notNullValue()) // Validate that gender is not null
                 .body("properties.customer.properties.birthDay", notNullValue()) // Validate that birthDate is not null
-                .body("properties.customer.properties.birthDay.size()", greaterThan(0)); // Ensure that birthDate is a valid array (if applicable)
+                .body("properties.customer.properties.birthDay.size()", greaterThan(0)); 
     }
 
-    // You can now add more test methods here if needed
+    @Test
+    public void testAddCustomer()
+    {
+        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        UUID uuid = newCustumer.getUuid();
+
+           when()
+                .get("/{uuid}", uuid.toString()) // Perform GET request with customer ID
+                .then() // Validate the response
+                .statusCode(200) // Status code should be 200
+                .body("properties.customer.properties.id", equalTo(1)) // Validate that the ID in the response matches the requested ID
+                .body("properties.customer.properties.firstName", "John") // Validate that firstName is not null
+                .body("properties.customer.properties.lastName", "Doe") // Validate that lastName is not null
+                .body("properties.customer.properties.gender", "2000-01-01") // Validate that gender is not null
+                .body("properties.customer.properties.birthDay", "M") // Validate that birthDate is not null
+                .body("properties.customer.properties.birthDay.size()", greaterThan(0));
+    }
 }
