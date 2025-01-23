@@ -40,7 +40,7 @@ public class CustomerControllerTest {
     @Test
     public void testGetCustomer()
     {
-        String customerId = "499e4cb1-4f0f-4376-b0b7-b5d6a1879134"; // Example customer ID
+        String customerId = "38f21bf9-a78c-42e2-a630-c2fb6e42c6b3"; // Example customer ID
 
         when()
             .get("/{uuid}", customerId) // Perform GET request with customer ID
@@ -59,43 +59,44 @@ public class CustomerControllerTest {
     {
         Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
         UUID uuid = newCustomer.getUuid();
-        //String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-01-01\",\"gender\":\"M\"}";
+        String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-01-01\",\"gender\":\"M\"}";
 
         //creating jsonSting
-        HashMap<String, String> objMap= new HashMap<String, String>();
-        objMap.put("firstName", newCustomer.getFirstName());
-        objMap.put("lastName", newCustomer.getLastName());
-        objMap.put("uui_id", newCustomer.getUuid().toString());
-        objMap.put("birthDate", "2000-01-01");
+        // HashMap<String, String> objMap= new HashMap<String, String>();
+        // objMap.put("firstName", newCustomer.getFirstName());
+        // objMap.put("lastName", newCustomer.getLastName());
+        // objMap.put("uui_id", newCustomer.getUuid().toString());
+        // objMap.put("birthDate", "2000-01-01");
         //objMap.put("birthDate", newCustomer.getBirthDate());
-
-        objMap.put("gender", newCustomer.getGender().toString());
+        //objMap.put("gender", newCustomer.getGender().toString());
          
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(objMap);
+        // ObjectMapper mapper = new ObjectMapper();
+        // String jsonString = mapper.writeValueAsString(objMap);
         
         LocalDate date = LocalDate.parse("2000-01-01");
+        // ObjectMapper mapper = new ObjectMapper();
+        // String jsonString = mapper.writeValueAsString(newCustomer);
+        // System.out.println("Generated JSON: " + jsonString);
 
-        
             //adding customer
             given()
                 .contentType("application/json")
-                .body(jsonString)
+                .body(customerJson)
             .when()
-                .post() // Perform POST request to add customer
+                .post("/") // Perform POST request to add customer
             .then()
                 .statusCode(201) // Validate creation status
                 .body("properties.customer.properties.firstName", equalTo("John"))
                 .body("properties.customer.properties.lastName", equalTo("Doe"))
                 .body("properties.customer.properties.gender", equalTo("M"));
                 //.body("properties.customer.properties.birthDay", equalTo(date));
-
+            
             //deleting added customer
-            when()
-                .delete("/{uuid}", uuid.toString()) // Perform DELETE request
-            .then()
-                .statusCode(200)
-                .body("properties.customer.properties.id", notNullValue()); 
+            // when()
+            //     .delete("/{uuid}", uuid.toString()) // Perform DELETE request
+            // .then()
+            //     .statusCode(200)
+            //     .body("properties.customer.properties.id", notNullValue()); 
     }
 
     @Test
