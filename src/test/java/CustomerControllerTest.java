@@ -51,15 +51,30 @@ public class CustomerControllerTest {
         Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
         UUID uuid = newCustumer.getUuid();
 
-           when()
-                .get("/{uuid}", uuid.toString()) // Perform GET request with customer ID
-                .then() // Validate the response
-                .statusCode(200) // Status code should be 200
-                .body("properties.customer.properties.id", equalTo(1)) // Validate that the ID in the response matches the requested ID
-                .body("properties.customer.properties.firstName", "John") // Validate that firstName is not null
-                .body("properties.customer.properties.lastName", "Doe") // Validate that lastName is not null
-                .body("properties.customer.properties.gender", "2000-01-01") // Validate that gender is not null
-                .body("properties.customer.properties.birthDay", "M") // Validate that birthDate is not null
-                .body("properties.customer.properties.birthDay.size()", greaterThan(0));
+            given()
+                    .contentType("application/json")
+                    .body(newCustomer)
+                    .when()
+                    .post() // Perform POST request to add customer
+                    .then()
+                    .statusCode(201) // Validate creation status
+                    .body("id", notNullValue()) // Ensure ID is returned
+                    .body("properties.customer.properties.firstName", equalTo("John"))
+                    .body("properties.customer.properties.lastName", equalTo("Doe"))
+                    .body("properties.customer.properties.gender", equalTo("M"))
+                    .body("birthDay", equalTo("2000-01-01"));
+
+            //deleting added customer
+            when()
+                    .delete("/{uuid}",uuid.toString())
+                    .then()
+                    .statusCode(200)
+                    .body("properties.customer.properties.id", equalTo(1));
+    }
+
+    @Test
+    public void testDeleteCustomer()
+    {
+        
     }
 }
