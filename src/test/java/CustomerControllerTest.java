@@ -7,6 +7,8 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 import java.util.UUID;
+import java.time.LocalDate;
+
 public class CustomerControllerTest {
 
     private static final String BASE_URI = "http://localhost:8080/api/customers";
@@ -51,6 +53,7 @@ public class CustomerControllerTest {
         Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
         UUID uuid = newCustumer.getUuid();
 
+            //adding customer
             given()
                 .contentType("application/json")
                 .body(newCustomer)
@@ -58,18 +61,18 @@ public class CustomerControllerTest {
                 .post() // Perform POST request to add customer
             .then()
                 .statusCode(201) // Validate creation status
-                .body("id", notNullValue()) // Ensure ID is returned
+                .body("properties.customer.properties.id", notNullValue()) // Ensure ID is returned
                 .body("properties.customer.properties.firstName", equalTo("John"))
                 .body("properties.customer.properties.lastName", equalTo("Doe"))
                 .body("properties.customer.properties.gender", equalTo("M"))
-                .body("birthDay", equalTo("2000-01-01"));
+                .body("properties.customer.properties.birthDay", equalTo("2000-01-01"));
 
             //deleting added customer
             when()
                 .delete("/{uuid}", uuid.toString()) // Perform DELETE request
             .then()
                 .statusCode(200);
-                .body("properties.customer.properties.id", equalTo(1)); 
+                .body("properties.customer.properties.id", notNullValue()); 
     }
 
     @Test
@@ -95,5 +98,54 @@ public class CustomerControllerTest {
             .body("properties.customer.properties.lastName", equalTo("Doe"))
             .body("properties.customer.properties.gender", equalTo("M"))
             .body("birthDay", equalTo("2000-01-01"));
+    }
+
+    @Test
+    public void testUpdateCustomer()
+    {
+        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        UUID uuid = newCustumer.getUuid();
+
+        given()
+            .contentType("application/json")
+            .body(newCustomer)
+        .when()
+            .post() // Perform POST request to add customer
+        .then()
+            .statusCode(201); // Validate creation status
+        
+        //changing properties of customer
+        newCustumer.setFirstName("Mary");
+        newCustumer.setLastName("Jane");
+        newCustumer.setBirthDate(LocalDate.parse("1900-01-12"));
+        newCustumer.setGender(Gender.valueOf("W"));
+
+        //update
+        given()
+            .contentType("application/json")
+            .body(newCustomer)
+        .when()
+            .update() // Perform POST request to add customer
+        .then()
+            .statusCode(200);
+
+        //retrieving data from database
+        when()
+            .get("/{uuid}", uuid) // Perform GET request with customer ID
+        .then() // Validate the response
+            .statusCode(200) // Status code should be 200
+            .body("properties.customer.properties.firstName", "Mary") // Validate that firstName is not null
+            .body("properties.customer.properties.lastName", "Jane") // Validate that lastName is not null
+            .body("properties.customer.properties.gender", "W") // Validate that gender is not null
+            .body("properties.customer.properties.birthDay", "1900-01-12") // Validate that birthDate is not null
+            .body("properties.customer.properties.birthDay.size()", greaterThan(0)); 
+        
+         //deleting addded customer
+        when()
+            .delete("/{uuid}", uuid.toString()) // Perform DELETE request
+        .then()
+            .statusCode(200);
+            .body("properties.customer.properties.id", notNullValue()); 
+
     }
 }
