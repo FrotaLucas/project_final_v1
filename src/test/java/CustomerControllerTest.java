@@ -1,3 +1,4 @@
+import SmartUtilities.Enums.Gender;
 import SmartUtilities.Model.Customer.Customer;
 
 import io.restassured.RestAssured;
@@ -50,8 +51,8 @@ public class CustomerControllerTest {
     @Test
     public void testAddCustomer()
     {
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        UUID uuid = newCustumer.getUuid();
+        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        UUID uuid = newCustomer.getUuid();
 
             //adding customer
             given()
@@ -71,15 +72,15 @@ public class CustomerControllerTest {
             when()
                 .delete("/{uuid}", uuid.toString()) // Perform DELETE request
             .then()
-                .statusCode(200);
+                .statusCode(200)
                 .body("properties.customer.properties.id", notNullValue()); 
     }
 
     @Test
     public void testDeleteCustomer()
     {
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        UUID uuid = newCustumer.getUuid();
+        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        UUID uuid = newCustomer.getUuid();
 
         given()
             .contentType("application/json")
@@ -103,8 +104,8 @@ public class CustomerControllerTest {
     @Test
     public void testUpdateCustomer()
     {
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        UUID uuid = newCustumer.getUuid();
+        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        UUID uuid = newCustomer.getUuid();
 
         given()
             .contentType("application/json")
@@ -115,10 +116,10 @@ public class CustomerControllerTest {
             .statusCode(201); // Validate creation status
         
         //changing properties of customer
-        newCustumer.setFirstName("Mary");
-        newCustumer.setLastName("Jane");
-        newCustumer.setBirthDate(LocalDate.parse("1900-01-12"));
-        newCustumer.setGender(Gender.valueOf("W"));
+        newCustomer.setFirstName("Mary");
+        newCustomer.setLastName("Jane");
+        newCustomer.setBirthDate(LocalDate.parse("1900-01-12"));
+        newCustomer.setGender(Gender.valueOf("W"));
 
         //update
         given()
@@ -134,7 +135,7 @@ public class CustomerControllerTest {
             .get("/{uuid}", uuid) // Perform GET request with customer ID
         .then() // Validate the response
             .statusCode(200) // Status code should be 200
-            .body("properties.customer.properties.firstName", "Mary") // Validate that firstName is not null
+            .body("properties.customer.properties.firstName","Mary")
             .body("properties.customer.properties.lastName", "Jane") // Validate that lastName is not null
             .body("properties.customer.properties.gender", "W") // Validate that gender is not null
             .body("properties.customer.properties.birthDay", "1900-01-12") // Validate that birthDate is not null
@@ -144,7 +145,7 @@ public class CustomerControllerTest {
         when()
             .delete("/{uuid}", uuid.toString()) // Perform DELETE request
         .then()
-            .statusCode(200);
+            .statusCode(200)
             .body("properties.customer.properties.id", notNullValue()); 
 
     }
