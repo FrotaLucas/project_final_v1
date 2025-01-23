@@ -126,19 +126,19 @@ public class CustomerControllerTest {
             .contentType("application/json")
             .body(newCustomer)
         .when()
-            .update() // Perform POST request to add customer
+            .put() // Perform POST request to add customer
         .then()
             .statusCode(200);
 
         //retrieving data from database
         when()
-            .get("/{uuid}", uuid) // Perform GET request with customer ID
+            .get("/{uuid}", uuid.toString()) // Perform GET request with customer ID
         .then() // Validate the response
             .statusCode(200) // Status code should be 200
-            .body("properties.customer.properties.firstName","Mary")
-            .body("properties.customer.properties.lastName", "Jane") // Validate that lastName is not null
-            .body("properties.customer.properties.gender", "W") // Validate that gender is not null
-            .body("properties.customer.properties.birthDay", "1900-01-12") // Validate that birthDate is not null
+            .body("properties.customer.properties.firstName",equalTo("Mary"))
+            .body("properties.customer.properties.lastName", equalTo("Jane")) // Validate that lastName is not null
+            .body("properties.customer.properties.gender", equalTo("W")) // Validate that gender is not null
+            .body("properties.customer.properties.birthDay", equalTo("1900-01-12")) // Validate that birthDate is not null
             .body("properties.customer.properties.birthDay.size()", greaterThan(0)); 
         
          //deleting addded customer
