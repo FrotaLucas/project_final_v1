@@ -20,6 +20,6 @@ public interface ICustomerService {
 
     Customer getCustomerByUuid(String Uuid);
 
-    boolean deleteAllCustomer();
+    boolean deleteAllCustomers();
 }
 
