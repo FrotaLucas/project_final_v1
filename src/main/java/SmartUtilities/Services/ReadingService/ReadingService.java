@@ -281,6 +281,19 @@ public class ReadingService implements IReadingService {
             return null;
         }
         return readings;
+    }
 
+    @Override
+    public boolean deleteAllReadins()
+    {
+          try {
+            // delete all readings from table
+            String sql = "DELETE FROM data_reading";
+            this._database.queryWithoutReturn(sql); 
+            return true; 
+        } catch (Exception e) {
+            System.err.println("Error while deleting all readings: " + e.getMessage());
+            return false; 
+        }
     }
 }

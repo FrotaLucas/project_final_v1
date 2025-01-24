@@ -24,4 +24,6 @@ public interface IReadingService {
 
     Reading getReadingByUuid(String uuid);
 
+    boolean deleteAllReadins();
+
 }
