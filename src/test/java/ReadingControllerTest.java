@@ -7,6 +7,9 @@ import static org.hamcrest.Matchers.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import SmartUtilities.Enums.KindOfMeter;
+import SmartUtilities.Model.Reading.Reading;
+
 public class ReadingControllerTest {
     private static final String BASE_URI = "http://localhost:8080/api/readings";
 
@@ -46,13 +49,13 @@ public class ReadingControllerTest {
                 .body("title", equalTo("JSON - Schema Customer with Reading")) // Validate schema
                 .body("required", equalTo("readings")) // Validate schema
                 .body("properties.readings.items", not(empty())) // Validate items are not empty
-                .body("properties.readings.items.size()", greaterThan(0)); // Ensure customers list is not empty
+                .body("properties.readings.items.size()", greaterThan(0)) // Ensure customers list is not empty
                 .body("properties.readings.items.properties.comment", equalTo("new checking gas"))
                 .body("properties.readings.items.properties.kindOfMeter", equalTo("Doe"))
-                .body("properties.readings.items.properties.meterId", equalTo("X1100"));
+                .body("properties.readings.items.properties.meterId", equalTo("X1100"))
                 .body("properties.readings.items.properties.meterCount", equalTo(11111.0))
                 .body("properties.readings.items.properties.dateOfReading", equalTo("2000-01-01"))
-                .body("properties.readings.items.properties.substitute", equalTo(True));
+                .body("properties.readings.items.properties.substitute", equalTo(true));
     }
 
     @Test
@@ -70,10 +73,10 @@ public class ReadingControllerTest {
                 .statusCode(201) // Validate creation status
                 .body("properties.reading.properties.comment", equalTo("new checking gas"))
                 .body("properties.reading.properties.kindOfMeter", equalTo("Doe"))
-                .body("properties.reading.properties.meterId", equalTo("X1100"));
+                .body("properties.reading.properties.meterId", equalTo("X1100"))
                 .body("properties.reading.properties.meterCount", equalTo(11111.0))
                 .body("properties.reading.properties.dateOfReading", equalTo("2000-01-01"))
-                .body("properties.reading.properties.substitute", equalTo(True));
+                .body("properties.reading.properties.substitute", equalTo(true));
                 //.body("properties.customer.properties.birthDay", equalTo(date));
             
             //deleting added reading
@@ -96,13 +99,13 @@ public class ReadingControllerTest {
                 .body("title", equalTo("JSON - Schema Readings")) // Validate schema
                 .body("required", equalTo("readings")) // Validate schema
                 .body("properties.readings.items", not(empty())) // Validate items are not empty
-                .body("properties.readings.items.size()", greaterThan(0)); // Ensure customers list is not empty
+                .body("properties.readings.items.size()", greaterThan(0)) // Ensure customers list is not empty
                 .body("properties.readings.items.properties.comment", equalTo("new checking gas"))
                 .body("properties.readings.items.properties.kindOfMeter", equalTo("Doe"))
-                .body("properties.readings.items.properties.meterId", equalTo("X1100"));
+                .body("properties.readings.items.properties.meterId", equalTo("X1100"))
                 .body("properties.readings.items.properties.meterCount", equalTo(11111.0))
                 .body("properties.readings.items.properties.dateOfReading", equalTo("2000-01-01"))
-                .body("properties.readings.items.properties.substitute", equalTo(True));
+                .body("properties.readings.items.properties.substitute", equalTo(true));
         
     }
 
@@ -120,17 +123,17 @@ public class ReadingControllerTest {
                 .statusCode(201) // Validate creation status
                 .body("properties.reading.properties.comment", equalTo("new checking gas"))
                 .body("properties.reading.properties.kindOfMeter", equalTo("Doe"))
-                .body("properties.reading.properties.meterId", equalTo("X1100"));
+                .body("properties.reading.properties.meterId", equalTo("X1100"))
                 .body("properties.reading.properties.meterCount", equalTo(11111.0))
                 .body("properties.reading.properties.dateOfReading", equalTo("2000-01-01"))
-                .body("properties.reading.properties.substitute", equalTo(True));
+                .body("properties.reading.properties.substitute", equalTo(true));
         
-        newReading.setKindOfMeter(KindOfMeter.valueOf("STROM"));
-        newReading.setComment("new checking eletricity");
-        newReading.setMeterId("Y2200");
-        newReading.setMeterCount(222222.0);
-        newReading.setSubstitute(false);
-        newReading.setDateOfReading("1990-01-01");
+                newReading.setKindOfMeter(KindOfMeter.valueOf("STROM"));
+                newReading.setComment("new checking eletricity");
+                newReading.setMeterId("Y2200");
+                newReading.setMeterCount(222222.0);
+                newReading.setSubstitute(false);
+                newReading.setDateOfReading("1990-01-01");
 
 
         //update
