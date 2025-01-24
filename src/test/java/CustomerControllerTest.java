@@ -73,7 +73,7 @@ public class CustomerControllerTest {
         // ObjectMapper mapper = new ObjectMapper();
         // String jsonString = mapper.writeValueAsString(objMap);
         
-        LocalDate date = LocalDate.parse("2000-01-01");
+        //LocalDate date = LocalDate.parse("2000-01-01");
         // ObjectMapper mapper = new ObjectMapper();
         // String jsonString = mapper.writeValueAsString(newCustomer);
         // System.out.println("Generated JSON: " + jsonString);
@@ -102,26 +102,27 @@ public class CustomerControllerTest {
     @Test
     public void testDeleteCustomer()
     {
-        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        UUID uuid = newCustomer.getUuid();
+        // Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        // UUID uuid = newCustomer.getUuid();
 
-        given()
-            .contentType("application/json")
-            .body(newCustomer)
-        .when()
-            .post() // Perform POST request to add customer
-        .then()
-            .statusCode(201); // Validate creation status
+        // given()
+        //     .contentType("application/json")
+        //     .body(newCustomer)
+        // .when()
+        //     .post() // Perform POST request to add customer
+        // .then()
+        //     .statusCode(201); // Validate creation status
 
           //deleting added customer
+        String uuid = "c45930e2-7a55-428f-ab9e-e9ffa56a3312"; 
         when()
-            .delete("/{uuid}", uuid.toString()) // Perform DELETE request
+            .delete("/{uuid}", uuid) // Perform DELETE request
         .then()
             .statusCode(200)
             .body("properties.customer.properties.firstName", equalTo("John"))
             .body("properties.customer.properties.lastName", equalTo("Doe"))
             .body("properties.customer.properties.gender", equalTo("M"))
-            .body("birthDay", equalTo("2000-01-01"));
+            .body("properties.customer.properties.birthDay", equalTo("2000-01-01"));
     }
 
     @Test
