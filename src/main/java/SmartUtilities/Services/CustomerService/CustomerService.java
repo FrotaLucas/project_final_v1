@@ -150,4 +150,18 @@ public class CustomerService implements ICustomerService {
         }
         return null;
     }
+
+    @Override
+    public boolean deleteAllCustomers() {
+        try {
+            // delete all customers from table
+            String sql = "DELETE FROM customers";
+            this._database.queryWithoutReturn(sql); 
+            return true; 
+        } catch (Exception e) {
+            System.err.println("Error while deleting all customers: " + e.getMessage());
+            return false; 
+        }
+}
+
 }

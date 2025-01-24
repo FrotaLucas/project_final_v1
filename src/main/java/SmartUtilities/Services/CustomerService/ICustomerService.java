@@ -19,5 +19,7 @@ public interface ICustomerService {
     List<Customer> getCustomers();
 
     Customer getCustomerByUuid(String Uuid);
+
+    boolean deleteAllCustomer();
 }
 
