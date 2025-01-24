@@ -37,8 +37,59 @@ public class ReadingControllerTest {
                 .queryParam("customer", 1) // Define o parâmetro "customer"
                 .queryParam("start", "2000-02-01") // Define o parâmetro "start"
                 .queryParam("end", "2000-06-01") // Define o parâmetro "end"
+                .queryParam("kindOfMeter", "HEIZUNG")
         .when()
                 .get() // Perform GET request
+        .then()
+                .statusCode(200)
+                .body("type", equalTo("object")) // Validate type is "object"
+                .body("title", equalTo("JSON - Schema Customer with Reading")) // Validate schema
+                .body("required", equalTo("readings")) // Validate schema
+                .body("properties.readings.items", not(empty())) // Validate items are not empty
+                .body("properties.readings.items.size()", greaterThan(0)); // Ensure customers list is not empty
+                .body("properties.readings.items.properties.comment", equalTo("new checking gas"))
+                .body("properties.readings.items.properties.kindOfMeter", equalTo("Doe"))
+                .body("properties.readings.items.properties.meterId", equalTo("X1100"));
+                .body("properties.readings.items.properties.meterCount", equalTo(11111.0))
+                .body("properties.readings.items.properties.dateOfReading", equalTo("2000-01-01"))
+                .body("properties.readings.items.properties.substitute", equalTo(True));
+    }
+
+    @Test
+    public void testAddReading()
+    {
+        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 1);
+        String uuid = newReading.getUuid().toString();
+
+           given()
+                .contentType("application/json")
+                .body(newReading)
+            .when()
+                .post("/") // Perform POST request to add customer
+            .then()
+                .statusCode(201) // Validate creation status
+                .body("properties.reading.properties.comment", equalTo("new checking gas"))
+                .body("properties.reading.properties.kindOfMeter", equalTo("Doe"))
+                .body("properties.reading.properties.meterId", equalTo("X1100"));
+                .body("properties.reading.properties.meterCount", equalTo(11111.0))
+                .body("properties.reading.properties.dateOfReading", equalTo("2000-01-01"))
+                .body("properties.reading.properties.substitute", equalTo(True));
+                //.body("properties.customer.properties.birthDay", equalTo(date));
+            
+            //deleting added reading
+            when()
+                .delete("/{uuid}", uuid.toString()) // Perform DELETE request
+            .then()
+                .statusCode(200)
+                .body("properties.reading.properties.size()", notNullValue()); 
+
+    }
+
+    @Test void deleteReading()
+    {
+        String uuid = "c45930e2-7a55-428f-ab9e-e9ffa56a3312"; 
+        when()
+            .delete("/{uuid}", uuid) // Perform DELETE request
         .then()
                 .statusCode(200)
                 .body("type", equalTo("object")) // Validate type is "object"
@@ -46,6 +97,57 @@ public class ReadingControllerTest {
                 .body("required", equalTo("readings")) // Validate schema
                 .body("properties.readings.items", not(empty())) // Validate items are not empty
                 .body("properties.readings.items.size()", greaterThan(0)); // Ensure customers list is not empty
+                .body("properties.readings.items.properties.comment", equalTo("new checking gas"))
+                .body("properties.readings.items.properties.kindOfMeter", equalTo("Doe"))
+                .body("properties.readings.items.properties.meterId", equalTo("X1100"));
+                .body("properties.readings.items.properties.meterCount", equalTo(11111.0))
+                .body("properties.readings.items.properties.dateOfReading", equalTo("2000-01-01"))
+                .body("properties.readings.items.properties.substitute", equalTo(True));
+        
+    }
+
+    @Test void updateReading()
+    {
+          Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 1);
+        String uuid = newReading.getUuid().toString();
+
+           given()
+                .contentType("application/json")
+                .body(newReading)
+            .when()
+                .post("/") // Perform POST request to add customer
+            .then()
+                .statusCode(201) // Validate creation status
+                .body("properties.reading.properties.comment", equalTo("new checking gas"))
+                .body("properties.reading.properties.kindOfMeter", equalTo("Doe"))
+                .body("properties.reading.properties.meterId", equalTo("X1100"));
+                .body("properties.reading.properties.meterCount", equalTo(11111.0))
+                .body("properties.reading.properties.dateOfReading", equalTo("2000-01-01"))
+                .body("properties.reading.properties.substitute", equalTo(True));
+        
+        newReading.setKindOfMeter(KindOfMeter.valueOf("STROM"));
+        newReading.setComment("new checking eletricity");
+        newReading.setMeterId("Y2200");
+        newReading.setMeterCount(222222.0);
+        newReading.setSubstitute(false);
+        newReading.setDateOfReading("1990-01-01");
+
+
+        //update
+        given()
+            .contentType("application/json")
+            .body(newReading)
+        .when()
+            .put() // Perform POST request to add customer
+        .then()
+            .statusCode(200);
+
+        //deleting added reading
+        when()
+                .delete("/{uuid}", uuid.toString()) // Perform DELETE request
+        .then()
+                .statusCode(200)
+                .body("properties.reading.properties.size()", notNullValue()); 
     }
 
 }
