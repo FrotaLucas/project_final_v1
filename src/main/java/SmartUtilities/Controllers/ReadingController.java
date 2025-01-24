@@ -114,7 +114,7 @@ public class ReadingController {
 
 
              ServiceResponse<Reading> serviceResponse = new ServiceResponse<>(
-                " JSON - Schema Readings",
+                "JSON - Schema Readings",
                 "object",
                 "readings",
                 serviceResponseProperties);
