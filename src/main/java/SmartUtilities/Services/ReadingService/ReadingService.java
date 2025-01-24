@@ -244,7 +244,7 @@ public class ReadingService implements IReadingService {
     }
 
     @Override
-    public List<Reading> getReadingsByDateRange(String customerId, String start, String end)
+    public List<Reading> getReadingsByDateRange(String customerId, String start, String end, String kindOfMeter)
     {   
         if(end == null)
             {
@@ -256,6 +256,7 @@ public class ReadingService implements IReadingService {
         String sqlReading = (start == null) ? "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
         "' AND date_of_reading <= '" + end + "'" :  
         "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
+        "' AND kind_of_meter = '" + kindOfMeter + 
         "' AND date_of_reading >= '" + start + "' AND date_of_reading <= '" + end + "'"; 
         
         List<Reading> readings = new ArrayList<>();

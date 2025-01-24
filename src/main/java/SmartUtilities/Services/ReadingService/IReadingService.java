@@ -18,7 +18,7 @@ public interface IReadingService {
 
     List<Reading> getReadings();
 
-    List<Reading> getReadingsByDateRange(String customerId, String start, String end);
+    List<Reading> getReadingsByDateRange(String customerId, String start, String end, String kindOfMeter);
 
     List<Reading> getReading(int customerId);
 

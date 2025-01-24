@@ -92,12 +92,13 @@ public class ReadingController {
     //estou colocando os alesung dentro de properties com Array[]
     @GET  
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReadings(@QueryParam("customer") String customerId, @QueryParam("start") String start, @QueryParam("end") String end)
+    public Response getReadings(@QueryParam("customer") String customerId, @QueryParam("start") String start, 
+    @QueryParam("end") String end, @QueryParam("kindOfMeter") String kindOfMeter)
     {
-        ServiceResponse<Reading> serviceResponse = new ServiceResponse();
+        ServiceResponse<Reading> serviceResponse = new ServiceResponse<Reading>();
         List<Reading> readings;
         if( customerId != null){
-            readings = _readingService.getReadingsByDateRange(customerId, start, end);
+            readings = _readingService.getReadingsByDateRange(customerId, start, end, kindOfMeter);
             serviceResponse.setTitle("JSON - Schema Customer with reading");
             serviceResponse.setRequired("customer, readings");
         }
@@ -119,7 +120,7 @@ public class ReadingController {
                 .of("readings", readingData);
 
             serviceResponse.setType("object");
-            serviceResponse.setProperties(serviceResponse);
+            serviceResponse.setProperties(serviceResponseProperties);
 
             return Response.ok(serviceResponse).build();
         
