@@ -94,12 +94,18 @@ public class ReadingController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReadings(@QueryParam("customer") String customerId, @QueryParam("start") String start, @QueryParam("end") String end)
     {
+        ServiceResponse<Reading> serviceResponse = new ServiceResponse();
         List<Reading> readings;
-        if( customerId != null)
+        if( customerId != null){
             readings = _readingService.getReadingsByDateRange(customerId, start, end);
-        else
+            serviceResponse.setTitle("JSON - Schema Customer with reading");
+            serviceResponse.setRequired("customer, readings");
+        }
+        else { 
              readings = _readingService.getReadings();
-
+             serviceResponse.setTitle("JSON - Schema Readings");
+             serviceResponse.setRequired("readings");
+        }
         if(readings.size() != 0)
         {
             Map<String, Object> readingData = new LinkedHashMap<>();
@@ -112,13 +118,8 @@ public class ReadingController {
             Map<String, Object> serviceResponseProperties = Map
                 .of("readings", readingData);
 
-
-             ServiceResponse<Reading> serviceResponse = new ServiceResponse<>(
-                "JSON - Schema Readings",
-                "object",
-                "readings",
-                serviceResponseProperties);
-
+            serviceResponse.setType("object");
+            serviceResponse.setProperties(serviceResponse);
 
             return Response.ok(serviceResponse).build();
         
