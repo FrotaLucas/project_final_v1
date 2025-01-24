@@ -24,8 +24,8 @@ import jakarta.ws.rs.core.Response;
 public class ReadingController {
     
     private Database database = new Database();
-    private ICustomerService _customerservice;
-    private ReadingService _readingService = new ReadingService(database, _customerservice);
+    private ICustomerService _ICustomerService;
+    private ReadingService _readingService = new ReadingService(database, _ICustomerService);
     private CustomerService _customerService = new CustomerService(database);
 
     //TT ok
