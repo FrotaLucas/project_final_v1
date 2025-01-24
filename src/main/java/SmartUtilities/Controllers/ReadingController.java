@@ -114,7 +114,7 @@ public class ReadingController {
 
 
              ServiceResponse<Reading> serviceResponse = new ServiceResponse<>(
-                "Customer-JSON-Schema",
+                " JSON - Schema Readings",
                 "object",
                 "readings",
                 serviceResponseProperties);
@@ -172,7 +172,7 @@ public class ReadingController {
                 .of("reading", readingData);
 
             ServiceResponse<Reading> serviceResponse = new ServiceResponse<>(
-                "Customer-JSON-Schema",
+                "JSON - Schema Reading",
                 "object",
                 "reading",
                 serviceResponseProperties);
