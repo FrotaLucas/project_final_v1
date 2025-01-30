@@ -32,7 +32,7 @@ public class Server {
         if (server != null)
         {
             server.stop(1);
-            System.out.println("Server stopped.");
+            System.out.println("Server stopped." + server);
         }
         else {
             System.out.println("Server not running.");

@@ -126,7 +126,7 @@ public class ReadingController {
         
         }
           // Error 404
-          return Response.status(Response.Status.BAD_REQUEST).entity("No data found on database.").build();
+          return Response.status(Response.Status.BAD_REQUEST).entity("Error on request.").build();
     }
 
     @GET

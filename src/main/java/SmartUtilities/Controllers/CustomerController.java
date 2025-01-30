@@ -40,8 +40,9 @@ public class CustomerController {
                     .build();
         }
         Map<String, Object> customerProperties = new LinkedHashMap<>();
+        //add new id to json!!!!!!!!!!!!!!!!!!!
         //customerProperties.put("id", customer.getId());
-        customerProperties.put("firstName", customer.getFirstName());
+         customerProperties.put("firstName", customer.getFirstName());
         customerProperties.put("lastName", customer.getLastName());
         customerProperties.put("birthDay", customer.getBirthDate());
         customerProperties.put("gender", customer.getGender());
