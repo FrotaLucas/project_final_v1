@@ -12,8 +12,7 @@ import jakarta.ws.rs.core.Response;
 public class DataBaseController {
     
     private Database database = new Database();
-    private ICustomerService _ICustomerService;
-    private ReadingService _readingService = new ReadingService(database, _ICustomerService);
+    private ReadingService _readingService = new ReadingService(database);
     private CustomerService _customerService = new CustomerService(database);
 
     @DELETE  // Mapeando o método como DELETE

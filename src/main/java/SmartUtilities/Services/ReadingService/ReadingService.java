@@ -3,6 +3,7 @@ package SmartUtilities.Services.ReadingService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;
+import SmartUtilities.Services.CustomerService.CustomerService;
 import SmartUtilities.Services.CustomerService.ICustomerService;
 
 import java.sql.ResultSet;
@@ -15,11 +16,12 @@ import java.util.UUID;
 public class ReadingService implements IReadingService {
 
     private Database _database;
-    private ICustomerService customerService;
+    private CustomerService _customerService;
 
-    public ReadingService(Database database, ICustomerService customerService) {
-        this.customerService = customerService;
+    public ReadingService(Database database) {
         this._database = database;
+        this._customerService = new CustomerService(_database);
+
     }
 
     @Override
@@ -34,8 +36,8 @@ public class ReadingService implements IReadingService {
                 Customer newCustomer = new Customer(null, firstName, "x", "1900-01-01", "M");
                 //In case customer does not exist
                 UUID uuid = newCustomer.getUuid();
-                customerService.addNewCustomer(newCustomer);
-                Customer retrievedCustomer = customerService.getCustomerByUuid(uuid.toString());
+                _customerService.addNewCustomer(newCustomer);
+                Customer retrievedCustomer = _customerService.getCustomerByUuid(uuid.toString());
                 customerId = retrievedCustomer.getId().orElse(0);
                 reading.setCustomerId(customerId);
             }

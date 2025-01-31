@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.*; // For static assertions like 
 public class ReadingServiceTest {
 
     private ReadingService _readingService;
-    private ICustomerService _customerService;
     private Database _database;
     private Connection _connection;
 
@@ -31,7 +30,7 @@ public class ReadingServiceTest {
     {
         _database = new Database();
         _connection = Database.connect();
-        _readingService = new ReadingService(_database, _customerService);
+        _readingService = new ReadingService(_database);
     }
 
     @Test
