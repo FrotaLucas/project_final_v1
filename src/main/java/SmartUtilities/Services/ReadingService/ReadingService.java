@@ -30,7 +30,8 @@ public class ReadingService implements IReadingService {
     
             //se getCustomerId() for vazio ou nulo, ele eh automaticamente zero!!
             if (customerId == 0) {
-                Customer newCustomer = new Customer(null, "x", "x", "1900-01-01", "M");
+                String firstName = reading.getCustomer().getFirstName();
+                Customer newCustomer = new Customer(null, firstName, "x", "1900-01-01", "M");
                 //In case customer does not exist
                 UUID uuid = newCustomer.getUuid();
                 customerService.addNewCustomer(newCustomer);

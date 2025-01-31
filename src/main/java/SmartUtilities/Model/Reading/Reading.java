@@ -31,11 +31,13 @@ public class Reading implements IReading, IID {
 
     private UUID uuid;
 
+    //1 constructor responsavel por criar instancias
     @JsonCreator
     public Reading(@JsonProperty("kindOfMeter") String k, @JsonProperty("comment") String comment,
                    @JsonProperty("meterId") String meterId, @JsonProperty("meterCount") Double meterCount,
                    @JsonProperty("substitute") boolean substitute, @JsonProperty("dateOfReading") String date,
-                   @JsonProperty("customerId") int customerId) {
+                   @JsonProperty("customerId") int customerId,
+                   @JsonProperty("customer") Customer customer) {
         this.kindOfMeter = KindOfMeter.valueOf(k);
         this.comment = comment;
         this.meterId = meterId;
@@ -44,6 +46,22 @@ public class Reading implements IReading, IID {
         this.dateOfReading = date;
         this.customerId = customerId;
         this.uuid = UUID.randomUUID();
+        this.customer = customer;
+    }
+
+    //2 constructor apenas usa o de cima 1 para criar objeto com customer nulo
+    //for new instances of reading with no customer
+    public Reading(
+            String k,
+            String comment,
+            String meterId,
+            Double meterCount,
+            boolean substitute,
+            String date,
+            int customerId) {
+        //this aqui se refere ao primeiro cosntructor. Dizendo eu to criando uma instancia reading usando vc
+        //colocar customer null.
+        this(k, comment, meterId, meterCount, substitute, date, customerId, null);
     }
 
     @Override

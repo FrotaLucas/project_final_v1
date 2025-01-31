@@ -39,16 +39,17 @@ public class ReadingController {
                 .entity("No customer data provided to save ")
                 .build();
 
+
         boolean successAdd = _readingService.addNewReading(reading);
         if(successAdd)
         {
             Customer customer = _customerService.getCustomer(reading.getCustomerId());
             Map<String, Object> customerProperties = new LinkedHashMap<>();
-            customerProperties.put("uuid", customer.getUuid());
-            customerProperties.put("firstName", customer.getFirstName());
-            customerProperties.put("lastName", customer.getLastName());
-            customerProperties.put("birthDay", customer.getBirthDate());
-            customerProperties.put("gender", customer.getGender());
+            customerProperties.put("id", reading.getCustomer().getId());
+            customerProperties.put("firstName", reading.getCustomer().getFirstName());
+            customerProperties.put("lastName", reading.getCustomer().getLastName());
+            customerProperties.put("birthDay", reading.getCustomer().getBirthDate());
+            customerProperties.put("gender", reading.getCustomer().getGender());
 
             Map<String, Object> customerData = Map
                 .of("anyOf", Map
