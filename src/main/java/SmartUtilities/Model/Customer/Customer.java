@@ -39,8 +39,7 @@ public class Customer implements ICustomer, IID {
         //para um enum. Se for D eh 0 e M eh 1...
     }
 
-    public Optional<Integer> getId()
-    {
+    public Optional<Integer> getId() {
         return Id;
     }
 
@@ -54,12 +53,12 @@ public class Customer implements ICustomer, IID {
     public String getFirstName() {
         return firstName;
     }
-    
+
     @Override
     public String getLastName() {
         return lastName;
     }
-   
+
     @Override
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") //Instr. for  Jackson JsonFormatter
     public LocalDate getBirthDate() {
@@ -71,8 +70,7 @@ public class Customer implements ICustomer, IID {
         return gender;
     }
 
-    public void setId(Integer Id)
-    {
+    public void setId(Integer Id) {
         //If null is passed, Id can be null
         this.Id = Optional.ofNullable(Id);
     }
@@ -90,16 +88,16 @@ public class Customer implements ICustomer, IID {
     @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
-            
+
     }
-        
+
     @Override
     public void setBirthDate(LocalDate birtDate) {
-       this.birthDate = birtDate;
+        this.birthDate = birtDate;
     }
 
     @Override
     public void setGender(Gender gender) {
-       this.gender = gender;
+        this.gender = gender;
     }
 }

@@ -32,10 +32,10 @@ public class Reading implements IReading, IID {
     private UUID uuid;
 
     @JsonCreator
-    public Reading(@JsonProperty("kindOfMeter") String k, @JsonProperty("comment") String comment, 
-    @JsonProperty("meterId") String meterId, @JsonProperty("meterCount") Double meterCount,
-    @JsonProperty("substitute") boolean substitute, @JsonProperty("dateOfReading") String date, 
-    @JsonProperty("customerId") int customerId) {
+    public Reading(@JsonProperty("kindOfMeter") String k, @JsonProperty("comment") String comment,
+                   @JsonProperty("meterId") String meterId, @JsonProperty("meterCount") Double meterCount,
+                   @JsonProperty("substitute") boolean substitute, @JsonProperty("dateOfReading") String date,
+                   @JsonProperty("customerId") int customerId) {
         this.kindOfMeter = KindOfMeter.valueOf(k);
         this.comment = comment;
         this.meterId = meterId;
@@ -82,7 +82,7 @@ public class Reading implements IReading, IID {
     }
 
     @Override
-    public int getCustomerId(){
+    public int getCustomerId() {
         return this.customerId;
     }
 
@@ -93,47 +93,49 @@ public class Reading implements IReading, IID {
 
     @Override
     public void setCustomer(Customer customer) {
-            this.customer = customer;
+        this.customer = customer;
     }
 
     @Override
     public void setKindOfMeter(KindOfMeter kindOfMeter) {
-            this.kindOfMeter = kindOfMeter;
+        this.kindOfMeter = kindOfMeter;
     }
 
     @Override
     public void setComment(String comment) {
-            this.comment = comment;
+        this.comment = comment;
     }
 
     @Override
     public void setMeterId(String meterId) {
-            this.meterId = meterId;
+        this.meterId = meterId;
     }
 
     @Override
     public void setMeterCount(Double meterCount) {
-            this.meterCount = meterCount;
+        this.meterCount = meterCount;
     }
 
     @Override
     public void setSubstitute(Boolean substitute) {
-            this.substitute = substitute;
+        this.substitute = substitute;
     }
 
     @Override
     public void setDateOfReading(String dateOfReading) {
-            this.dateOfReading = dateOfReading;
+        this.dateOfReading = dateOfReading;
     }
 
 
     @Override //NUNCA DEVERIA SER USADO
     public void setUuid(UUID uuid) {
-            this.uuid = uuid;
+        this.uuid = uuid;
     }
 
     @Override
-    public void setCustomerId(int id) {this.customerId = id;}
+    public void setCustomerId(int id) {
+        this.customerId = id;
+    }
 
     @Override
     public String printDateOfReading() {
