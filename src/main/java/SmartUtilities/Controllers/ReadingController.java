@@ -42,6 +42,7 @@ public class ReadingController {
         boolean successAdd = _readingService.addNewReading(reading);
         if(successAdd)
         {
+            //podemos eliminar propriedade customerId do json reading dado que vamos ter um campo customer????
             Customer customer = _customerService.getCustomer(reading.getCustomerId());
             Map<String, Object> customerProperties = new LinkedHashMap<>();
             customerProperties.put("id", reading.getCustomer().getId());

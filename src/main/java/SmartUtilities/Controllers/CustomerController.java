@@ -8,6 +8,7 @@ import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Services.CustomerService.CustomerService;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,12 +41,6 @@ public class CustomerController {
                     .build();
         }
         Map<String, Object> customerProperties = new LinkedHashMap<>();
-        //add new id to json!!!!!!!!!!!!!!!!!!!
-        //customerProperties.put("id", customer.getId());
-         customerProperties.put("firstName", customer.getFirstName());
-        customerProperties.put("lastName", customer.getLastName());
-        customerProperties.put("birthDay", customer.getBirthDate());
-        customerProperties.put("gender", customer.getGender());
 
         Map<String, Object> serviceResponseProperties = Map
                 .of("customer", Map
@@ -60,6 +55,16 @@ public class CustomerController {
                 serviceResponseProperties);
 
         boolean addSuccess = _customerService.addNewCustomer(customer);
+        Customer dbCustomer = _customerService.getCustomerByUuid(customer.getUuid().toString());
+        int idCustomer = dbCustomer.getId().orElse(0);
+
+        customerProperties.put("id", idCustomer);
+        customerProperties.put("uuiId", customer.getUuid());
+        customerProperties.put("firstName", customer.getFirstName());
+        customerProperties.put("lastName", customer.getLastName());
+        customerProperties.put("birthDay", customer.getBirthDate());
+        customerProperties.put("gender", customer.getGender());
+
         if (addSuccess)
             return Response.status(Response.Status.CREATED)
                 .entity(serviceResponse).build();
