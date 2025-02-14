@@ -32,17 +32,16 @@ public class ReadingService implements IReadingService {
     
             //se getCustomerId() for vazio ou nulo, ele eh automaticamente zero!!
             if (customerId == 0) {
+                UUID uuidCustomer = reading.getCustomer().getUuid();
                 String firstName = reading.getCustomer().getFirstName();
                 String lastName = reading.getCustomer().getLastName();
                 String birthDate = reading.getCustomer().getBirthDate().toString();
                 String gender = reading.getCustomer().getGender().toString();
 
                 Customer newCustomer = new Customer(null, firstName, lastName, birthDate, gender);
-                //In case customer does not exist
-                UUID uuid = newCustomer.getUuid();
-                System.out.println("uuid creating customer " + uuid);
+                newCustomer.setUuid(uuidCustomer);
                 _customerService.addNewCustomer(newCustomer);
-                Customer retrievedCustomer = _customerService.getCustomerByUuid(uuid.toString());
+                Customer retrievedCustomer = _customerService.getCustomerByUuid(uuidCustomer.toString());
                 customerId = retrievedCustomer.getId().orElse(0);
                 reading.setCustomerId(customerId);
             }
