@@ -36,8 +36,7 @@ public class Reading implements IReading, IID {
     public Reading(@JsonProperty("kindOfMeter") String k, @JsonProperty("comment") String comment,
                    @JsonProperty("meterId") String meterId, @JsonProperty("meterCount") Double meterCount,
                    @JsonProperty("substitute") boolean substitute, @JsonProperty("dateOfReading") String date,
-                   @JsonProperty("customerId") int customerId,
-                   @JsonProperty("customer") Customer customer) {
+                   @JsonProperty("customerId") int customerId, @JsonProperty("customer") Customer customer) {
         this.kindOfMeter = KindOfMeter.valueOf(k);
         this.comment = comment;
         this.meterId = meterId;
