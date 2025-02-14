@@ -7,14 +7,16 @@ import SmartUtilities.Enums.Gender;
 import SmartUtilities.Shared.IID;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Optional;
 
 public class Customer implements ICustomer, IID {
 
-    private Optional<Integer> Id;
+    private Optional<Integer> id;
 
+    //@JsonIgnore
     private UUID uuid;
 
     private String firstName;
@@ -27,10 +29,10 @@ public class Customer implements ICustomer, IID {
 
     // Constructor
     @JsonCreator
-    public Customer(@JsonProperty("Id") Integer Id, @JsonProperty("firstName") String firstName,
+    public Customer(@JsonProperty("id") Integer id, @JsonProperty("firstName") String firstName,
                     @JsonProperty("lastName") String lastName, @JsonProperty("birthDate") String birthDate,
                     @JsonProperty("gender") String gender) {
-        this.Id = Optional.ofNullable(Id);
+        this.id = Optional.ofNullable(id);
         this.uuid = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,7 +42,7 @@ public class Customer implements ICustomer, IID {
     }
 
     public Optional<Integer> getId() {
-        return Id;
+        return id;
     }
 
     @Override
@@ -72,7 +74,7 @@ public class Customer implements ICustomer, IID {
 
     public void setId(Integer Id) {
         //If null is passed, Id can be null
-        this.Id = Optional.ofNullable(Id);
+        this.id = Optional.ofNullable(Id);
     }
 
     @Override
