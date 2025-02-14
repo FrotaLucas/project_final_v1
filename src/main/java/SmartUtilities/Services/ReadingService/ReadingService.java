@@ -33,9 +33,14 @@ public class ReadingService implements IReadingService {
             //se getCustomerId() for vazio ou nulo, ele eh automaticamente zero!!
             if (customerId == 0) {
                 String firstName = reading.getCustomer().getFirstName();
-                Customer newCustomer = new Customer(null, firstName, "x", "1900-01-01", "M");
+                String lastName = reading.getCustomer().getLastName();
+                String birthDate = reading.getCustomer().getBirthDate().toString();
+                String gender = reading.getCustomer().getGender().toString();
+
+                Customer newCustomer = new Customer(null, firstName, lastName, birthDate, gender);
                 //In case customer does not exist
                 UUID uuid = newCustomer.getUuid();
+                System.out.println("uuid creating customer " + uuid);
                 _customerService.addNewCustomer(newCustomer);
                 Customer retrievedCustomer = _customerService.getCustomerByUuid(uuid.toString());
                 customerId = retrievedCustomer.getId().orElse(0);
@@ -111,13 +116,12 @@ public class ReadingService implements IReadingService {
             String sqlReading = "DELETE FROM data_reading WHERE uui_id = '" +
                     uuid + "'";
     
-            try (ResultSet rs = this._database.queryWithReturn(sqlReading)) {
-            } catch (SQLException e) {
-                System.out.println("Customer does not exist." + e.getMessage());
-                return false;
+            try  {
+                this._database.queryWithoutReturn(sqlReading);
+                return true; 
+            } catch (Exception e) {
+                System.out.println("Data does not exist." + e.getMessage());
             }
-            this._database.queryWithoutReturn(sqlReading);  
-            return true; 
         }
         return false;
     }
