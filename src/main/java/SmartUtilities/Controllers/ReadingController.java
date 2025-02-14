@@ -42,10 +42,9 @@ public class ReadingController {
         boolean successAdd = _readingService.addNewReading(reading);
         if(successAdd)
         {
-            //podemos eliminar propriedade customerId do json reading dado que vamos ter um campo customer????
-            Customer customer = _customerService.getCustomer(reading.getCustomerId());
             Map<String, Object> customerProperties = new LinkedHashMap<>();
-            customerProperties.put("uuiId", reading.getCustomer().getUuid().toString());
+            customerProperties.put("uuid", reading.getCustomer().getUuid().toString());
+            customerProperties.put("id", reading.getCustomerId());
             customerProperties.put("firstName", reading.getCustomer().getFirstName());
             customerProperties.put("lastName", reading.getCustomer().getLastName());
             customerProperties.put("birthDay", reading.getCustomer().getBirthDate());
@@ -187,7 +186,6 @@ public class ReadingController {
         // Error NOT FOUND 404
         return Response.status(Response.Status.NOT_FOUND).entity("No data found on database.").build();
         
-    
     }
 
     //TT ok
@@ -215,7 +213,7 @@ public class ReadingController {
         
         boolean successDelete = _readingService.deleteReadingByUuid(uuid);
         if( successDelete)
-        {
+        { 
             Customer customer = _customerService.getCustomer(idCustomer);
             Map<String, Object> customerProperties = new LinkedHashMap<>();
             customerProperties.put("uuid", customer.getUuid());
