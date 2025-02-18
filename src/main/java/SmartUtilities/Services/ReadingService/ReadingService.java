@@ -28,9 +28,9 @@ public class ReadingService implements IReadingService {
     public boolean addNewReading(Reading reading) {
         if( reading != null)
         {
-            int customerId = reading.getCustomerId();
+            int customerId = reading.getCustomer().getId().orElse(0);
     
-            //se getCustomerId() for vazio ou nulo, ele eh automaticamente zero!!
+            //if getCustomerId() is null or zero, get automatic 0 !
             if (customerId == 0) {
                 UUID uuidCustomer = reading.getCustomer().getUuid();
                 String firstName = reading.getCustomer().getFirstName();
@@ -44,8 +44,13 @@ public class ReadingService implements IReadingService {
                 Customer retrievedCustomer = _customerService.getCustomerByUuid(uuidCustomer.toString());
                 customerId = retrievedCustomer.getId().orElse(0);
                 reading.setCustomerId(customerId);
+                reading.getCustomer().setId(customerId);
             }
     
+            //update json of Reading
+            Customer dbCustomer = _customerService.getCustomer(customerId);
+            reading.getCustomer().setUuid(dbCustomer.getUuid());
+
             String sqlReading = "INSERT INTO data_reading (customer_id, kind_of_meter, " +
                     "comment, meter_id," +
                     "meter_count, substitute," +
