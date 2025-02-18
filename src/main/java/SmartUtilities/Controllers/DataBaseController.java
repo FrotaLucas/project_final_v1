@@ -22,9 +22,12 @@ public class DataBaseController {
         boolean successfullDeleteReadings = _readingService.deleteAllReadins();
 
         if(successfullDeleteCustomers && successfullDeleteReadings) // Usando o operador correto (&&)
+        {
             return Response.status(Response.Status.OK)
                             .entity("All tables successfully reset.")
                             .build();
+        }    
+            
 
         return Response.status(Response.Status.BAD_REQUEST)
                             .entity("Error while resetting tables.")
