@@ -5,6 +5,8 @@ import SmartUtilities.Model.Customer.Customer;
 import jakarta.inject.Singleton;
 
 import java.io.Console;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,8 +25,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public boolean addNewCustomer(Customer customer) {
-        if (customer != null)
-        {
+        if (customer != null) {
             String sql = "INSERT INTO customers (first_name, last_name, birthdate, gender, uui_id) VALUES ('" +
                     customer.getFirstName() + "', '" +
                     customer.getLastName() + "', '" +
@@ -41,18 +42,17 @@ public class CustomerService implements ICustomerService {
     @Override
     public boolean updateCustomer(Customer customer) {
 
-        if( customer != null && customer.getUuid() != null)
-        {
-            //Optional<Integer> idOptional = customer.getId();
-            //String id = idOptional.map(String::valueOf).orElse("NULL");
-            //int id = idOptional.get();
+        if (customer != null && customer.getUuid() != null) {
+            // Optional<Integer> idOptional = customer.getId();
+            // String id = idOptional.map(String::valueOf).orElse("NULL");
+            // int id = idOptional.get();
             System.out.println(customer.getUuid().toString());
             String sql = "UPDATE customers SET first_name = '" + customer.getFirstName() +
                     "', last_name = '" + customer.getLastName() +
                     "', birthdate = '" + customer.getBirthDate() +
                     "', gender = '" + customer.getGender() +
                     "' WHERE uui_id = '" + customer.getUuid().toString() + "'";
-    
+
             this._database.queryWithoutReturn(sql);
             return true;
         }
@@ -60,21 +60,19 @@ public class CustomerService implements ICustomerService {
         return false;
     }
 
-    //substituir deleCustomer por deleteCustomering
+    // substituir deleCustomer por deleteCustomering
     @Override
     public boolean deleteCustomer(String uuid) {
-        if (uuid !=null)
-        {
+        if (uuid != null) {
             Customer dbCustomer = getCustomerByUuid(uuid);
-            //Optional<Integer> id = customer.getId();
+            // Optional<Integer> id = customer.getId();
             int id = dbCustomer.getId().orElse(0);
             System.out.println(id);
-            
-            if(id != 0)
-            {
+
+            if (id != 0) {
                 String sqlReading = "UPDATE data_reading SET customer_id = NULL WHERE customer_id = '" + id + "'";
                 String sql = "DELETE from customers WHERE id = '" + id + "'";
-            
+
                 this._database.queryWithoutReturn(sqlReading);
                 this._database.queryWithoutReturn(sql);
                 return true;
@@ -85,8 +83,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer getCustomer(int id) {
-        if(id != 0)
-        {
+        if (id != 0) {
             String sql = "SELECT * FROM customers WHERE id = '" + id + "'";
             try (ResultSet rs = this._database.queryWithReturn(sql)) {
                 if (rs.next()) {
@@ -97,8 +94,7 @@ public class CustomerService implements ICustomerService {
                     dbCustomer.setUuid(UUID.fromString(rs.getString("uui_id")));
                     return dbCustomer;
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 System.out.println("Error retrieving customer with id: " + id + e.getMessage());
                 return null;
             }
@@ -130,9 +126,8 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer getCustomerByUuid(String id_uui) {
-        
-        if( id_uui != null)
-        {
+
+        if (id_uui != null) {
             String sql = "SELECT * FROM customers WHERE uui_id = '" + id_uui + "'";
             try (ResultSet rs = this._database.queryWithReturn(sql)) {
                 if (rs.next()) {
@@ -154,14 +149,31 @@ public class CustomerService implements ICustomerService {
     @Override
     public boolean deleteAllCustomers() {
         try {
-            // delete all customers from table
-            String sql = "DELETE FROM customers";
-            this._database.queryWithoutReturn(sql); 
-            return true; 
+            //drop fereign key before deleting
+            String sql1 = "alter table data_reading drop foreign key data_reading_ibfk_1;";
+            this._database.queryWithoutReturn(sql1);
+
+            String sql2 = "DROP TABLE IF EXISTS customers;";
+            this._database.queryWithoutReturn(sql2);
+
+            String sql3 = """
+                    CREATE TABLE IF NOT EXISTS customers (
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        first_name VARCHAR(50),
+                        last_name VARCHAR(50),
+                        birthDate DATE,
+                        gender VARCHAR(10),
+                        uui_id VARCHAR(255)
+                    );
+                    """;
+
+            this._database.queryWithoutReturn(sql3);
+            return true;
+            
         } catch (Exception e) {
             System.err.println("Error while deleting all customers: " + e.getMessage());
-            return false; 
+            return false;
         }
-}
+    }
 
 }
