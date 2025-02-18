@@ -8,7 +8,6 @@ import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;
 import SmartUtilities.Services.CustomerService.CustomerService;
-import SmartUtilities.Services.CustomerService.ICustomerService;
 import SmartUtilities.Services.ReadingService.ReadingService;
 import SmartUtilities.Shared.ServiceResponse;
 
@@ -44,7 +43,7 @@ public class ReadingController {
         {
             Map<String, Object> customerProperties = new LinkedHashMap<>();
             customerProperties.put("uuid", reading.getCustomer().getUuid().toString());
-            customerProperties.put("id", reading.getCustomerId());
+            customerProperties.put("id", reading.getCustomer().getId());
             customerProperties.put("firstName", reading.getCustomer().getFirstName());
             customerProperties.put("lastName", reading.getCustomer().getLastName());
             customerProperties.put("birthDay", reading.getCustomer().getBirthDate());
