@@ -26,11 +26,10 @@ public class ReadingService implements IReadingService {
 
     @Override
     public boolean addNewReading(Reading reading) {
-        if( reading != null)
-        {
+        if (reading != null) {
             int customerId = reading.getCustomer().getId().orElse(0);
-    
-            //if getCustomerId() is null or zero, get automatic 0 !
+
+            // if getCustomerId() is null or zero, get automatic 0 !
             if (customerId == 0) {
                 UUID uuidCustomer = reading.getCustomer().getUuid();
                 String firstName = reading.getCustomer().getFirstName();
@@ -46,8 +45,8 @@ public class ReadingService implements IReadingService {
                 reading.setCustomerId(customerId);
                 reading.getCustomer().setId(customerId);
             }
-    
-            //update json of Reading
+
+            // update json of Reading
             Customer dbCustomer = _customerService.getCustomer(customerId);
             reading.getCustomer().setUuid(dbCustomer.getUuid());
 
@@ -64,7 +63,7 @@ public class ReadingService implements IReadingService {
                     (reading.getSubstitute() ? "1" : "0") + "', '" +
                     reading.getDateOfReading() + "', '" +
                     reading.getUuid() + "' )";
-    
+
             this._database.queryWithoutReturn(sqlReading);
             return true;
         }
@@ -73,8 +72,7 @@ public class ReadingService implements IReadingService {
 
     @Override
     public boolean updateNewReading(Reading reading) {
-        if( reading != null  && reading.getCustomerId() != 0)
-        {
+        if (reading != null && reading.getCustomerId() != 0) {
             String sqlCustomer = "SELECT * FROM customers WHERE id = '" + reading.getCustomerId() + "'";
             String sqlReading = "UPDATE data_reading SET kind_of_meter = '" + reading.getKindOfMeter() + "', " +
                     "comment = '" + reading.getComment() + "', " +
@@ -84,8 +82,8 @@ public class ReadingService implements IReadingService {
                     "date_of_reading = '" + reading.getDateOfReading() + "' " +
                     "WHERE customer_id = '" + reading.getCustomerId() + "'" +
                     "AND uui_id = '" + reading.getUuid().toString() + "'";
-    
-            //testar se exister customer
+
+            // testar se exister customer
             ResultSet rs = this._database.queryWithReturn(sqlCustomer);
             this._database.queryWithoutReturn(sqlReading);
             return true;
@@ -95,12 +93,11 @@ public class ReadingService implements IReadingService {
 
     @Override
     public boolean deleteReading(int userId, String date) {
-        if(userId != 0 && date != null)
-        {
+        if (userId != 0 && date != null) {
             String sqlCustomer = "SELECT * FROM customers WHERE id = '" + userId + "'";
             String sqlReading = "DELETE FROM data_reading WHERE customer_id = '" +
                     userId + "' AND date_of_reading = '" + date + "'";
-    
+
             try (ResultSet rs = this._database.queryWithReturn(sqlCustomer)) {
             } catch (SQLException e) {
                 System.out.println("Customer does not exist." + e.getMessage());
@@ -113,16 +110,14 @@ public class ReadingService implements IReadingService {
     }
 
     @Override
-    public boolean deleteReadingByUuid(String uuid)
-    {
-        if(uuid != null)
-        {
+    public boolean deleteReadingByUuid(String uuid) {
+        if (uuid != null) {
             String sqlReading = "DELETE FROM data_reading WHERE uui_id = '" +
                     uuid + "'";
-    
-            try  {
+
+            try {
                 this._database.queryWithoutReturn(sqlReading);
-                return true; 
+                return true;
             } catch (Exception e) {
                 System.out.println("Data does not exist." + e.getMessage());
             }
@@ -151,8 +146,7 @@ public class ReadingService implements IReadingService {
                         rs.getDouble("meter_count"),
                         rs.getBoolean("substitute"),
                         rs.getString("date_of_reading"),
-                        rs.getInt("customer_id")
-                );
+                        rs.getInt("customer_id"));
 
                 dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
                 readingsOfCustomer.add(dbReading);
@@ -186,8 +180,7 @@ public class ReadingService implements IReadingService {
                         rs.getDouble("meter_count"),
                         rs.getBoolean("substitute"),
                         rs.getString("date_of_reading"),
-                        rs.getInt("customer_id")
-                );
+                        rs.getInt("customer_id"));
 
                 dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
                 return dbReading;
@@ -212,8 +205,7 @@ public class ReadingService implements IReadingService {
                         rs.getDouble("meter_count"),
                         rs.getBoolean("substitute"),
                         rs.getString("date_of_reading"),
-                        rs.getInt("customer_id")
-                );
+                        rs.getInt("customer_id"));
 
                 dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
                 return dbReading;
@@ -224,7 +216,6 @@ public class ReadingService implements IReadingService {
         return null;
 
     }
-
 
     @Override
     public List<Reading> getReadings() {
@@ -240,8 +231,7 @@ public class ReadingService implements IReadingService {
                         rs.getDouble("meter_count"),
                         rs.getBoolean("substitute"),
                         rs.getString("date_of_reading"),
-                        rs.getInt("customer_id")
-                );
+                        rs.getInt("customer_id"));
 
                 dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
                 readings.add(dbReading);
@@ -255,21 +245,19 @@ public class ReadingService implements IReadingService {
     }
 
     @Override
-    public List<Reading> getReadingsByDateRange(String customerId, String start, String end, String kindOfMeter)
-    {   
-        if(end == null)
-            {
-                LocalDate currenteDate = LocalDate.now();
-                String formatedDate = currenteDate.toString();
-                end = formatedDate;
-            }
+    public List<Reading> getReadingsByDateRange(String customerId, String start, String end, String kindOfMeter) {
+        if (end == null) {
+            LocalDate currenteDate = LocalDate.now();
+            String formatedDate = currenteDate.toString();
+            end = formatedDate;
+        }
 
-        String sqlReading = (start == null) ? "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
-        "' AND date_of_reading <= '" + end + "'" :  
-        "SELECT * FROM data_reading WHERE customer_id = '" + customerId + 
-        "' AND kind_of_meter = '" + kindOfMeter + 
-        "' AND date_of_reading >= '" + start + "' AND date_of_reading <= '" + end + "'"; 
-        
+        String sqlReading = (start == null) ? "SELECT * FROM data_reading WHERE customer_id = '" + customerId +
+                "' AND date_of_reading <= '" + end + "'"
+                : "SELECT * FROM data_reading WHERE customer_id = '" + customerId +
+                        "' AND kind_of_meter = '" + kindOfMeter +
+                        "' AND date_of_reading >= '" + start + "' AND date_of_reading <= '" + end + "'";
+
         List<Reading> readings = new ArrayList<>();
 
         try (ResultSet rs = this._database.queryWithReturn(sqlReading);) {
@@ -281,8 +269,7 @@ public class ReadingService implements IReadingService {
                         rs.getDouble("meter_count"),
                         rs.getBoolean("substitute"),
                         rs.getString("date_of_reading"),
-                        rs.getInt("customer_id")
-                );
+                        rs.getInt("customer_id"));
 
                 dbReading.setUuid(UUID.fromString(rs.getString("uui_id")));
                 readings.add(dbReading);
@@ -295,16 +282,33 @@ public class ReadingService implements IReadingService {
     }
 
     @Override
-    public boolean deleteAllReadins()
-    {
-          try {
+    public boolean deleteAllReadins() {
+        try {
             // delete all readings from table
-            String sql = "DELETE FROM data_reading";
-            this._database.queryWithoutReturn(sql); 
-            return true; 
+            // String sql = "DELETE FROM data_reading";
+            String sql = "DROP TABLE IF EXISTS data_reading;";
+            this._database.queryWithoutReturn(sql);
+
+            String sql2 = """
+                    CREATE TABLE IF NOT EXISTS data_reading (
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        customer_id INT,
+                        kind_of_meter VARCHAR(10),
+                        comment VARCHAR(255),
+                        meter_id VARCHAR(20),
+                        meter_count DOUBLE,
+                        substitute BOOLEAN,
+                        date_of_reading VARCHAR(20),
+                        uui_id VARCHAR(255),
+                        FOREIGN KEY (customer_id) REFERENCES customers(id)
+                    );
+                    """;
+            this._database.queryWithoutReturn(sql2);
+            return true;
+            
         } catch (Exception e) {
             System.err.println("Error while deleting all readings: " + e.getMessage());
-            return false; 
+            return false;
         }
     }
 }
