@@ -23,6 +23,8 @@ public class Main {
             String url = "http://localhost:8080/";
             Server.startServer(url);
 
+
+
         } catch (Exception e) {
             System.out.println("Database connection error: " + e.getMessage());
         } //catch (IOException e) {
