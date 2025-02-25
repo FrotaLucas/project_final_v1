@@ -8,6 +8,7 @@ import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Services.CustomerService.CustomerService;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,17 +41,12 @@ public class CustomerController {
                     .build();
         }
         Map<String, Object> customerProperties = new LinkedHashMap<>();
-        //customerProperties.put("id", customer.getId());
-        customerProperties.put("firstName", customer.getFirstName());
-        customerProperties.put("lastName", customer.getLastName());
-        customerProperties.put("birthDay", customer.getBirthDate());
-        customerProperties.put("gender", customer.getGender());
 
         Map<String, Object> serviceResponseProperties = Map
                 .of("customer", Map
                         .of("type", "object",
-                                "required", List.of("firstName", "lastName", "gender"),
-                                "properties", customerProperties));
+                            "required", List.of("firstName", "lastName", "gender"),
+                            "properties", customerProperties));
 
         ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                 "Customer-JSON-Schema",
@@ -59,6 +55,16 @@ public class CustomerController {
                 serviceResponseProperties);
 
         boolean addSuccess = _customerService.addNewCustomer(customer);
+        Customer dbCustomer = _customerService.getCustomerByUuid(customer.getUuid().toString());
+        int idCustomer = dbCustomer.getId().orElse(0);
+
+        customerProperties.put("id", idCustomer);
+        customerProperties.put("uuiId", customer.getUuid());
+        customerProperties.put("firstName", customer.getFirstName());
+        customerProperties.put("lastName", customer.getLastName());
+        customerProperties.put("birthDay", customer.getBirthDate());
+        customerProperties.put("gender", customer.getGender());
+
         if (addSuccess)
             return Response.status(Response.Status.CREATED)
                 .entity(serviceResponse).build();
@@ -91,8 +97,8 @@ public class CustomerController {
              Map<String, Object> customerItems = new LinkedHashMap<>();
              customerItems.put("type","array");
              customerItems.put("items", Map.of("type","object",
-                                                    "required",List.of("id","firstName","lastName","gender"),
-                                                    "properties",dbCustomerListProperties));
+                                                "required",List.of("id","firstName","lastName","gender"),
+                                                "properties",dbCustomerListProperties));
 
              Map<String, Object> serviceResponseProperties = Map
                 .of("customers", customerItems);
@@ -134,8 +140,8 @@ public class CustomerController {
             Map<String, Object> serviceResponseProperties = Map
                     .of("customer", Map
                             .of("type", "object",
-                                    "required", List.of("firstName", "lastName", "gender"),
-                                    "properties", customerProperties));
+                                "required", List.of("firstName", "lastName", "gender"),
+                                "properties", customerProperties));
 
             ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                     "Customer-JSON-Schema",
@@ -180,8 +186,8 @@ public class CustomerController {
         Map<String, Object> serviceResponseProperties = Map
                 .of("customer", Map
                         .of("type", "object",
-                                "required", List.of("firstName", "lastName", "gender"),
-                                "properties", customerProperties));
+                            "required", List.of("firstName", "lastName", "gender"),
+                            "properties", customerProperties));
 
         ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                 "Customer-JSON-Schema",

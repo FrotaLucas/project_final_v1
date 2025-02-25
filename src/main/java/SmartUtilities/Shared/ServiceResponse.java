@@ -13,6 +13,11 @@ public class ServiceResponse<T> {
 
     private Map<String, Object> properties;
 
+    public ServiceResponse()
+    {
+
+    }
+    
     public ServiceResponse(String title, String type, String required, Map<String, Object> properties)
     {
         this.title = title;

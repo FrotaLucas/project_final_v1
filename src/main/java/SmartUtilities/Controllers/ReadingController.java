@@ -8,7 +8,6 @@ import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;
 import SmartUtilities.Services.CustomerService.CustomerService;
-import SmartUtilities.Services.CustomerService.ICustomerService;
 import SmartUtilities.Services.ReadingService.ReadingService;
 import SmartUtilities.Shared.ServiceResponse;
 
@@ -24,8 +23,7 @@ import jakarta.ws.rs.core.Response;
 public class ReadingController {
     
     private Database database = new Database();
-    private ICustomerService _customerservice;
-    private ReadingService _readingService = new ReadingService(database, _customerservice);
+    private ReadingService _readingService = new ReadingService(database);
     private CustomerService _customerService = new CustomerService(database);
 
     //TT ok
@@ -39,16 +37,17 @@ public class ReadingController {
                 .entity("No customer data provided to save ")
                 .build();
 
+
         boolean successAdd = _readingService.addNewReading(reading);
         if(successAdd)
         {
-            Customer customer = _customerService.getCustomer(reading.getCustomerId());
             Map<String, Object> customerProperties = new LinkedHashMap<>();
-            customerProperties.put("uuid", customer.getUuid());
-            customerProperties.put("firstName", customer.getFirstName());
-            customerProperties.put("lastName", customer.getLastName());
-            customerProperties.put("birthDay", customer.getBirthDate());
-            customerProperties.put("gender", customer.getGender());
+            customerProperties.put("uuid", reading.getCustomer().getUuid().toString());
+            customerProperties.put("id", reading.getCustomer().getId());
+            customerProperties.put("firstName", reading.getCustomer().getFirstName());
+            customerProperties.put("lastName", reading.getCustomer().getLastName());
+            customerProperties.put("birthDay", reading.getCustomer().getBirthDate());
+            customerProperties.put("gender", reading.getCustomer().getGender());
 
             Map<String, Object> customerData = Map
                 .of("anyOf", Map
@@ -92,14 +91,21 @@ public class ReadingController {
     //estou colocando os alesung dentro de properties com Array[]
     @GET  
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReadings(@QueryParam("customer") String customerId, @QueryParam("start") String start, @QueryParam("end") String end)
+    public Response getReadings(@QueryParam("customer") String customerId, @QueryParam("start") String start, 
+    @QueryParam("end") String end, @QueryParam("kindOfMeter") String kindOfMeter)
     {
+        ServiceResponse<Reading> serviceResponse = new ServiceResponse<Reading>();
         List<Reading> readings;
-        if( customerId != null)
-            readings = _readingService.getReadingsByDateRange(customerId, start, end);
-        else
+        if( customerId != null){
+            readings = _readingService.getReadingsByDateRange(customerId, start, end, kindOfMeter);
+            serviceResponse.setTitle("JSON - Schema Customer with reading");
+            serviceResponse.setRequired("customer, readings");
+        }
+        else { 
              readings = _readingService.getReadings();
-
+             serviceResponse.setTitle("JSON - Schema Readings");
+             serviceResponse.setRequired("readings");
+        }
         if(readings.size() != 0)
         {
             Map<String, Object> readingData = new LinkedHashMap<>();
@@ -112,19 +118,14 @@ public class ReadingController {
             Map<String, Object> serviceResponseProperties = Map
                 .of("readings", readingData);
 
-
-             ServiceResponse<Reading> serviceResponse = new ServiceResponse<>(
-                "Customer-JSON-Schema",
-                "object",
-                "readings",
-                serviceResponseProperties);
-
+            serviceResponse.setType("object");
+            serviceResponse.setProperties(serviceResponseProperties);
 
             return Response.ok(serviceResponse).build();
         
         }
           // Error 404
-          return Response.status(Response.Status.BAD_REQUEST).entity("No data found on database.").build();
+          return Response.status(Response.Status.BAD_REQUEST).entity("Error on request.").build();
     }
 
     @GET
@@ -172,7 +173,7 @@ public class ReadingController {
                 .of("reading", readingData);
 
             ServiceResponse<Reading> serviceResponse = new ServiceResponse<>(
-                "Customer-JSON-Schema",
+                "JSON - Schema Reading",
                 "object",
                 "reading",
                 serviceResponseProperties);
@@ -184,7 +185,6 @@ public class ReadingController {
         // Error NOT FOUND 404
         return Response.status(Response.Status.NOT_FOUND).entity("No data found on database.").build();
         
-    
     }
 
     //TT ok
@@ -212,7 +212,7 @@ public class ReadingController {
         
         boolean successDelete = _readingService.deleteReadingByUuid(uuid);
         if( successDelete)
-        {
+        { 
             Customer customer = _customerService.getCustomer(idCustomer);
             Map<String, Object> customerProperties = new LinkedHashMap<>();
             customerProperties.put("uuid", customer.getUuid());
