@@ -40,7 +40,7 @@ public class CustomerControllerTest {
     @Test
     public void testGetCustomer()
     {
-        String customerId = "38f21bf9-a78c-42e2-a630-c2fb6e42c6b3"; // Example customer ID
+        String customerId = "88268a59-2ef4-45e0-897b-167d8fb13702"; // Example customer ID
 
         when()
             .get("/{uuid}", customerId) // Perform GET request with customer ID
@@ -114,7 +114,7 @@ public class CustomerControllerTest {
         //     .statusCode(201); // Validate creation status
 
           //deleting added customer
-        String uuid = "c45930e2-7a55-428f-ab9e-e9ffa56a3312"; 
+        String uuid = "062bdd1e-1a13-4ab0-834a-87be19441a25"; 
         when()
             .delete("/{uuid}", uuid) // Perform DELETE request
         .then()
@@ -122,7 +122,7 @@ public class CustomerControllerTest {
             .body("properties.customer.properties.firstName", equalTo("John"))
             .body("properties.customer.properties.lastName", equalTo("Doe"))
             .body("properties.customer.properties.gender", equalTo("M"))
-            .body("properties.customer.properties.birthDay", equalTo("2000-01-01"));
+            .body("properties.customer.properties.birthDay", contains(2000,1,1));
     }
 
     @Test
