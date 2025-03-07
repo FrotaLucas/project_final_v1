@@ -100,7 +100,9 @@ public class CustomerControllerTest {
     @Test
     public void testDeleteCustomer()
     {
-        // Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        String uuid = newCustomer.getUuid().toString();
+        _customerService.addCustomer(newCustomer);
         // UUID uuid = newCustomer.getUuid();
 
         // given()
@@ -112,7 +114,7 @@ public class CustomerControllerTest {
         //     .statusCode(201); // Validate creation status
 
           //deleting added customer
-        String uuid = "062bdd1e-1a13-4ab0-834a-87be19441a25"; 
+        //String uuid = "062bdd1e-1a13-4ab0-834a-87be19441a25"; 
         when()
             .delete("/{uuid}", uuid) // Perform DELETE request
         .then()
