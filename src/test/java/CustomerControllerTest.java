@@ -102,19 +102,8 @@ public class CustomerControllerTest {
     {
         Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
         String uuid = newCustomer.getUuid().toString();
-        _customerService.addCustomer(newCustomer);
-        // UUID uuid = newCustomer.getUuid();
-
-        // given()
-        //     .contentType("application/json")
-        //     .body(newCustomer)
-        // .when()
-        //     .post() // Perform POST request to add customer
-        // .then()
-        //     .statusCode(201); // Validate creation status
-
-          //deleting added customer
-        //String uuid = "062bdd1e-1a13-4ab0-834a-87be19441a25"; 
+        _customerService.addNewCustomer(newCustomer);
+        
         when()
             .delete("/{uuid}", uuid) // Perform DELETE request
         .then()
@@ -148,9 +137,10 @@ public class CustomerControllerTest {
         dbCustomer.setBirthDate(LocalDate.parse("1900-01-12"));
         dbCustomer.setGender(Gender.valueOf("W"));
 
-        customerJson = String.format("{\"uuid\":\"%s\",\"firstName\":\"Mary\",
-        \"lastName\":\"Jane\",\"birthDate\":\"1900-01-12\",\"gender\":\"W\"}", uuid);
-        
+        //melhorar essa string com /n!!!!!
+        customerJson = String
+        .format("{\"uuid\":\"%s\",\"firstName\":\"Mary\",\"lastName\":\"Jane\",\"birthDate\":\"1900-01-12\",\"gender\":\"W\"}", 
+            uuid);
         //update
         given()
             .contentType("application/json")
