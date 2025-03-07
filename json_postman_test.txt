@@ -1,0 +1,69 @@
+//put
+"{
+    "firstName": "Mary",
+    "lastName": "jane",
+    "birthDate": "2000-01-01",
+    "gender": "W",
+    "uuid": "4d3eab6a-b66e-418f-a7df-ebf02ca03e14"
+}"
+//put without uuid
+{
+    "firstName": "Mary",
+    "lastName": "jane",
+    "birthDate": "2000-01-01",
+    "gender": "W"
+}
+
+post
+{
+    "firstName": "post",
+    "lastName": "http",
+    "birthDate": "1900-01-01",
+    "gender": "M"
+}
+
+
+//reading no CustomerId
+{
+    "comment": "new checking gas",
+    "kindOfMeter": "HEIZUNG",
+    "meterId": "T1100",
+    "meterCount": 311.0,
+    "dateOfReading": "2000-01-01",
+    "substitute": true,
+    "customer": {
+        "firstName": "Marius",
+        "lastName": "Lehus",
+        "birthDate": "1900-01-01",
+        "gender": "M"
+            }
+}
+
+//reading with CustomerId
+
+{
+    "comment": "new checking gas",
+    "kindOfMeter": "HEIZUNG",
+    "meterId": "T1100",
+    "meterCount": 311.0,
+    "dateOfReading": "2000-01-01",
+    "substitute": true,
+    "customer": {
+        "id": 1,
+        "firstName": "Marius",
+        "lastName": "Lehus",
+        "birthDate": "1900-01-01",
+        "gender": "M"
+            }
+}
+
+
+//rodar teste unico
+terminal bash
+
+mvn -Dtest="CustomerControllerTest#testUpdateCustomer" test
+
+
+//get with query parameter
+http://localhost:8080/api/readings?customer=75&start=1990-01-01&end=2010-01-01&kindOfMeter=HEIZUNG
+
