@@ -128,46 +128,51 @@ public class CustomerControllerTest {
     @Test
     public void testUpdateCustomer()
     {
-        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        UUID uuid = newCustomer.getUuid();
-
-        given()
+        String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-01-01\",\"gender\":\"M\"}";
+        
+        Response response = given()
             .contentType("application/json")
-            .body(newCustomer)
+            .body(customerJson)
         .when()
             .post() // Perform POST request to add customer
         .then()
-            .statusCode(201); // Validate creation status
-        
-        //changing properties of customer
-        newCustomer.setFirstName("Mary");
-        newCustomer.setLastName("Jane");
-        newCustomer.setBirthDate(LocalDate.parse("1900-01-12"));
-        newCustomer.setGender(Gender.valueOf("W"));
+            .statusCode(201)
+            .extract().response();
 
+        String uuid = response.path("properties.customer.properties.uuiId");
+        Customer dbCustomer = _customerService.getCustomerByUuid(uuid);
+
+        //changing properties of customer
+        dbCustomer.setFirstName("Mary");
+        dbCustomer.setLastName("Jane");
+        dbCustomer.setBirthDate(LocalDate.parse("1900-01-12"));
+        dbCustomer.setGender(Gender.valueOf("W"));
+
+        customerJson = String.format("{\"uuid\":\"%s\",\"firstName\":\"Mary\",
+        \"lastName\":\"Jane\",\"birthDate\":\"1900-01-12\",\"gender\":\"W\"}", uuid);
+        
         //update
         given()
             .contentType("application/json")
-            .body(newCustomer)
+            .body(customerJson)
         .when()
-            .put() // Perform POST request to add customer
+            .put() // Perform PUT request to add customer
         .then()
             .statusCode(200);
 
         //retrieving data from database
         when()
-            .get("/{uuid}", uuid.toString()) // Perform GET request with customer ID
+            .get("/{uuid}", uuid) // Perform GET request with customer ID
         .then() // Validate the response
             .statusCode(200) // Status code should be 200
-            .body("properties.customer.properties.firstName",equalTo("Mary"))
-            .body("properties.customer.properties.lastName", equalTo("Jane")) // Validate that lastName is not null
-            .body("properties.customer.properties.gender", equalTo("W")) // Validate that gender is not null
-            .body("properties.customer.properties.birthDay", equalTo("1900-01-12")) // Validate that birthDate is not null
-            .body("properties.customer.properties.birthDay.size()", greaterThan(0)); 
+            .body("properties.customer.properties.firstName",equalTo(dbCustomer.getFirstName()))
+            .body("properties.customer.properties.lastName", equalTo(dbCustomer.getLastName())) 
+            .body("properties.customer.properties.gender", equalTo(dbCustomer.getGender().toString()))
+            .body("properties.customer.properties.birthDay", contains(1900,1,12));
         
          //deleting addded customer
         when()
-            .delete("/{uuid}", uuid.toString()) // Perform DELETE request
+            .delete("/{uuid}", uuid) // Perform DELETE request
         .then()
             .statusCode(200)
             .body("properties.customer.properties.id", notNullValue()); 
