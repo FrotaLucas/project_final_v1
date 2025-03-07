@@ -103,8 +103,10 @@ public class CustomerControllerTest {
                 .statusCode(201) // Validate creation status
                 .body("properties.customer.properties.firstName", equalTo("John"))
                 .body("properties.customer.properties.lastName", equalTo("Doe"))
-                .body("properties.customer.properties.gender", equalTo("M"));
-                //.body("properties.customer.properties.birthDay", equalTo(date));
+                .body("properties.customer.properties.gender", equalTo("M"))
+                .body("properties.customer.properties.birthDay", contains(2000,1,1)))
+                .body("properties.customer.properties.uuid", notNullValue());
+
             
             //deleting added customer
             // when()
