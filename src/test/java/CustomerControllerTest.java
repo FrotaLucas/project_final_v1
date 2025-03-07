@@ -141,6 +141,7 @@ public class CustomerControllerTest {
         customerJson = String
         .format("{\"uuid\":\"%s\",\"firstName\":\"Mary\",\"lastName\":\"Jane\",\"birthDate\":\"1900-01-12\",\"gender\":\"W\"}", 
             uuid);
+
         //update
         given()
             .contentType("application/json")
@@ -165,7 +166,10 @@ public class CustomerControllerTest {
             .delete("/{uuid}", uuid) // Perform DELETE request
         .then()
             .statusCode(200)
-            .body("properties.customer.properties.id", notNullValue()); 
+            .body("properties.customer.properties.firstName",equalTo(dbCustomer.getFirstName()))
+            .body("properties.customer.properties.lastName", equalTo(dbCustomer.getLastName())) 
+            .body("properties.customer.properties.gender", equalTo(dbCustomer.getGender().toString()))
+            .body("properties.customer.properties.birthDay", contains(1900,1,12));
 
     }
 }
