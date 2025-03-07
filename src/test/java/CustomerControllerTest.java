@@ -5,6 +5,8 @@ import SmartUtilities.Services.CustomerService.CustomerService;
 
 import static io.restassured.RestAssured.*;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
+
 import static org.hamcrest.Matchers.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -68,35 +70,16 @@ public class CustomerControllerTest {
             .body("properties.customer.properties.gender", equalTo(newCustumer.getGender().toString())) 
             .body("properties.customer.properties.birthDay", contains(2000,1,1));
 
-            _customerService.deleteCustomer(uuid);
+        _customerService.deleteCustomer(uuid);
     }
 
     @Test
     public void testAddCustomer() throws JsonProcessingException
     {
-        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        UUID uuid = newCustomer.getUuid();
         String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-01-01\",\"gender\":\"M\"}";
-
-        //creating jsonSting
-        // HashMap<String, String> objMap= new HashMap<String, String>();
-        // objMap.put("firstName", newCustomer.getFirstName());
-        // objMap.put("lastName", newCustomer.getLastName());
-        // objMap.put("uui_id", newCustomer.getUuid().toString());
-        // objMap.put("birthDate", "2000-01-01");
-        //objMap.put("birthDate", newCustomer.getBirthDate());
-        //objMap.put("gender", newCustomer.getGender().toString());
-         
-        // ObjectMapper mapper = new ObjectMapper();
-        // String jsonString = mapper.writeValueAsString(objMap);
         
-        //LocalDate date = LocalDate.parse("2000-01-01");
-        // ObjectMapper mapper = new ObjectMapper();
-        // String jsonString = mapper.writeValueAsString(newCustomer);
-        // System.out.println("Generated JSON: " + jsonString);
-
             //adding customer
-            given()
+             Response response = given()
                 .contentType("application/json")
                 .body(customerJson)
             .when()
@@ -107,15 +90,11 @@ public class CustomerControllerTest {
                 .body("properties.customer.properties.lastName", equalTo("Doe"))
                 .body("properties.customer.properties.gender", equalTo("M"))
                 .body("properties.customer.properties.birthDay", contains(2000,1,1))
-                .body("properties.customer.properties.uuid", notNullValue());
-
+                .body("properties.customer.properties.uuiId", notNullValue())
+                .extract().response();
             
-            //deleting added customer
-            // when()
-            //     .delete("/{uuid}", uuid.toString()) // Perform DELETE request
-            // .then()
-            //     .statusCode(200)
-            //     .body("properties.customer.properties.id", notNullValue()); 
+            String uuid = response.path("properties.customer.properties.uuiId");
+            _customerService.deleteCustomer(uuid);
     }
 
     @Test
