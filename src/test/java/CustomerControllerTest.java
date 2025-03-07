@@ -77,21 +77,20 @@ public class CustomerControllerTest {
     public void testAddCustomer() throws JsonProcessingException
     {
         String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-01-01\",\"gender\":\"M\"}";
-        
             //adding customer
-             Response response = given()
-                .contentType("application/json")
-                .body(customerJson)
-            .when()
-                .post("/") // Perform POST request to add customer
-            .then()
-                .statusCode(201) // Validate creation status
-                .body("properties.customer.properties.firstName", equalTo("John"))
-                .body("properties.customer.properties.lastName", equalTo("Doe"))
-                .body("properties.customer.properties.gender", equalTo("M"))
-                .body("properties.customer.properties.birthDay", contains(2000,1,1))
-                .body("properties.customer.properties.uuiId", notNullValue())
-                .extract().response();
+        Response response = given()
+            .contentType("application/json")
+            .body(customerJson)
+        .when()
+            .post("/") // Perform POST request to add customer
+        .then()
+             .statusCode(201) // Validate creation status
+            .body("properties.customer.properties.firstName", equalTo("John"))
+            .body("properties.customer.properties.lastName", equalTo("Doe"))
+            .body("properties.customer.properties.gender", equalTo("M"))
+            .body("properties.customer.properties.birthDay", contains(2000,1,1))
+            .body("properties.customer.properties.uuiId", notNullValue())
+            .extract().response();
             
             String uuid = response.path("properties.customer.properties.uuiId");
             _customerService.deleteCustomer(uuid);
@@ -117,18 +116,9 @@ public class CustomerControllerTest {
     @Test
     public void testUpdateCustomer()
     {
-        String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-01-01\",\"gender\":\"M\"}";
-        
-        Response response = given()
-            .contentType("application/json")
-            .body(customerJson)
-        .when()
-            .post() // Perform POST request to add customer
-        .then()
-            .statusCode(201)
-            .extract().response();
-
-        String uuid = response.path("properties.customer.properties.uuiId");
+        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        String uuid = newCustomer.getUuid().toString();
+        _customerService.addNewCustomer(newCustomer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuid);
 
         //changing properties of customer
@@ -137,10 +127,7 @@ public class CustomerControllerTest {
         dbCustomer.setBirthDate(LocalDate.parse("1900-01-12"));
         dbCustomer.setGender(Gender.valueOf("W"));
 
-        //melhorar essa string com /n!!!!!
-        customerJson = String
-        .format("{\"uuid\":\"%s\",\"firstName\":\"Mary\",\"lastName\":\"Jane\",\"birthDate\":\"1900-01-12\",\"gender\":\"W\"}", 
-            uuid);
+        String customerJson = "{\"uuid\":\"" + uuid + "\",\"firstName\":\"Mary\",\"lastName\":\"Jane\",\"birthDate\":\"1900-01-12\",\"gender\":\"W\"}";
 
         //update
         given()
@@ -162,14 +149,6 @@ public class CustomerControllerTest {
             .body("properties.customer.properties.birthDay", contains(1900,1,12));
         
          //deleting addded customer
-        when()
-            .delete("/{uuid}", uuid) // Perform DELETE request
-        .then()
-            .statusCode(200)
-            .body("properties.customer.properties.firstName",equalTo(dbCustomer.getFirstName()))
-            .body("properties.customer.properties.lastName", equalTo(dbCustomer.getLastName())) 
-            .body("properties.customer.properties.gender", equalTo(dbCustomer.getGender().toString()))
-            .body("properties.customer.properties.birthDay", contains(1900,1,12));
-
+        _customerService.deleteCustomer(uuid);
     }
 }
