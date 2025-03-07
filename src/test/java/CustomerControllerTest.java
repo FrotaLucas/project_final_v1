@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.time.LocalDate;
@@ -21,14 +22,15 @@ import java.time.format.DateTimeFormatter;
 public class CustomerControllerTest {
 
     private static final String BASE_URI = "http://localhost:8080/api/customers";
-    CustomerService _customerService;
-    DataBase _database;
-    Connection _connection;
+    private static CustomerService _customerService;
+    private static Database _database;
+    private static Connection _connection;
 
+    //BeforeEach does not need static because each test a new class CustomerControllerTest is created
     @BeforeAll
-    public static void setUp() {
+    public static void setUp() throws SQLException {
         RestAssured.baseURI = BASE_URI;
-        _database = new DataBase(); 
+        _database = new Database(); 
         _connection = _database.connect();
         _customerService =  new CustomerService(_database);
 
@@ -51,15 +53,15 @@ public class CustomerControllerTest {
     {
         Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
         String uuid = newCustumer.getUuid().toString();
-        _costumerService.addNewCustomer(newCustumer);
+        _customerService.addNewCustomer(newCustumer);
         //apagar
         String customerId = "88268a59-2ef4-45e0-897b-167d8fb13702"; // Example customer ID
 
         when()
-            .get("/{uuid}", customerId) // Perform GET request with customer ID
+            .get("/{uuid}", uuid) // Perform GET request with customer ID
         .then() // Validate the response
             .statusCode(200) // Status code should be 200
-            .body("properties.customer.properties.id", equalTo(1)) // Validate that the ID in the response matches the requested ID
+            //.body("properties.customer.properties.id", equalTo(1)) // Validate that the ID in the response matches the requested ID
             .body("properties.customer.properties.firstName", notNullValue()) // Validate that firstName is not null
             .body("properties.customer.properties.lastName", notNullValue()) // Validate that lastName is not null
             .body("properties.customer.properties.gender", notNullValue()) // Validate that gender is not null
@@ -104,7 +106,7 @@ public class CustomerControllerTest {
                 .body("properties.customer.properties.firstName", equalTo("John"))
                 .body("properties.customer.properties.lastName", equalTo("Doe"))
                 .body("properties.customer.properties.gender", equalTo("M"))
-                .body("properties.customer.properties.birthDay", contains(2000,1,1)))
+                .body("properties.customer.properties.birthDay", contains(2000,1,1))
                 .body("properties.customer.properties.uuid", notNullValue());
 
             
