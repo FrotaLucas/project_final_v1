@@ -1,6 +1,7 @@
-import SmartUtilities.Enums.Gender;
+import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
-
+import SmartUtilities.Enums.Gender;
+import SmartUtilities.Services.CustomerService.CustomerService;
 
 import static io.restassured.RestAssured.*;
 import io.restassured.RestAssured;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.UUID;
 import java.time.LocalDate;
@@ -19,10 +21,17 @@ import java.time.format.DateTimeFormatter;
 public class CustomerControllerTest {
 
     private static final String BASE_URI = "http://localhost:8080/api/customers";
+    CustomerService _customerService;
+    DataBase _database;
+    Connection _connection;
 
     @BeforeAll
     public static void setUp() {
         RestAssured.baseURI = BASE_URI;
+        _database = new DataBase(); 
+        _connection = _database.connect();
+        _customerService =  new CustomerService(_database);
+
     }
 
     @Test
@@ -40,6 +49,10 @@ public class CustomerControllerTest {
     @Test
     public void testGetCustomer()
     {
+        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        String uuid = newCustumer.getUuid().toString();
+        _costumerService.addNewCustomer(newCustumer);
+        //apagar
         String customerId = "88268a59-2ef4-45e0-897b-167d8fb13702"; // Example customer ID
 
         when()
@@ -52,6 +65,8 @@ public class CustomerControllerTest {
             .body("properties.customer.properties.gender", notNullValue()) // Validate that gender is not null
             .body("properties.customer.properties.birthDay", notNullValue()) // Validate that birthDate is not null
             .body("properties.customer.properties.birthDay.size()", greaterThan(0)); 
+
+            boolean deletedCustomer = _customerService.deleteCustomer(uuid);
     }
 
     @Test
