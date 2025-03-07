@@ -8,6 +8,7 @@ import io.restassured.RestAssured;
 import static org.hamcrest.Matchers.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.Equals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,21 +55,20 @@ public class CustomerControllerTest {
         Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
         String uuid = newCustumer.getUuid().toString();
         _customerService.addNewCustomer(newCustumer);
-        //apagar
-        String customerId = "88268a59-2ef4-45e0-897b-167d8fb13702"; // Example customer ID
+        Customer dbCustomer = _customerService.getCustomerByUuid(uuid);
+        int id = dbCustomer.getId().orElse(0);
 
         when()
             .get("/{uuid}", uuid) // Perform GET request with customer ID
         .then() // Validate the response
             .statusCode(200) // Status code should be 200
-            //.body("properties.customer.properties.id", equalTo(1)) // Validate that the ID in the response matches the requested ID
-            .body("properties.customer.properties.firstName", notNullValue()) // Validate that firstName is not null
-            .body("properties.customer.properties.lastName", notNullValue()) // Validate that lastName is not null
-            .body("properties.customer.properties.gender", notNullValue()) // Validate that gender is not null
-            .body("properties.customer.properties.birthDay", notNullValue()) // Validate that birthDate is not null
-            .body("properties.customer.properties.birthDay.size()", greaterThan(0)); 
+            .body("properties.customer.properties.id", equalTo(id)) // Validate that the ID in the response matches the requested ID
+            .body("properties.customer.properties.firstName", equalTo(newCustumer.getFirstName()))
+            .body("properties.customer.properties.lastName", equalTo(newCustumer.getLastName())) 
+            .body("properties.customer.properties.gender", equalTo(newCustumer.getGender().toString())) 
+            .body("properties.customer.properties.birthDay", contains(2000,1,1));
 
-            boolean deletedCustomer = _customerService.deleteCustomer(uuid);
+            _customerService.deleteCustomer(uuid);
     }
 
     @Test
