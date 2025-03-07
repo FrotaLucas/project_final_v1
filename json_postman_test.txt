@@ -60,9 +60,11 @@ post
 
 //rodar teste unico
 terminal bash
-
+teste unico
 mvn -Dtest="CustomerControllerTest#testUpdateCustomer" test
 
+toda classe de testes 
+mvn -Dtest="CustomerControllerTest" test
 
 //get with query parameter
 http://localhost:8080/api/readings?customer=75&start=1990-01-01&end=2010-01-01&kindOfMeter=HEIZUNG
