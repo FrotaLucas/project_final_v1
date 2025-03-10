@@ -60,7 +60,7 @@ public class ReadingControllerTest {
         // http://localhost:8080/api/readings?customer=1&start=2000-02-01&end=2000-06-01
 
         //add Customer
-        Customer newCustumer = new Customer(null, "L", "Doe", "2000-01-01","M");
+        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
         String uuidCustomer = newCustumer.getUuid().toString();
         _customerService.addNewCustomer(newCustumer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
@@ -92,7 +92,7 @@ public class ReadingControllerTest {
                 .body("properties.reading.properties.dateOfReading", equalTo(newReading.getDateOfReading()))
                 .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()));
 
-        _readingService.deleteReadingByUuid(uuid);
+         _readingService.deleteReadingByUuid(uuid);
         _customerService.deleteCustomer(uuidCustomer);
     }
 
@@ -146,7 +146,18 @@ public class ReadingControllerTest {
 
     @Test void deleteReading()
     {
-        String uuid = "c45930e2-7a55-428f-ab9e-e9ffa56a3312"; 
+        //add customer
+        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        String uuidCustomer = newCustumer.getUuid().toString();
+        _customerService.addNewCustomer(newCustumer);
+        Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
+        int idCustomer = dbCustomer.getId().orElse(0);
+
+        //add Reading
+        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", idCustomer, dbCustomer);
+        String uuid = newReading.getUuid().toString();
+        _readingService.addNewReading(newReading);
+
         when()
             .delete("/{uuid}", uuid) // Perform DELETE request
         .then()
@@ -154,14 +165,14 @@ public class ReadingControllerTest {
                 .body("type", equalTo("object")) // Validate type is "object"
                 .body("title", equalTo("JSON - Schema Readings")) // Validate schema
                 .body("required", equalTo("readings")) // Validate schema
-                .body("properties.readings.items", not(empty())) // Validate items are not empty
-                .body("properties.readings.items.size()", greaterThan(0)) // Ensure customers list is not empty
-                .body("properties.readings.items.properties.comment", equalTo("new checking gas"))
-                .body("properties.readings.items.properties.kindOfMeter", equalTo("Doe"))
-                .body("properties.readings.items.properties.meterId", equalTo("X1100"))
-                .body("properties.readings.items.properties.meterCount", equalTo(11111.0))
-                .body("properties.readings.items.properties.dateOfReading", equalTo("2000-01-01"))
-                .body("properties.readings.items.properties.substitute", equalTo(true));
+                .body("properties.reading.items", not(empty())) // Validate items are not empty
+                .body("properties.reading.size()", greaterThan(0)) // Ensure customers list is not empty
+                .body("properties.reading.properties.comment", equalTo(newReading.getComment())) //hasItem checks List
+                .body("properties.reading.properties.kindOfMeter", equalTo(newReading.getKindOfMeter().toString()))
+                .body("properties.reading.properties.meterId", equalTo(newReading.getMeterId()))
+                .body("properties.reading.properties.meterCount", equalTo(newReading.getMeterCount().floatValue())) //json returns float
+                .body("properties.reading.properties.dateOfReading", equalTo(newReading.getDateOfReading()))
+                .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()));
         
     }
 
