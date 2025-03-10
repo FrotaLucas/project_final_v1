@@ -1,5 +1,7 @@
 
 import static io.restassured.RestAssured.*;
+
+import SmartUtilities.Services.CustomerService.CustomerService;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,7 @@ import SmartUtilities.Model.Reading.Reading;
 
 public class ReadingControllerTest {
     private static final String BASE_URI = "http://localhost:8080/api/readings";
-
+    private static CustomerService _customerService;
     @BeforeAll
     public static void setUp() {
         RestAssured.baseURI = BASE_URI;
