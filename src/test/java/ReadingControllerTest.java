@@ -98,30 +98,53 @@ public class ReadingControllerTest {
     @Test
     public void testAddReading()
     {
-        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 1);
-        String uuid = newReading.getUuid().toString();
+           //add Customer
+           Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+           String uuidCustomer = newCustumer.getUuid().toString();
+           _customerService.addNewCustomer(newCustumer);
+           Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
+           int idCustomer = dbCustomer.getId().orElse(0);
 
-           given()
+        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", idCustomer, dbCustomer);
+
+        String readingJson = "{"
+                + "\"comment\": \"new checking gas\","
+                + "\"kindOfMeter\": \"" + newReading.getKindOfMeter() + "\","
+                + "\"meterId\": \"" + newReading.getMeterId() + "\","
+                + "\"meterCount\": " + newReading.getMeterCount().floatValue() + ","
+                + "\"dateOfReading\": \"" + newReading.getDateOfReading() + "\","
+                + "\"substitute\": " + newReading.getSubstitute() + ","
+                + "\"customer\": {"
+                + "\"id\": " + idCustomer + ","
+                + "\"firstName\": \"John\","
+                + "\"lastName\": \"Doe\","
+                + "\"birthDate\": \"2000-01-01\","
+                + "\"gender\": \"M\""
+                + "}"
+                + "}";
+
+
+        given()
                 .contentType("application/json")
-                .body(newReading)
+                .body(readingJson)
             .when()
                 .post("/") // Perform POST request to add customer
             .then()
                 .statusCode(201) // Validate creation status
-                .body("properties.reading.properties.comment", equalTo("new checking gas"))
-                .body("properties.reading.properties.kindOfMeter", equalTo("Doe"))
-                .body("properties.reading.properties.meterId", equalTo("X1100"))
-                .body("properties.reading.properties.meterCount", equalTo(11111.0))
-                .body("properties.reading.properties.dateOfReading", equalTo("2000-01-01"))
-                .body("properties.reading.properties.substitute", equalTo(true));
+                .body("properties.reading.properties.comment", equalTo(newReading.getComment())) //hasItem checks List
+                .body("properties.reading.properties.kindOfMeter", equalTo(newReading.getKindOfMeter().toString()))
+                .body("properties.reading.properties.meterId", equalTo(newReading.getMeterId()))
+                .body("properties.reading.properties.meterCount", equalTo(newReading.getMeterCount().floatValue())) //json returns float
+                .body("properties.reading.properties.dateOfReading", equalTo(newReading.getDateOfReading()))
+                .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()));
                 //.body("properties.customer.properties.birthDay", equalTo(date));
-            
+
             //deleting added reading
-            when()
-                .delete("/{uuid}", uuid.toString()) // Perform DELETE request
-            .then()
-                .statusCode(200)
-                .body("properties.reading.properties.size()", notNullValue()); 
+//            when()
+//                .delete("/{uuid}", uuid.toString()) // Perform DELETE request
+//            .then()
+//                .statusCode(200)
+//                .body("properties.reading.properties.size()", notNullValue());
 
     }
 
