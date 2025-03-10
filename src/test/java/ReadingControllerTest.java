@@ -197,20 +197,14 @@ public class ReadingControllerTest {
         newReading.setDateOfReading("1990-01-01");
 
         String readingJson = "{"
-            + "\"comment\": \"new checking gas\","
+            + "\"customerId\": \"" + idCustomer + "\","
+            + "\"uuid\": \"" + uuid + "\","
+            + "\"comment\": \"" + newReading.getComment() + "\","
             + "\"kindOfMeter\": \"" + newReading.getKindOfMeter() + "\","
             + "\"meterId\": \"" + newReading.getMeterId() + "\","
             + "\"meterCount\": " + newReading.getMeterCount().floatValue() + ","
             + "\"dateOfReading\": \"" + newReading.getDateOfReading() + "\","
-            + "\"substitute\": " + newReading.getSubstitute() + ","
-            + "\"customer\": {"
-            + "\"id\": " + idCustomer + ","
-            + "\"firstName\": \"John\","
-            + "\"lastName\": \"Doe\","
-            + "\"birthDate\": \"2000-01-01\","
-            + "\"gender\": \"M\""
-            + "}"
-            + "}";
+            + "\"substitute\": \"" + newReading.getSubstitute() + "\"}";
 
         //update
         given()
@@ -221,8 +215,8 @@ public class ReadingControllerTest {
         .then()
             .statusCode(200);
 
-        //retrievin reading
-        .when()
+        //retrieving reading
+        when()
                 .get("/{uuid}", uuid) // Perform GET request
         .then()
                 .statusCode(200)
