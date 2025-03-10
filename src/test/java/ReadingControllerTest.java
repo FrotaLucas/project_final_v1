@@ -176,29 +176,29 @@ public class ReadingControllerTest {
 
     @Test void testUpdateReading()
     {
-          Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 1);
+        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 1);
         String uuid = newReading.getUuid().toString();
 
-           given()
-                .contentType("application/json")
-                .body(newReading)
-            .when()
-                .post("/") // Perform POST request to add customer
-            .then()
-                .statusCode(201) // Validate creation status
-                .body("properties.reading.properties.comment", equalTo("new checking gas"))
-                .body("properties.reading.properties.kindOfMeter", equalTo("Doe"))
-                .body("properties.reading.properties.meterId", equalTo("X1100"))
-                .body("properties.reading.properties.meterCount", equalTo(11111.0))
-                .body("properties.reading.properties.dateOfReading", equalTo("2000-01-01"))
-                .body("properties.reading.properties.substitute", equalTo(true));
+        given()
+            .contentType("application/json")
+            .body(newReading)
+        .when()
+            .post("/") // Perform POST request to add customer
+        .then()
+            .statusCode(201) // Validate creation status
+            .body("properties.reading.properties.comment", equalTo("new checking gas"))
+            .body("properties.reading.properties.kindOfMeter", equalTo("Doe"))
+            .body("properties.reading.properties.meterId", equalTo("X1100"))
+            .body("properties.reading.properties.meterCount", equalTo(11111.0))
+            .body("properties.reading.properties.dateOfReading", equalTo("2000-01-01"))
+            .body("properties.reading.properties.substitute", equalTo(true));
         
-                newReading.setKindOfMeter(KindOfMeter.valueOf("STROM"));
-                newReading.setComment("new checking eletricity");
-                newReading.setMeterId("Y2200");
-                newReading.setMeterCount(222222.0);
-                newReading.setSubstitute(false);
-                newReading.setDateOfReading("1990-01-01");
+            newReading.setKindOfMeter(KindOfMeter.valueOf("STROM"));
+            newReading.setComment("new checking eletricity");
+            newReading.setMeterId("Y2200");
+            newReading.setMeterCount(222222.0);
+            newReading.setSubstitute(false);
+            newReading.setDateOfReading("1990-01-01");
 
 
         //update
