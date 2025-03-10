@@ -24,7 +24,7 @@ import java.util.List;
 
 
 public class DataBaseControllerTest {
-    private static final String BASE_URI = "http://localhost:8080/api/readings/setUpDB";
+    private static final String BASE_URI = "http://localhost:8080/api/setUpDB";
     private static CustomerService _customerService;
     private static ReadingService _readingService;
     private static Database _database;
@@ -68,6 +68,8 @@ public class DataBaseControllerTest {
                         FOREIGN KEY (customer_id) REFERENCES customers(id)
                     );
                     """;
+
+      _database.queryWithoutReturn(sql1);
       _database.queryWithoutReturn(sql2);
 
        when()

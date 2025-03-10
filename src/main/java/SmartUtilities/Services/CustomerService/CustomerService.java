@@ -150,14 +150,14 @@ public class CustomerService implements ICustomerService {
     public boolean deleteAllCustomers() {
         try {
             //drop fereign key before deleting
-            String sql1 = "alter table data_reading drop foreign key data_reading_ibfk_1;";
+            String sql1 = "alter table data_reading_test drop foreign key data_reading_test_ibfk_1;";
             this._database.queryWithoutReturn(sql1);
 
-            String sql2 = "DROP TABLE IF EXISTS customers;";
+            String sql2 = "DROP TABLE IF EXISTS customers_test;";
             this._database.queryWithoutReturn(sql2);
 
             String sql3 = """
-                    CREATE TABLE IF NOT EXISTS customers (
+                    CREATE TABLE IF NOT EXISTS customers_test (
                         id INT PRIMARY KEY AUTO_INCREMENT,
                         first_name VARCHAR(50),
                         last_name VARCHAR(50),
