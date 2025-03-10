@@ -2,6 +2,8 @@
 import static io.restassured.RestAssured.*;
 
 import SmartUtilities.DataBase.Database;
+import SmartUtilities.Model.Customer.Customer;
+import SmartUtilities.Model.Reading.Reading;
 import SmartUtilities.Services.CustomerService.CustomerService;
 import SmartUtilities.Services.ReadingService.ReadingService;
 import io.restassured.RestAssured;
@@ -18,6 +20,7 @@ import org.mockito.exceptions.verification.NeverWantedButInvoked;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ReadingControllerTest {
     private static final String BASE_URI = "http://localhost:8080/api/readings";
@@ -54,26 +57,42 @@ public class ReadingControllerTest {
     public void testGetReadingsOfCustomer() {
         // endpoint:
         // http://localhost:8080/api/readings?customer=1&start=2000-02-01&end=2000-06-01
+
+        //add Customer
+        Customer newCustumer = new Customer(null, "L", "Doe", "2000-01-01","M");
+        String uuidCustomer = newCustumer.getUuid().toString();
+        _customerService.addNewCustomer(newCustumer);
+        Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
+        int idCustomer = dbCustomer.getId().orElse(0);
+
+        //add Reading
+        Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", idCustomer, dbCustomer);
+        String uuid = newReading.getUuid().toString();
+        _readingService.addNewReading(newReading);
+
         given()
-                .queryParam("customer", 1) // Define o parâmetro "customer"
-                .queryParam("start", "2000-02-01") // Define o parâmetro "start"
-                .queryParam("end", "2000-06-01") // Define o parâmetro "end"
+                .queryParam("customer", idCustomer) // Define o parâmetro "customer"
+                .queryParam("start", "1900-01-01") // Define o parâmetro "start"
+                .queryParam("end", "2025-12-31") // Define o parâmetro "end"
                 .queryParam("kindOfMeter", "HEIZUNG")
         .when()
-                .get() // Perform GET request
+                .get("/{uuid}", uuid) // Perform GET request
         .then()
                 .statusCode(200)
                 .body("type", equalTo("object")) // Validate type is "object"
-                .body("title", equalTo("JSON - Schema Customer with Reading")) // Validate schema
-                .body("required", equalTo("readings")) // Validate schema
-                .body("properties.readings.items", not(empty())) // Validate items are not empty
-                .body("properties.readings.items.size()", greaterThan(0)) // Ensure customers list is not empty
-                .body("properties.readings.items.properties.comment", equalTo("new checking gas"))
-                .body("properties.readings.items.properties.kindOfMeter", equalTo("Doe"))
-                .body("properties.readings.items.properties.meterId", equalTo("X1100"))
-                .body("properties.readings.items.properties.meterCount", equalTo(11111.0))
-                .body("properties.readings.items.properties.dateOfReading", equalTo("2000-01-01"))
-                .body("properties.readings.items.properties.substitute", equalTo(true));
+                .body("title", equalTo("JSON - Schema Reading")) // Validate schema
+                .body("required", equalTo("reading")) // Validate schema
+                .body("properties.reading.items", not(empty())) // Validate items are not empty
+                .body("properties.reading.size()", greaterThan(0)) // Ensure customers list is not empty
+                .body("properties.reading.properties.comment", equalTo(newReading.getComment())) //hasItem checks List
+                .body("properties.reading.properties.kindOfMeter", equalTo(newReading.getKindOfMeter().toString()))
+                .body("properties.reading.properties.meterId", equalTo(newReading.getMeterId()))
+                .body("properties.reading.properties.meterCount", equalTo(newReading.getMeterCount().floatValue())) //json returns float
+                .body("properties.reading.properties.dateOfReading", equalTo(newReading.getDateOfReading()))
+                .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()));
+
+        _readingService.deleteReadingByUuid(uuid);
+        _customerService.deleteCustomer(uuidCustomer);
     }
 
     @Test
