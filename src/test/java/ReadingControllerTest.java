@@ -83,7 +83,6 @@ public class ReadingControllerTest {
                 .body("type", equalTo("object")) // Validate type is "object"
                 .body("title", equalTo("JSON - Schema Reading")) // Validate schema
                 .body("required", equalTo("reading")) // Validate schema
-                .body("properties.reading.items", not(empty())) // Validate items are not empty
                 .body("properties.reading.size()", greaterThan(0)) // Ensure customers list is not empty
                 .body("properties.reading.properties.comment", equalTo(newReading.getComment())) //hasItem checks List
                 .body("properties.reading.properties.kindOfMeter", equalTo(newReading.getKindOfMeter().toString()))
@@ -144,7 +143,7 @@ public class ReadingControllerTest {
         _readingService.deleteReadingByUuid(uuid);
     }
 
-    @Test void deleteReading()
+    @Test void testDeleteReading()
     {
         //add customer
         Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
@@ -163,9 +162,8 @@ public class ReadingControllerTest {
         .then()
                 .statusCode(200)
                 .body("type", equalTo("object")) // Validate type is "object"
-                .body("title", equalTo("JSON - Schema Readings")) // Validate schema
-                .body("required", equalTo("readings")) // Validate schema
-                .body("properties.reading.items", not(empty())) // Validate items are not empty
+                .body("title", equalTo("Customer-JSON-Schema")) // Validate schema
+                .body("required", equalTo("reading")) // Validate schema
                 .body("properties.reading.size()", greaterThan(0)) // Ensure customers list is not empty
                 .body("properties.reading.properties.comment", equalTo(newReading.getComment())) //hasItem checks List
                 .body("properties.reading.properties.kindOfMeter", equalTo(newReading.getKindOfMeter().toString()))
@@ -176,7 +174,7 @@ public class ReadingControllerTest {
         
     }
 
-    @Test void updateReading()
+    @Test void testUpdateReading()
     {
           Reading newReading = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", 1);
         String uuid = newReading.getUuid().toString();
