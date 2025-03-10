@@ -57,6 +57,17 @@ post
             }
 }
 
+//update 
+{
+		"customerId":2,
+        "uuid": "93eb3de8-1de4-4ba9-afe4-129c7052ada1",
+		"comment": "new checking gas",
+        "kindOfMeter": "HEIZUNG",
+        "meterId": "T1100",
+        "meterCount": 311.0,
+        "dateOfReading": "2000-05-01",
+        "substitute": true
+}
 
 //rodar teste unico
 terminal bash
