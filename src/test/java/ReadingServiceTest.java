@@ -59,7 +59,7 @@ public class ReadingServiceTest {
         assertEquals("2000-01-01", dbReading.getDateOfReading());
         assertEquals(idCustomer, dbReading.getCustomerId());
 
-        _readingService.deleteReading(1, "2000-01-01");
+        _readingService.deleteReadingByUuid(uuid);
         _customerService.deleteCustomer(uuidCustomer);
     }
 
@@ -98,7 +98,7 @@ public class ReadingServiceTest {
         assertEquals(false, retrievedReading.getSubstitute());
         assertEquals("1990-01-01", retrievedReading.getDateOfReading());
 
-        _readingService.deleteReading(1, "1990-01-01");
+        _readingService.deleteReadingByUuid(uuid);
         _customerService.deleteCustomer(uuidCustomer);
 
     }
@@ -136,8 +136,6 @@ public class ReadingServiceTest {
 
        Reading newReading1 = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", idCustomer, dbCustomer);
        Reading newReading2 = new Reading("STROM", "new checking eletricity", "Y2200", 22222.0, true, "1990-01-01", idCustomer, dbCustomer);
-
-       String uuid = newReading1.getUuid().toString();
 
        _readingService.addNewReading(newReading1);
        _readingService.addNewReading(newReading2);

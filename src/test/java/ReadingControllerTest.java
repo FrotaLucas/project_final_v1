@@ -17,11 +17,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import SmartUtilities.Enums.KindOfMeter;
 import SmartUtilities.Model.Reading.Reading;
-import org.mockito.exceptions.verification.NeverWantedButInvoked;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 public class ReadingControllerTest {
     private static final String BASE_URI = "http://localhost:8080/api/readings";
@@ -43,6 +41,22 @@ public class ReadingControllerTest {
     @Test
     public void testGetReadings() {
 
+       //add customer
+       Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+       String uuidCustomer = newCustumer.getUuid().toString();
+       _customerService.addNewCustomer(newCustumer);
+       Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
+       int idCustomer = dbCustomer.getId().orElse(0); 
+
+       Reading newReading1 = new Reading("HEIZUNG", "new checking gas", "X1100", 11111.0, true, "2000-01-01", idCustomer, dbCustomer);
+       Reading newReading2 = new Reading("STROM", "new checking eletricity", "Y2200", 22222.0, true, "1990-01-01", idCustomer, dbCustomer);
+       _readingService.addNewReading(newReading1);
+       _readingService.addNewReading(newReading2);
+
+       String uuid1 = newReading1.getUuid().toString();
+       String uuid2 = newReading1.getUuid().toString();
+
+
         when()
                 .get() // Perform GET request
         .then() // Validate the response
@@ -52,6 +66,11 @@ public class ReadingControllerTest {
                 .body("required", equalTo("readings")) // Validate schema
                 .body("properties.readings.items", not(empty())) // Validate items are not empty
                 .body("properties.readings.items.size()", greaterThan(0)); // Ensure customers list is not empty
+       
+        _readingService.deleteReadingByUuid(uuid1);          
+        _readingService.deleteReadingByUuid(uuid2);
+        _customerService.deleteCustomer(uuidCustomer);
+
     }
 
     @Test
@@ -91,7 +110,7 @@ public class ReadingControllerTest {
                 .body("properties.reading.properties.dateOfReading", equalTo(newReading.getDateOfReading()))
                 .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()));
 
-         _readingService.deleteReadingByUuid(uuid);
+        _readingService.deleteReadingByUuid(uuid);
         _customerService.deleteCustomer(uuidCustomer);
     }
 
@@ -173,6 +192,7 @@ public class ReadingControllerTest {
                 .body("properties.reading.properties.dateOfReading", equalTo(newReading.getDateOfReading()))
                 .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()));
         
+        _customerService.deleteCustomer(uuidCustomer);
     }
 
     @Test void testUpdateReading()
@@ -230,6 +250,7 @@ public class ReadingControllerTest {
                 .body("properties.reading.properties.meterCount", equalTo(newReading.getMeterCount().floatValue())) //json returns float
                 .body("properties.reading.properties.dateOfReading", equalTo(newReading.getDateOfReading()))
                 .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()));
+    
 
         //deleting added reading
         _readingService.deleteReadingByUuid(uuid);
