@@ -7,6 +7,7 @@ import SmartUtilities.Model.Reading.Reading;
 import SmartUtilities.Services.CustomerService.CustomerService;
 import SmartUtilities.Services.ReadingService.ReadingService;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.checkerframework.checker.units.qual.N;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -123,7 +124,7 @@ public class ReadingControllerTest {
                 + "}"
                 + "}";
 
-
+        Response response =
         given()
                 .contentType("application/json")
                 .body(readingJson)
@@ -136,16 +137,11 @@ public class ReadingControllerTest {
                 .body("properties.reading.properties.meterId", equalTo(newReading.getMeterId()))
                 .body("properties.reading.properties.meterCount", equalTo(newReading.getMeterCount().floatValue())) //json returns float
                 .body("properties.reading.properties.dateOfReading", equalTo(newReading.getDateOfReading()))
-                .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()));
-                //.body("properties.customer.properties.birthDay", equalTo(date));
+                .body("properties.reading.properties.substitute", equalTo(newReading.getSubstitute()))
+                .extract().response();
 
-            //deleting added reading
-//            when()
-//                .delete("/{uuid}", uuid.toString()) // Perform DELETE request
-//            .then()
-//                .statusCode(200)
-//                .body("properties.reading.properties.size()", notNullValue());
-
+        String uuid = response.path("properties.reading.properties.id");
+        _readingService.deleteReadingByUuid(uuid);
     }
 
     @Test void deleteReading()
