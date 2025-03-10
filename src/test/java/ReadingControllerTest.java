@@ -1,8 +1,11 @@
 
 import static io.restassured.RestAssured.*;
 
+import SmartUtilities.DataBase.Database;
 import SmartUtilities.Services.CustomerService.CustomerService;
+import SmartUtilities.Services.ReadingService.ReadingService;
 import io.restassured.RestAssured;
+import org.checkerframework.checker.units.qual.N;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.*;
@@ -11,13 +14,26 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import SmartUtilities.Enums.KindOfMeter;
 import SmartUtilities.Model.Reading.Reading;
+import org.mockito.exceptions.verification.NeverWantedButInvoked;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ReadingControllerTest {
     private static final String BASE_URI = "http://localhost:8080/api/readings";
     private static CustomerService _customerService;
+    private static ReadingService _readingService;
+    private static Database _database;
+    private static Connection _connection;
+
+
     @BeforeAll
-    public static void setUp() {
+    public static void setUp() throws SQLException {
         RestAssured.baseURI = BASE_URI;
+        _database = new Database();
+        _connection = _database.connect();
+        _customerService = new CustomerService(_database);
+        _readingService = new ReadingService(_database);
     }
 
     @Test
