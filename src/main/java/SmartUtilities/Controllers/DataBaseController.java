@@ -19,7 +19,7 @@ public class DataBaseController {
     public Response setUpDB()
     {
         boolean successfullDeleteCustomers = _customerService.deleteAllCustomers();
-        boolean successfullDeleteReadings = _readingService.deleteAllReadins();
+        boolean successfullDeleteReadings = _readingService.deleteAllReadings();
 
         if(successfullDeleteCustomers && successfullDeleteReadings) // Usando o operador correto (&&)
         {

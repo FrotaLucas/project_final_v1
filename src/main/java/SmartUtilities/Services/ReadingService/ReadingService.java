@@ -282,7 +282,7 @@ public class ReadingService implements IReadingService {
     }
 
     @Override
-    public boolean deleteAllReadins() {
+    public boolean deleteAllReadings() {
         try {
             // delete all readings from table
             // String sql = "DELETE FROM data_reading";
