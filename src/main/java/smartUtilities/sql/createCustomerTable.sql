@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS customers (
     last_name VARCHAR(50),
     birthDate DATE,
     gender VARCHAR(10),
-    uui_id VARCHAR(255)
+    uui_id VARCHAR(255),
 );
 
 
