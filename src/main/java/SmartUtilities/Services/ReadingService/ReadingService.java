@@ -260,7 +260,7 @@ public class ReadingService implements IReadingService {
 
         List<Reading> readings = new ArrayList<>();
 
-        try (ResultSet rs = this._database.queryWithReturn(sqlReading);) {
+        try (ResultSet rs = this._database.queryWithReturn(sqlReading)) {
             while (rs.next()) {
                 Reading dbReading = new Reading(
                         rs.getString("kind_of_meter"),
@@ -282,7 +282,7 @@ public class ReadingService implements IReadingService {
     }
 
     @Override
-    public boolean deleteAllReadins() {
+    public boolean deleteAllReadings() {
         try {
             // delete all readings from table
             // String sql = "DELETE FROM data_reading";

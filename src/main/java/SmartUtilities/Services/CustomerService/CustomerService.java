@@ -151,6 +151,7 @@ public class CustomerService implements ICustomerService {
         try {
             //drop fereign key before deleting
             String sql1 = "alter table data_reading drop foreign key data_reading_ibfk_1;";
+            //if(sql1 == sql1)
             this._database.queryWithoutReturn(sql1);
 
             String sql2 = "DROP TABLE IF EXISTS customers;";

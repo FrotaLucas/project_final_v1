@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS data_reading (
     substitute BOOLEAN,
     date_of_reading VARCHAR(20),
     uui_id VARCHAR(255),
-    FOREIGN KEY (customer_id) REFERENCES customers(id),
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
