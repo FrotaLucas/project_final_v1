@@ -1,0 +1,65 @@
+--java
+
+verifica a versao do java compiler
+javac -version 
+
+compila o codigo java para bytecode
+javac Main.java 
+
+executa o codigo 
+java Main
+
+
+--cmd comandos para Apache Maven 
+
+(1 Etapa de Compilar )
+mvn compile
+compilar o codigo (transforma arquivo java em formato bytecode que JVM pode executar)
+arquivo compilado fica salvo na pasta target/classes
+
+**rebuildar codigo
+mvn clean compile
+
+(2 Etapa de Builder = faz de baixo dos panos a compilacao tbm e mais um pouco. 
+Torna seu codigo deployavel e distribuivel para outros colegas)
+
+mvn package 
+mvn install 
+mvn clean install (faz bulid e limpa a pasta target e evita testse)
+
+executar codigo e evitar testes
+mvn exec:java -DskipTests
+
+
+
+--maven
+mvn clean install ( rclean potential bugs from libraries)
+
+-- git 
+git config --global user.name 
+git config --global user.name
+
+mariadb
+(entrar no maria DB)
+mysql -u root -p frotalucas
+
+show databases;
+
+create database nome_database;
+drop database nome_database;
+
+use nome_database;
+
+show tables;
+
+describe nome_tabela;
+
+drop table nome_tabela;
+
+show columns from nome_tabela;
+
+select * from nome_tabela;
+
+
+
+frotalucas
