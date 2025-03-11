@@ -286,11 +286,11 @@ public class ReadingService implements IReadingService {
         try {
             // delete all readings from table
             // String sql = "DELETE FROM data_reading";
-            String sql = "DROP TABLE IF EXISTS data_reading_test;";
+            String sql = "DROP TABLE IF EXISTS data_reading;";
             this._database.queryWithoutReturn(sql);
 
             String sql2 = """
-                    CREATE TABLE IF NOT EXISTS data_reading_test (
+                    CREATE TABLE IF NOT EXISTS data_reading (
                         id INT PRIMARY KEY AUTO_INCREMENT,
                         customer_id INT,
                         kind_of_meter VARCHAR(10),
@@ -300,7 +300,7 @@ public class ReadingService implements IReadingService {
                         substitute BOOLEAN,
                         date_of_reading VARCHAR(20),
                         uui_id VARCHAR(255),
-                        FOREIGN KEY (customer_id) REFERENCES customers_test(id)
+                        FOREIGN KEY (customer_id) REFERENCES customers(id)
                     );
                     """;
             this._database.queryWithoutReturn(sql2);
