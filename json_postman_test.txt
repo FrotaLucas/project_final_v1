@@ -1,20 +1,4 @@
-//put
-"{
-    "firstName": "Mary",
-    "lastName": "jane",
-    "birthDate": "2000-01-01",
-    "gender": "W",
-    "uuid": "4d3eab6a-b66e-418f-a7df-ebf02ca03e14"
-}"
-//put without uuid
-{
-    "firstName": "Mary",
-    "lastName": "jane",
-    "birthDate": "2000-01-01",
-    "gender": "W"
-}
-
-post
+//post
 {
     "firstName": "post",
     "lastName": "http",
@@ -22,8 +6,45 @@ post
     "gender": "M"
 }
 
+//put
+{
+    "firstName": "Mary",
+    "lastName": "jane",
+    "birthDate": "2000-01-01",
+    "gender": "W",
+    "uuid": "4d3eab6a-b66e-418f-a7df-ebf02ca03e14"
+}
 
-//reading no CustomerId
+//put without uuid - BAD REQUEST
+{
+    "firstName": "Mary",
+    "lastName": "jane",
+    "birthDate": "2000-01-01",
+    "gender": "W"
+}
+
+
+//POST reading with CustomerId
+
+{
+    "comment": "new checking gas",
+    "kindOfMeter": "HEIZUNG",
+    "meterId": "T1100",
+    "meterCount": 311.0,
+    "dateOfReading": "2015-01-01",
+    "substitute": true,
+    "customer": {
+        "id": 18,
+        "uuid": "50fac9d0-86fb-49c9-b20e-295404388de2",
+        "firstName": "Mary",
+        "lastName": "jane",
+        "birthDate": "1900-01-01",
+        "gender": "W"
+            }
+}
+
+
+//POST reading no CustomerId
 {
     "comment": "new checking gas",
     "kindOfMeter": "HEIZUNG",
@@ -39,32 +60,16 @@ post
             }
 }
 
-//reading with CustomerId
 
-{
-    "comment": "new checking gas",
-    "kindOfMeter": "HEIZUNG",
-    "meterId": "T1100",
-    "meterCount": 311.0,
-    "dateOfReading": "2000-01-01",
-    "substitute": true,
-    "customer": {
-        "id": 1,
-        "firstName": "Marius",
-        "lastName": "Lehus",
-        "birthDate": "1900-01-01",
-        "gender": "M"
-            }
-}
 
 //update 
 {
 		"customerId":2,
         "uuid": "93eb3de8-1de4-4ba9-afe4-129c7052ada1",
-		"comment": "new checking gas",
-        "kindOfMeter": "HEIZUNG",
-        "meterId": "T1100",
-        "meterCount": 311.0,
+		"comment": "water facilities",
+        "kindOfMeter": "WASSER",
+        "meterId": "W1100",
+        "meterCount": 5211.0,
         "dateOfReading": "2000-05-01",
         "substitute": true
 }
