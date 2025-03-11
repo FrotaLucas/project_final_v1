@@ -26,7 +26,7 @@ public class DataBaseControllerTest {
 
     @Test
     public void deteleAllReadingsTest(){
-       
+       //status code should be 200
        when()
             .delete() // Perform DELETE request
         .then()
