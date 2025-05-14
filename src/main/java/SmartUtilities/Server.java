@@ -1,6 +1,8 @@
 package SmartUtilities;
 
 import com.sun.net.httpserver.HttpServer;
+
+import SmartUtilities.Shared.CORSFilter;
 import jakarta.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
@@ -15,7 +17,7 @@ public class Server {
 
     public static void startServer(String url)
     {
-        ResourceConfig config = new ResourceConfig().packages("SmartUtilities.Controllers");
+        ResourceConfig config = new ResourceConfig().packages("SmartUtilities.Controllers").register(CORSFilter.class);
 
         //qual esta correto???
 //        ResourceConfig config = new ResourceConfig()
