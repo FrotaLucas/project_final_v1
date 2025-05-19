@@ -34,8 +34,8 @@
     "dateOfReading": "2015-01-01",
     "substitute": true,
     "customer": {
-        "id": 18,
-        "uuid": "50fac9d0-86fb-49c9-b20e-295404388de2",
+        "id": 11,
+        "uuid": "cbd0c94f-8412-4bdd-a3af-fc321769bdaf",
         "firstName": "Mary",
         "lastName": "jane",
         "birthDate": "1900-01-01",
