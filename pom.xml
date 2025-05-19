@@ -53,13 +53,13 @@
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-jdk-http</artifactId>
-            <version>3.1.7</version>
+            <version>3.1.9</version>
         </dependency>
         <!-- Maybe i dont need this dependecy -->
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
-            <version>3.1.7</version>
+            <version>3.1.9</version>
         </dependency>
 
         <!-- Maybe i dont need this dependecy -->

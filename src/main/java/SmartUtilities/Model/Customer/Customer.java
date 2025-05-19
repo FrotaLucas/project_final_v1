@@ -30,7 +30,8 @@ public class Customer implements ICustomer, IID {
     // Constructor
     @JsonCreator
     public Customer(@JsonProperty("id") Integer id, @JsonProperty("firstName") String firstName,
-                    @JsonProperty("lastName") String lastName, @JsonProperty("birthDate") LocalDate birthDate,
+                    @JsonProperty("lastName") String lastName,
+                    @JsonProperty("birthDate") @JsonFormat(pattern = "yyyy-MM-dd") LocalDate birthDate,
                     @JsonProperty("gender") String gender) {
         this.id = Optional.ofNullable(id);
         this.uuid = UUID.randomUUID();
