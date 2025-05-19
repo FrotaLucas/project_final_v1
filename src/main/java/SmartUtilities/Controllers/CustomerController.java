@@ -32,7 +32,7 @@ public class CustomerController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON) //INVESTIGAR SE POST METHOD PRECISA DEVOLVER JSON DE CUSTOMER
+    @Produces(MediaType.APPLICATION_JSON) // INVESTIGAR SE POST METHOD PRECISA DEVOLVER JSON DE CUSTOMER
     public Response addCustomer(Customer customer) {
         // if(customer == null || !customerService.addNewCustomer(customer))
         if (customer == null) {
@@ -45,8 +45,8 @@ public class CustomerController {
         Map<String, Object> serviceResponseProperties = Map
                 .of("customer", Map
                         .of("type", "object",
-                            "required", List.of("firstName", "lastName", "gender"),
-                            "properties", customerProperties));
+                                "required", List.of("firstName", "lastName", "gender"),
+                                "properties", customerProperties));
 
         ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                 "Customer-JSON-Schema",
@@ -67,14 +67,14 @@ public class CustomerController {
 
         if (addSuccess)
             return Response.status(Response.Status.CREATED)
-                .entity(serviceResponse).build();
+                    .entity(serviceResponse).build();
 
         return Response.status(Response.Status.BAD_REQUEST)
-            .entity("Error while saving customer on database").build();
+                .entity("Error while saving customer on database").build();
 
     }
 
-    @GET //PQ id do customer esta vindo sempre nulo ?
+    @GET // PQ id do customer esta vindo sempre nulo ?
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomers() {
         List<Customer> dbCustomers = _customerService.getCustomers();
@@ -84,31 +84,32 @@ public class CustomerController {
 
             for (Customer customer : dbCustomers) {
                 Map<String, Object> customerProperties = new LinkedHashMap<>();
-                    
-                    customerProperties.put("id", customer.getId());
-                    customerProperties.put("firstName", customer.getFirstName());
-                    customerProperties.put("lastName",customer.getLastName());
-                    customerProperties.put("birthDate", customer.getBirthDate());
-                    customerProperties.put("gender", customer.getGender());
+
+                customerProperties.put("id", customer.getId());
+                customerProperties.put("uuid", customer.getUuid());
+                customerProperties.put("firstName", customer.getFirstName());
+                customerProperties.put("lastName", customer.getLastName());
+                customerProperties.put("birthDate", customer.getBirthDate());
+                customerProperties.put("gender", customer.getGender());
 
                 dbCustomerListProperties.add(customerProperties);
             }
 
-             Map<String, Object> customerItems = new LinkedHashMap<>();
-             customerItems.put("type","array");
-             customerItems.put("items", Map.of("type","object",
-                                                "required",List.of("id","firstName","lastName","gender"),
-                                                "properties",dbCustomerListProperties));
+            Map<String, Object> customerItems = new LinkedHashMap<>();
+            customerItems.put("type", "array");
+            customerItems.put("items", Map.of("type", "object",
+                    "required", List.of("id", "firstName", "lastName", "gender"),
+                    "properties", dbCustomerListProperties));
 
-             Map<String, Object> serviceResponseProperties = Map
-                .of("customers", customerItems);
+            Map<String, Object> serviceResponseProperties = Map
+                    .of("customers", customerItems);
 
-            //nao deveria retornar Map<String, Object> ??
+            // nao deveria retornar Map<String, Object> ??
             ServiceResponse<List<Customer>> serviceResponse = new ServiceResponse<>(
-                "Customers-JSON-Schema",
-                "object",
-                "customers", 
-                serviceResponseProperties);
+                    "Customers-JSON-Schema",
+                    "object",
+                    "customers",
+                    serviceResponseProperties);
 
             return Response.ok(serviceResponse).build();
         }
@@ -140,8 +141,8 @@ public class CustomerController {
             Map<String, Object> serviceResponseProperties = Map
                     .of("customer", Map
                             .of("type", "object",
-                                "required", List.of("firstName", "lastName", "gender"),
-                                "properties", customerProperties));
+                                    "required", List.of("firstName", "lastName", "gender"),
+                                    "properties", customerProperties));
 
             ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                     "Customer-JSON-Schema",
@@ -172,12 +173,12 @@ public class CustomerController {
         boolean isDeleted = _customerService.deleteCustomer(uuid);
         if (!isDeleted) {
             return Response.status(Response.Status.BAD_REQUEST)
-            .entity("Error while deleting customer.")
-            .build();
+                    .entity("Error while deleting customer.")
+                    .build();
         }
 
         Map<String, Object> customerProperties = new LinkedHashMap<>();
-        //customerProperties.put("id", customer.getId());
+        // customerProperties.put("id", customer.getId());
         customerProperties.put("firstName", verifiedCustomer.getFirstName());
         customerProperties.put("lastName", verifiedCustomer.getLastName());
         customerProperties.put("birthDay", verifiedCustomer.getBirthDate());
@@ -186,8 +187,8 @@ public class CustomerController {
         Map<String, Object> serviceResponseProperties = Map
                 .of("customer", Map
                         .of("type", "object",
-                            "required", List.of("firstName", "lastName", "gender"),
-                            "properties", customerProperties));
+                                "required", List.of("firstName", "lastName", "gender"),
+                                "properties", customerProperties));
 
         ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
                 "Customer-JSON-Schema",
@@ -196,37 +197,51 @@ public class CustomerController {
                 serviceResponseProperties);
 
         return Response.status(Response.Status.OK)
-                    .entity(serviceResponse)
-                    .build();     
-       
+                .entity(serviceResponse)
+                .build();
+
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateCustomer(Customer customer)
-    {
-        if( customer == null)
-             return Response.status(Response.Status.BAD_REQUEST)
-                .entity("No customer provided to update").build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateCustomer(Customer customer) {
+        if (customer == null)
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("No customer provided to update").build();
 
-        //if (!customer.getId().isPresent()  || customer.getId().orElse(0) == 0)
+        // if (!customer.getId().isPresent() || customer.getId().orElse(0) == 0)
         Customer verifiedCustomer = _customerService.getCustomerByUuid(customer.getUuid().toString());
-                
-        //null uuiid_id or empty uuid_id
-        if( customer.getUuid() == null || verifiedCustomer == null)
+
+        // null uuiid_id or empty uuid_id
+        if (customer.getUuid() == null || verifiedCustomer == null)
             return Response.status(Response.Status.NOT_FOUND)
-                .entity("Customer with ID not found.")
-                .build();
+                    .entity("Customer with ID not found.")
+                    .build();
 
         boolean updateSuccess = _customerService.updateCustomer(customer);
-            if( updateSuccess)
-                return Response.status(Response.Status.OK)
-                        .entity("Successfull update")
-                        .build();
-            else
-                return Response.status(Response.Status.BAD_REQUEST)
+
+        Map<String, Object> serviceResponseProperties = Map
+                .of("customer", Map
+                        .of("customer", customer));
+
+        ServiceResponse<Customer> serviceResponse = new ServiceResponse<>(
+                "Customer-JSON-Schema",
+                "object",
+                "customer",
+                serviceResponseProperties);
+
+        if (updateSuccess) {
+            // return Response.status(Response.Status.OK)
+            //         .entity("Successfull update")
+            //         .build();
+            return Response.ok(serviceResponse).build();
+        }
+
+        else
+            return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Bad Request")
                     .build();
-            
+
     }
 }
