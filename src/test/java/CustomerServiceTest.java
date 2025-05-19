@@ -36,7 +36,8 @@ public class CustomerServiceTest {
   @Test
   public void testAddNewCustomer()
   {
-    Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+    LocalDate birthDate = LocalDate.of(2000, 1, 1);
+    Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");
     UUID uuid = newCustumer.getUuid();
     _costumerService.addNewCustomer(newCustumer);
 
@@ -46,7 +47,7 @@ public class CustomerServiceTest {
     assertNotNull(dbCustomer);
     assertEquals("John",dbCustomer.getFirstName());
     assertEquals("Doe", dbCustomer.getLastName());
-    assertEquals(LocalDate.parse("2000-01-01"), dbCustomer.getBirthDate());
+    assertEquals(birthDate, dbCustomer.getBirthDate());
     //dbCustomer vem do banco de dados, salva gender como string;
     assertEquals(Gender.valueOf("M"), dbCustomer.getGender());
     boolean response = _costumerService.deleteCustomer(uuid.toString());
@@ -56,7 +57,8 @@ public class CustomerServiceTest {
   @Test
   public void testUpdateCustomer()
   {
-    Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+    LocalDate birthDate = LocalDate.of(2000, 1, 1);
+    Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");
     UUID uuid = newCustumer.getUuid();
     _costumerService.addNewCustomer(newCustumer);
 
@@ -65,7 +67,8 @@ public class CustomerServiceTest {
 
     dbCustomer.setFirstName("Mary");
     dbCustomer.setLastName("Jane");
-    dbCustomer.setBirthDate(LocalDate.parse("1900-01-12"));
+    LocalDate newBirthDate = LocalDate.of(1999, 1, 1);
+    dbCustomer.setBirthDate(newBirthDate);
     dbCustomer.setGender(Gender.valueOf("W"));
 
     _costumerService.updateCustomer(dbCustomer);
@@ -84,7 +87,9 @@ public class CustomerServiceTest {
   @Test
   public void testDeleteCustomer()
   {
-    Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+
+    LocalDate birthDate = LocalDate.of(2000, 1, 1);
+    Customer newCustumer = new Customer(null, "John", "Doe",birthDate,"M");
     UUID uuid = newCustumer.getUuid();
     _costumerService.addNewCustomer(newCustumer);
 
@@ -99,8 +104,10 @@ public class CustomerServiceTest {
     @Test
   public void testGetCustomer()
   {
+
+      LocalDate birthDate = LocalDate.of(2000, 1, 1);
       //adcionar metodo setId() na class Customer
-      Customer newCustomer = new Customer(null,"John", "Doe", "2000-10-01","M");
+      Customer newCustomer = new Customer(null,"John", "Doe",birthDate,"M");
       UUID uuid = newCustomer.getUuid();
 
       _costumerService.addNewCustomer(newCustomer);

@@ -89,7 +89,7 @@ public class CustomerService implements ICustomerService {
                 if (rs.next()) {
                     Customer dbCustomer = new Customer(null, rs.getString("first_name"),
                             rs.getString("last_name"),
-                            rs.getString("birthDate"),
+                            rs.getDate("birthDate").toLocalDate(),
                             rs.getString("gender"));
                     dbCustomer.setUuid(UUID.fromString(rs.getString("uui_id")));
                     return dbCustomer;
@@ -112,7 +112,7 @@ public class CustomerService implements ICustomerService {
 
                 Customer dbCustomer = new Customer(rs.getInt("Id"), rs.getString("first_name"),
                         rs.getString("last_name"),
-                        rs.getString("birthDate"),
+                        rs.getDate("birthDate").toLocalDate(),
                         rs.getString("gender"));
                 dbCustomer.setUuid(UUID.fromString(rs.getString("uui_id")));
                 customers.add(dbCustomer);
@@ -133,7 +133,7 @@ public class CustomerService implements ICustomerService {
                 if (rs.next()) {
                     Customer customer = new Customer(rs.getInt("id"), rs.getString("first_name"),
                             rs.getString("last_name"),
-                            rs.getString("birthDate"),
+                            rs.getDate("birthDate").toLocalDate(),
                             rs.getString("gender"));
                     customer.setUuid(UUID.fromString(rs.getString("uui_id")));
                     return customer;

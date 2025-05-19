@@ -30,13 +30,13 @@ public class Customer implements ICustomer, IID {
     // Constructor
     @JsonCreator
     public Customer(@JsonProperty("id") Integer id, @JsonProperty("firstName") String firstName,
-                    @JsonProperty("lastName") String lastName, @JsonProperty("birthDate") String birthDate,
+                    @JsonProperty("lastName") String lastName, @JsonProperty("birthDate") LocalDate birthDate,
                     @JsonProperty("gender") String gender) {
         this.id = Optional.ofNullable(id);
         this.uuid = UUID.randomUUID();
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthDate = LocalDate.parse(birthDate);
+        this.birthDate = birthDate;
         this.gender = Gender.valueOf(gender.toUpperCase()); // parametro gender eh uma string que vamos converter
         //para um enum. Se for D eh 0 e M eh 1...
     }

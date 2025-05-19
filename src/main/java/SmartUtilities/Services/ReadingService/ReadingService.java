@@ -34,7 +34,7 @@ public class ReadingService implements IReadingService {
                 UUID uuidCustomer = reading.getCustomer().getUuid();
                 String firstName = reading.getCustomer().getFirstName();
                 String lastName = reading.getCustomer().getLastName();
-                String birthDate = reading.getCustomer().getBirthDate().toString();
+                LocalDate birthDate = reading.getCustomer().getBirthDate();
                 String gender = reading.getCustomer().getGender().toString();
 
                 Customer newCustomer = new Customer(null, firstName, lastName, birthDate, gender);

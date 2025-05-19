@@ -54,9 +54,11 @@ public class CustomerControllerTest {
     @Test
     public void testGetCustomer()
     {
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        String uuid = newCustumer.getUuid().toString();
-        _customerService.addNewCustomer(newCustumer);
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        Customer newCustomer = new Customer(null, "John", "Doe", birthDate, "M");
+
+        String uuid = newCustomer.getUuid().toString();
+        _customerService.addNewCustomer(newCustomer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuid);
         int id = dbCustomer.getId().orElse(0);
 
@@ -65,9 +67,9 @@ public class CustomerControllerTest {
         .then() // Validate the response
             .statusCode(200) // Status code should be 200
             .body("properties.customer.properties.id", equalTo(id)) // Validate that the ID in the response matches the requested ID
-            .body("properties.customer.properties.firstName", equalTo(newCustumer.getFirstName()))
-            .body("properties.customer.properties.lastName", equalTo(newCustumer.getLastName())) 
-            .body("properties.customer.properties.gender", equalTo(newCustumer.getGender().toString())) 
+            .body("properties.customer.properties.firstName", equalTo(newCustomer.getFirstName()))
+            .body("properties.customer.properties.lastName", equalTo(newCustomer.getLastName()))
+            .body("properties.customer.properties.gender", equalTo(newCustomer.getGender().toString()))
             .body("properties.customer.properties.birthDay", contains(2000,1,1));
 
         _customerService.deleteCustomer(uuid);
@@ -76,7 +78,7 @@ public class CustomerControllerTest {
     @Test
     public void testAddCustomer() throws JsonProcessingException
     {
-        String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-01-01\",\"gender\":\"M\"}";
+        String customerJson = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"birthDate\":\"2000-10-10\",\"gender\":\"M\"}";
             //adding customer
         Response response = given()
             .contentType("application/json")
@@ -88,7 +90,7 @@ public class CustomerControllerTest {
             .body("properties.customer.properties.firstName", equalTo("John"))
             .body("properties.customer.properties.lastName", equalTo("Doe"))
             .body("properties.customer.properties.gender", equalTo("M"))
-            .body("properties.customer.properties.birthDay", contains(2000,1,1))
+            .body("properties.customer.properties.birthDay", contains(2000,10,10))
             .body("properties.customer.properties.uuiId", notNullValue())
             .extract().response();
             
@@ -99,7 +101,8 @@ public class CustomerControllerTest {
     @Test
     public void testDeleteCustomer()
     {
-        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        LocalDate birthDate = LocalDate.of(2000, 10, 10);
+        Customer newCustomer = new Customer(null, "John", "Doe", birthDate, "M");
         String uuid = newCustomer.getUuid().toString();
         _customerService.addNewCustomer(newCustomer);
         
@@ -110,13 +113,14 @@ public class CustomerControllerTest {
             .body("properties.customer.properties.firstName", equalTo("John"))
             .body("properties.customer.properties.lastName", equalTo("Doe"))
             .body("properties.customer.properties.gender", equalTo("M"))
-            .body("properties.customer.properties.birthDay", contains(2000,1,1));
+            .body("properties.customer.properties.birthDay", contains(2000,10,10));
     }
 
     @Test
     public void testUpdateCustomer()
     {
-        Customer newCustomer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        Customer newCustomer = new Customer(null, "John", "Doe", birthDate, "M");
         String uuid = newCustomer.getUuid().toString();
         _customerService.addNewCustomer(newCustomer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuid);
@@ -124,10 +128,11 @@ public class CustomerControllerTest {
         //changing properties of customer
         dbCustomer.setFirstName("Mary");
         dbCustomer.setLastName("Jane");
-        dbCustomer.setBirthDate(LocalDate.parse("1900-01-12"));
+        LocalDate newBirthDate = LocalDate.of(1900, 10, 12);
+        dbCustomer.setBirthDate(newBirthDate);
         dbCustomer.setGender(Gender.valueOf("W"));
 
-        String customerJson = "{\"uuid\":\"" + uuid + "\",\"firstName\":\"Mary\",\"lastName\":\"Jane\",\"birthDate\":\"1900-01-12\",\"gender\":\"W\"}";
+        String customerJson = "{\"uuid\":\"" + uuid + "\",\"firstName\":\"Mary\",\"lastName\":\"Jane\",\"birthDate\":\"1900-10-12\",\"gender\":\"W\"}";
 
         //update
         given()
@@ -146,7 +151,7 @@ public class CustomerControllerTest {
             .body("properties.customer.properties.firstName",equalTo(dbCustomer.getFirstName()))
             .body("properties.customer.properties.lastName", equalTo(dbCustomer.getLastName())) 
             .body("properties.customer.properties.gender", equalTo(dbCustomer.getGender().toString()))
-            .body("properties.customer.properties.birthDay", contains(1900,1,12));
+            .body("properties.customer.properties.birthDay", contains(1900,10,12));
         
          //deleting addded customer
         _customerService.deleteCustomer(uuid);

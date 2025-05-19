@@ -20,6 +20,7 @@ import SmartUtilities.Model.Reading.Reading;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class ReadingControllerTest {
     private static final String BASE_URI = "http://localhost:8080/api/readings";
@@ -42,7 +43,8 @@ public class ReadingControllerTest {
     public void testGetReadings() {
 
        //add customer
-       Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+       LocalDate birthDate = LocalDate.of(2000, 1, 1);
+       Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");
        String uuidCustomer = newCustumer.getUuid().toString();
        _customerService.addNewCustomer(newCustumer);
        Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
@@ -79,7 +81,8 @@ public class ReadingControllerTest {
         // http://localhost:8080/api/readings?customer=1&start=2000-02-01&end=2000-06-01
 
         //add Customer
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");
         String uuidCustomer = newCustumer.getUuid().toString();
         _customerService.addNewCustomer(newCustumer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
@@ -118,7 +121,8 @@ public class ReadingControllerTest {
     public void testAddReading()
     {
         //add Customer
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");
         String uuidCustomer = newCustumer.getUuid().toString();
         _customerService.addNewCustomer(newCustumer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
@@ -166,7 +170,8 @@ public class ReadingControllerTest {
     @Test void testDeleteReading()
     {
         //add customer
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");
         String uuidCustomer = newCustumer.getUuid().toString();
         _customerService.addNewCustomer(newCustumer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
@@ -198,8 +203,8 @@ public class ReadingControllerTest {
     @Test void testUpdateReading()
     {
         //add customer
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        String uuidCustomer = newCustumer.getUuid().toString();
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");        String uuidCustomer = newCustumer.getUuid().toString();
         _customerService.addNewCustomer(newCustumer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
         int idCustomer = dbCustomer.getId().orElse(0);

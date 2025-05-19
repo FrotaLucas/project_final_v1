@@ -39,9 +39,10 @@ public class ReadingServiceTest {
     public void testAddNewReading() {
 
         //add customer
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
-        String uuidCustomer = newCustumer.getUuid().toString();
-        _customerService.addNewCustomer(newCustumer);
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        Customer newCustomer = new Customer(null, "John", "Doe", birthDate,"M");
+        String uuidCustomer = newCustomer.getUuid().toString();
+        _customerService.addNewCustomer(newCustomer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
         int idCustomer = dbCustomer.getId().orElse(0);
 
@@ -67,9 +68,10 @@ public class ReadingServiceTest {
     public void testUpdateReading() {
 
          //add customer
-         Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
-         String uuidCustomer = newCustumer.getUuid().toString();
-         _customerService.addNewCustomer(newCustumer);
+         LocalDate birthDate = LocalDate.of(2000, 1, 1);
+         Customer newCustomer = new Customer(null, "John", "Doe", birthDate,"M");
+         String uuidCustomer = newCustomer.getUuid().toString();
+         _customerService.addNewCustomer(newCustomer);
          Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
          int idCustomer = dbCustomer.getId().orElse(0);
  
@@ -106,7 +108,8 @@ public class ReadingServiceTest {
     @Test
     public void testDeleteReading() {
         //add customer
-        Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");
         String uuidCustomer = newCustumer.getUuid().toString();
         _customerService.addNewCustomer(newCustumer);
         Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
@@ -128,7 +131,8 @@ public class ReadingServiceTest {
    @Test
    public void testGetReading() {
        //add customer
-       Customer newCustumer = new Customer(null, "John", "Doe", "2000-01-01","M");
+       LocalDate birthDate = LocalDate.of(2000, 1, 1);
+       Customer newCustumer = new Customer(null, "John", "Doe", birthDate,"M");
        String uuidCustomer = newCustumer.getUuid().toString();
        _customerService.addNewCustomer(newCustumer);
        Customer dbCustomer = _customerService.getCustomerByUuid(uuidCustomer);
