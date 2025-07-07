@@ -1,4 +1,4 @@
-package SmartUtilities.Services.CustomerService;
+package SmartUtilities.DaoLayer.DaoCustomer;
 
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;

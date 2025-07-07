@@ -1,10 +1,10 @@
+import SmartUtilities.DaoLayer.DaoCustomer.CustomerService;
+import SmartUtilities.DaoLayer.DaoCustomer.ICustomerService;
+import SmartUtilities.DaoLayer.DaoReading.ReadingService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;
 import SmartUtilities.Enums.KindOfMeter;
-import SmartUtilities.Services.CustomerService.CustomerService;
-import SmartUtilities.Services.CustomerService.ICustomerService;
-import SmartUtilities.Services.ReadingService.ReadingService;
 
 import java.sql.Connection;
 import java.sql.SQLException;

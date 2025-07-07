@@ -1,8 +1,8 @@
 
+import SmartUtilities.DaoLayer.DaoCustomer.CustomerService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Enums.Gender;
-import SmartUtilities.Services.CustomerService.CustomerService;
 
 import java.sql.Connection;
 import java.sql.SQLException;

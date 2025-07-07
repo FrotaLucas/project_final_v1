@@ -1,4 +1,4 @@
-package SmartUtilities.Services.ReadingService;
+package SmartUtilities.DaoLayer.DaoReading;
 
 import SmartUtilities.Model.Reading.Reading;
 import java.util.List;

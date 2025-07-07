@@ -4,11 +4,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import SmartUtilities.DaoLayer.DaoCustomer.CustomerService;
+import SmartUtilities.DaoLayer.DaoReading.ReadingService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;
-import SmartUtilities.Services.CustomerService.CustomerService;
-import SmartUtilities.Services.ReadingService.ReadingService;
 import SmartUtilities.Shared.ServiceResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
