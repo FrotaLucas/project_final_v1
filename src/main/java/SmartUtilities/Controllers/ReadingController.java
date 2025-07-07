@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import SmartUtilities.DaoLayer.CustomerService.CustomerService;
+import SmartUtilities.DaoLayer.DaoCustomer.CustomerService;
 import SmartUtilities.DaoLayer.ReadingService.ReadingService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;

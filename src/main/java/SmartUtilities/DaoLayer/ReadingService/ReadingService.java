@@ -1,7 +1,7 @@
 package SmartUtilities.DaoLayer.ReadingService;
 
-import SmartUtilities.DaoLayer.CustomerService.CustomerService;
-import SmartUtilities.DaoLayer.CustomerService.ICustomerService;
+import SmartUtilities.DaoLayer.DaoCustomer.CustomerService;
+import SmartUtilities.DaoLayer.DaoCustomer.ICustomerService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;

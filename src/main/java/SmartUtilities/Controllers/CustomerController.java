@@ -4,7 +4,7 @@ import SmartUtilities.Shared.ServiceResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import SmartUtilities.DaoLayer.CustomerService.CustomerService;
+import SmartUtilities.DaoLayer.DaoCustomer.CustomerService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 
