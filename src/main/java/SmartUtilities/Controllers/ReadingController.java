@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import SmartUtilities.DaoLayer.DaoCustomer.CustomerService;
-import SmartUtilities.DaoLayer.ReadingService.ReadingService;
+import SmartUtilities.DaoLayer.DaoReading.ReadingService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;

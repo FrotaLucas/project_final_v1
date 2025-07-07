@@ -1,4 +1,4 @@
-package SmartUtilities.DaoLayer.ReadingService;
+package SmartUtilities.DaoLayer.DaoReading;
 
 import SmartUtilities.DaoLayer.DaoCustomer.CustomerService;
 import SmartUtilities.DaoLayer.DaoCustomer.ICustomerService;
