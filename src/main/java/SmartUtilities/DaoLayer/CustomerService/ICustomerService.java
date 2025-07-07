@@ -1,4 +1,4 @@
-package SmartUtilities.Services.CustomerService;
+package SmartUtilities.DaoLayer.CustomerService;
 
 import SmartUtilities.Model.Customer.Customer;
 import jakarta.inject.Singleton;

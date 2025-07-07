@@ -4,9 +4,9 @@ import SmartUtilities.Shared.ServiceResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import SmartUtilities.DaoLayer.CustomerService.CustomerService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
-import SmartUtilities.Services.CustomerService.CustomerService;
 
 import java.io.Console;
 import java.util.ArrayList;

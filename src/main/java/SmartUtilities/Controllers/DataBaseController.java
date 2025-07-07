@@ -1,9 +1,9 @@
 package SmartUtilities.Controllers;
 
+import SmartUtilities.DaoLayer.CustomerService.CustomerService;
+import SmartUtilities.DaoLayer.CustomerService.ICustomerService;
+import SmartUtilities.DaoLayer.ReadingService.ReadingService;
 import SmartUtilities.DataBase.Database;
-import SmartUtilities.Services.CustomerService.CustomerService;
-import SmartUtilities.Services.CustomerService.ICustomerService;
-import SmartUtilities.Services.ReadingService.ReadingService;
 import jakarta.ws.rs.DELETE;  // Importando o verbo DELETE
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;

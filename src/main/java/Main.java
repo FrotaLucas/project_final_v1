@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Reading.Reading;
 import SmartUtilities.Server;
-import SmartUtilities.Services.CustomerService.CustomerService;
+import SmartUtilities.DaoLayer.CustomerService.CustomerService;
 import SmartUtilities.Model.Customer.Customer;
 //import SmartUtilities.Services.ReadingService.ReadingService;
 

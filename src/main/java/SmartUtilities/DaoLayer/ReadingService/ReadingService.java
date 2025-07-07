@@ -1,10 +1,10 @@
-package SmartUtilities.Services.ReadingService;
+package SmartUtilities.DaoLayer.ReadingService;
 
+import SmartUtilities.DaoLayer.CustomerService.CustomerService;
+import SmartUtilities.DaoLayer.CustomerService.ICustomerService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;
-import SmartUtilities.Services.CustomerService.CustomerService;
-import SmartUtilities.Services.CustomerService.ICustomerService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,7 +1,7 @@
+import SmartUtilities.DaoLayer.CustomerService.CustomerService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Enums.Gender;
-import SmartUtilities.Services.CustomerService.CustomerService;
 
 import static io.restassured.RestAssured.*;
 import io.restassured.RestAssured;

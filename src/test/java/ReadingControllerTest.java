@@ -1,11 +1,11 @@
 
 import static io.restassured.RestAssured.*;
 
+import SmartUtilities.DaoLayer.CustomerService.CustomerService;
+import SmartUtilities.DaoLayer.ReadingService.ReadingService;
 import SmartUtilities.DataBase.Database;
 import SmartUtilities.Model.Customer.Customer;
 import SmartUtilities.Model.Reading.Reading;
-import SmartUtilities.Services.CustomerService.CustomerService;
-import SmartUtilities.Services.ReadingService.ReadingService;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.checkerframework.checker.units.qual.N;
