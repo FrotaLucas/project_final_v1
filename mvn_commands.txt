@@ -34,6 +34,7 @@ mvn exec:java -DskipTests
 
 --maven
 mvn clean install ( rclean potential bugs from libraries)
+mvn clean install -DskipTests ( skip tests)
 
 -- git 
 git config --global user.name 
