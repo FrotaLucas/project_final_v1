@@ -3,7 +3,7 @@
 Java application focused on customer registration for a utility company providing electricity, water, and gas. 
 
 ---
-## Features:
+## 1. Features:
 
 REST Services: Implementation of a REST service for managing the customer layer and another for handling consumption readings per apartment.
 
@@ -70,7 +70,7 @@ Request Body:
 
 - DELETE /api/readings/{uuid}
 
-## Technology Used
+## 3. Technology Used
 
 - **MariaDB**: An open-source relational database management system, used to store and manage application data.
 
@@ -87,6 +87,7 @@ Request Body:
 - **Git**: A distributed version control system for tracking changes in source code during software development.
 
 
+## 4. Diagram
 
 ## Entity Diagram
 
@@ -107,7 +108,7 @@ Relationship
 ![image](https://github.com/user-attachments/assets/2962f44f-6faa-4e09-b008-7c933b49b456)
 
 
-## Deploy & Execution
+## 5. Deploy & Execution
 
 ### Test Execution Commands
 
