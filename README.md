@@ -14,6 +14,62 @@ Unit Testing: Execution of unit tests using JUnit to validate both the service l
 Dependency Management: Use of Maven for dependency management and build automation.
 
 
+## 2. Architecture
+
+### REST API Architecture
+
+The application adheres to REST (Representational State Transfer) principles, ensuring scalability and maintainability.
+
+### Key Characteristics of REST:
+
+**1. Statelessness**: Each request from the client must contain all the information needed to process the request. The server does not store any client context between requests, enhancing scalability and reliability.
+
+**2. Client-Server Architecture**: Separates the user interface concerns from the data storage concerns, allowing the client and server to evolve independently.
+
+**3. Uniform Interface**: Defines a standardized way of communicating between client and server. Standard URIs for Resource Identification, a consistent representation of messages (such as JSON or XML), and the use of HTTP methods (GET, POST, PUT, DELETE, etc.) according to RESTful principles ensure a uniform and scalable API design.
+
+**4. Layered System**:  RESTful arquitecture are built in hierarchical layers, allowing components to operate independently. Client → Proxy or Cache → Load Balancer → Backend Server.
+
+**5. Cacheability**: The server can indicate whether a response is cacheable by the browser (e.g., using headers like Cache-Control: max-age=3600 or Expires: [date]). This allows the browser to retrieve data from the cache, reducing latency and improving performance.
+
+
+### API Endpoints
+
+#### 1. Customer API #### 
+
+- POST /api/customers<br> Request Body:
+
+![image](https://github.com/user-attachments/assets/658ce419-b084-4ddf-b877-3ae937de3f29)
+
+- GET /api/customers/{uuid}
+
+- GET /api/customers
+
+- PUT /api/customers<br>
+Request Body:
+
+![image](https://github.com/user-attachments/assets/f5f1e4ec-2087-4808-9249-200c0f518142)
+
+- DELETE /api/customers/{uuid}
+
+#### 2. Reading API
+
+- POST /api/readings<br>
+Request Body:
+
+![image](https://github.com/user-attachments/assets/10cf1ab6-37a4-4432-9400-faa4581c03c8)
+
+- GET /api/readings/{uuid}
+
+- GET /api/readings
+
+- PUT /api/readings<br>
+Request Body:
+
+![image](https://github.com/user-attachments/assets/bd175b2c-ada4-47bc-81f9-918e279f5854)
+
+- DELETE /api/readings/{uuid}
+
 ## Technology Used
 
 - **MariaDB**: An open-source relational database management system, used to store and manage application data.
